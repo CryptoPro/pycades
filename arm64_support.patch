@@ -1,0 +1,16 @@
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 797ee48..011aecd 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -37,7 +37,7 @@ PROJECT(PythonModule LANGUAGES CXX)
+         )
+ FIND_PACKAGE( Boost REQUIRED )
+ 
+-ADD_DEFINITIONS(-DUNIX -DSIZEOF_VOID_P=${CMAKE_SIZEOF_VOID_P})
++ADD_DEFINITIONS(-DUNIX -DSIZEOF_VOID_P=${CMAKE_SIZEOF_VOID_P} -DLINUX -DPROC_TYPE_ARM64=7 -DPROCESSOR_TYPE=PROC_TYPE_ARM64)
+ 
+ #SET(CMAKE_BUILD_TYPE Debug)
+ SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-write-strings")
