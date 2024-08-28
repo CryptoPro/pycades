@@ -14,14 +14,14 @@ static PyObject *OID_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     self = (OID *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPOIDObject>(new CPPCadesCPOIDObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPOIDObject>(new CPPCadesCPOIDObject());
     }
     return (PyObject *)self;
 }
 
 static PyObject *OID_getValue(OID *self)
 {
-    boost::shared_ptr<CAtlStringA> pValue;
+    NS_SHARED_PTR::shared_ptr<CAtlStringA> pValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Value(pValue));
     return Py_BuildValue("s", (*pValue).GetString());
 }

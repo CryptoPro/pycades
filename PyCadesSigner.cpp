@@ -18,14 +18,14 @@ static PyObject *Signer_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     self = (Signer *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPSignerObject>(new CPPCadesCPSignerObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPSignerObject>(new CPPCadesCPSignerObject());
     }
     return (PyObject *)self;
 }
 
 static PyObject *Signer_getCertificate(Signer *self)
 {
-    boost::shared_ptr<CPPCadesCPCertificateObject> pCPPCadesCPCert;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> pCPPCadesCPCert;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Certificate(pCPPCadesCPCert));
     PyObject *pPyCert = PyObject_CallObject((PyObject *)&CertificateType, NULL);
     Certificate *pCert = (Certificate *)pPyCert;
@@ -44,7 +44,7 @@ static int Signer_setCertificate(Signer *self, PyObject *arg)
     Certificate *pCert = (Certificate *)arg;
     CCertContext certContext;
     HR_SETTER_ERRORCHECK_RETURN(pCert->m_pCppCadesImpl->get_CertContext(certContext));
-    boost::shared_ptr<CPPCadesCPCertificateObject> pCPPCadesCPCert(new CPPCadesCPCertificateObject());
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> pCPPCadesCPCert(new CPPCadesCPCertificateObject());
     pCPPCadesCPCert->put_CertContext(certContext);
     HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_Certificate(pCPPCadesCPCert));
     return 0;
@@ -74,7 +74,7 @@ static int Signer_setCheckCertificate(Signer *self, PyObject *value)
 
 static PyObject *Signer_getSignatureStatus(Signer *self)
 {
-    boost::shared_ptr<CPPCadesSignatureStatusObject> pCPPCadesSignatureStatus;
+    NS_SHARED_PTR::shared_ptr<CPPCadesSignatureStatusObject> pCPPCadesSignatureStatus;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_SignatureStatus(pCPPCadesSignatureStatus));
     PyObject *pPyStatus = PyObject_CallObject((PyObject *)&SignatureStatusType, NULL);
     SignatureStatus *pStatus = (SignatureStatus *)pPyStatus;

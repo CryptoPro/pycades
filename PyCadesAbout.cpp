@@ -15,7 +15,7 @@ static PyObject *About_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     self = (About *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesAboutObject>(new CPPCadesAboutObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesAboutObject>(new CPPCadesAboutObject());
     }
     return (PyObject *)self;
 }
@@ -50,7 +50,7 @@ static PyObject *About_getVersion(About *self)
 
 static PyObject *About_PluginVersion(About *self)
 {
-    boost::shared_ptr<CPPVersionObject> version;
+    NS_SHARED_PTR::shared_ptr<CPPVersionObject> version;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_PluginVersion(version));
     PyObject *pPluginVersionObject = PyObject_CallObject((PyObject *)&VersionType, NULL);
     Version *pPluginVersion = (Version *)pPluginVersionObject;
@@ -77,7 +77,7 @@ static PyObject *About_CSPVersion(About *self, PyObject *args)
     }
     CAtlString provName = CAtlString(CA2CT(CAtlStringA(szProvName), CP_UTF8));
 
-    boost::shared_ptr<CPPVersionObject> version;
+    NS_SHARED_PTR::shared_ptr<CPPVersionObject> version;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_CSPVersion(provName, dwProvType, version));
 
     PyObject *pCSPVersionObject = PyObject_CallObject((PyObject *)&VersionType, NULL);

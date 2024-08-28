@@ -14,7 +14,7 @@ static PyObject *PrivateKey_new(PyTypeObject *type, PyObject *args, PyObject *kw
     self = (PrivateKey *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPPrivateKeyObject>(new CPPCadesCPPrivateKeyObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPPrivateKeyObject>(new CPPCadesCPPrivateKeyObject());
     }
     return (PyObject *)self;
 }

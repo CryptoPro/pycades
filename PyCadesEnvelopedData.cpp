@@ -16,7 +16,7 @@ static PyObject *EnvelopedData_new(PyTypeObject *type, PyObject *args, PyObject 
     self = (EnvelopedData *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPEnvelopedDataObject>(new CPPCadesCPEnvelopedDataObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPEnvelopedDataObject>(new CPPCadesCPEnvelopedDataObject());
     }
     return (PyObject *)self;
 }

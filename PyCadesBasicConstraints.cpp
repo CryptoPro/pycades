@@ -14,7 +14,7 @@ static PyObject *BasicConstraints_new(PyTypeObject *type, PyObject *args, PyObje
     self = (BasicConstraints *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPBasicConstraintsObject>(new CPPCadesCPBasicConstraintsObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPBasicConstraintsObject>(new CPPCadesCPBasicConstraintsObject());
     }
     return (PyObject *)self;
 }

@@ -30,7 +30,7 @@
 #include "PyCadesSymmetricAlgorithm.h"
 #include "PyCadesVersion.h"
 
-#define PYCADES_VERSION "0.1.70193"
+#define PYCADES_VERSION "0.1.70194"
 static PyObject * pycades_ModuleVersion(PyObject *self, PyObject *args)
 {
     return Py_BuildValue("s", PYCADES_VERSION);

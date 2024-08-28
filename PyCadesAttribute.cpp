@@ -15,14 +15,14 @@ static PyObject *Attribute_new(PyTypeObject *type, PyObject *args, PyObject *kwd
     self = (Attribute *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPAttributeObject>(new CPPCadesCPAttributeObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPAttributeObject>(new CPPCadesCPAttributeObject());
     }
     return (PyObject *)self;
 }
 
 static PyObject *Attribute_getOID(Attribute *self)
 {
-    boost::shared_ptr<CPPCadesCPOIDObject> pCPPCadesCPOID(new CPPCadesCPOIDObject());
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPOIDObject> pCPPCadesCPOID(new CPPCadesCPOIDObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_OID(pCPPCadesCPOID));
 
     PyObject *pPyOID = PyObject_CallObject((PyObject *)&OIDType, NULL);

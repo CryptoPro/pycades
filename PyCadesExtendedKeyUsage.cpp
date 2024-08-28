@@ -15,7 +15,7 @@ static PyObject *ExtendedKeyUsage_new(PyTypeObject *type, PyObject *args, PyObje
     self = (ExtendedKeyUsage *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPExtendedKeyUsageObject>(new CPPCadesCPExtendedKeyUsageObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPExtendedKeyUsageObject>(new CPPCadesCPExtendedKeyUsageObject());
     }
     return (PyObject *)self;
 }
@@ -44,7 +44,7 @@ static PyObject *ExtendedKeyUsage_getIsCritical(ExtendedKeyUsage *self)
 
 static PyObject *ExtendedKeyUsage_getEKUs(ExtendedKeyUsage *self)
 {
-    boost::shared_ptr<CPPCadesCPEKUsObject> pCppCadesEKUs(new CPPCadesCPEKUsObject());
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUsObject> pCppCadesEKUs(new CPPCadesCPEKUsObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_EKUs(pCppCadesEKUs));
     PyObject *pPyEKUs = PyObject_CallObject((PyObject *)&EKUsType, NULL);
     EKUs *pEKUs = (EKUs *)pPyEKUs;

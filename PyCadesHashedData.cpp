@@ -14,7 +14,7 @@ static PyObject *HashedData_new(PyTypeObject *type, PyObject *args, PyObject *kw
     self = (HashedData *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPHashedDataObject>(new CPPCadesCPHashedDataObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPHashedDataObject>(new CPPCadesCPHashedDataObject());
     }
     return (PyObject *)self;
 }

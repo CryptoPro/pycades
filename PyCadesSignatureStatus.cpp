@@ -14,7 +14,7 @@ static PyObject *SignatureStatus_new(PyTypeObject *type, PyObject *args, PyObjec
     self = (SignatureStatus *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesSignatureStatusObject>(new CPPCadesSignatureStatusObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesSignatureStatusObject>(new CPPCadesSignatureStatusObject());
     }
     return (PyObject *)self;
 }

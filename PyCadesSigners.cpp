@@ -15,7 +15,7 @@ static PyObject *Signers_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     self = (Signers *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPSignersObject>(new CPPCadesCPSignersObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPSignersObject>(new CPPCadesCPSignersObject());
     }
     return (PyObject *)self;
 }
@@ -34,7 +34,7 @@ static PyObject *Signers_getItem(Signers *self, PyObject *args)
     {
         return NULL;
     }
-    boost::shared_ptr<CPPCadesCPSignerObject> pCPPCadesCPSigner;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPSignerObject> pCPPCadesCPSigner;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Item(lIndex, pCPPCadesCPSigner));
     PyObject *pPySigner = PyObject_CallObject((PyObject *)&SignerType, NULL);
     Signer *pSigner = (Signer *)pPySigner;

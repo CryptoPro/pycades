@@ -16,7 +16,7 @@ static PyObject *RawSignature_new(PyTypeObject *type, PyObject *args, PyObject *
     self = (RawSignature *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesRawSignatureObject>(new CPPCadesRawSignatureObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesRawSignatureObject>(new CPPCadesRawSignatureObject());
     }
     return (PyObject *)self;
 }

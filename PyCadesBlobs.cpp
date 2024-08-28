@@ -15,7 +15,7 @@ static PyObject *Blobs_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     self = (Blobs *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPBlobsObject>(new CPPCadesCPBlobsObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPBlobsObject>(new CPPCadesCPBlobsObject());
     }
     return (PyObject *)self;
 }
@@ -34,7 +34,7 @@ static PyObject *Blobs_Item(Blobs *self, PyObject *args)
     {
         return NULL;
     }
-    boost::shared_ptr<CBlob> pEncValueBlob = boost::shared_ptr<CBlob>(new CBlob());
+    NS_SHARED_PTR::shared_ptr<CBlob> pEncValueBlob = NS_SHARED_PTR::shared_ptr<CBlob>(new CBlob());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Item(lIndex, pEncValueBlob));
 
     CAtlString sValue;

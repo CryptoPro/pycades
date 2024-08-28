@@ -16,7 +16,7 @@ static PyObject *PublicKey_new(PyTypeObject *type, PyObject *args, PyObject *kwd
     self = (PublicKey *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPPublicKeyObject>(new CPPCadesCPPublicKeyObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPPublicKeyObject>(new CPPCadesCPPublicKeyObject());
     }
     return (PyObject *)self;
 }
@@ -25,7 +25,7 @@ static PyObject *PublicKey_getAlgorithm(PublicKey *self)
 {
     PyObject *pPyOID = PyObject_CallObject((PyObject *)&OIDType, NULL);
     OID *pOID = (OID *)pPyOID;
-    pOID->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPOIDObject>(new CPPCadesCPOIDObject());
+    pOID->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPOIDObject>(new CPPCadesCPOIDObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Algorithm(pOID->m_pCppCadesImpl));
     return Py_BuildValue("N", pOID);
 }

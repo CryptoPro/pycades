@@ -21,7 +21,7 @@ static PyObject *SignedData_new(PyTypeObject *type, PyObject *args, PyObject *kw
     self = (SignedData *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesSignedDataObject>(new CPPCadesSignedDataObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesSignedDataObject>(new CPPCadesSignedDataObject());
     }
     return (PyObject *)self;
 }
@@ -40,7 +40,7 @@ static PyObject *SignedData_SignCades(SignedData *self, PyObject *args)
     CAPICOM_ENCODING_TYPE EncodingType = (CAPICOM_ENCODING_TYPE)lEncodingType;
     CADESCOM_CADES_TYPE CadesType = (CADESCOM_CADES_TYPE)lCadesType;
 
-    boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPSignerObject> pSignerCppCadesImpl;
+    NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPSignerObject> pSignerCppCadesImpl;
     if (pPySigner)
     {
         Signer *pSigner = (Signer *)pPySigner;
@@ -300,7 +300,7 @@ static PyObject *SignedData_getSigners(SignedData *self)
 
 static PyObject *SignedData_getCertificates(SignedData *self)
 {
-    boost::shared_ptr<CPPCadesCPCertificatesObject> pCPPCadesCPCerts;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificatesObject> pCPPCadesCPCerts;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Certificates(pCPPCadesCPCerts));
     PyObject *pPyCertificates = PyObject_CallObject((PyObject *)&CertificatesType, NULL);
     Certificates *pCertificates = (Certificates *)pPyCertificates;

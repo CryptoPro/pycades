@@ -16,7 +16,7 @@ static PyObject *SymmetricAlgorithm_new(PyTypeObject *type, PyObject *args, PyOb
     self = (SymmetricAlgorithm *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesSymmetricAlgorithmObject>(new CPPCadesSymmetricAlgorithmObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesSymmetricAlgorithmObject>(new CPPCadesSymmetricAlgorithmObject());
     }
     return (PyObject *)self;
 }
@@ -93,7 +93,7 @@ static PyObject *SymmetricAlgorithm_Decrypt(SymmetricAlgorithm *self, PyObject *
 
 static PyObject *SymmetricAlgorithm_DiversifyKey(SymmetricAlgorithm *self)
 {
-    boost::shared_ptr<CPPCadesSymmetricAlgorithmObject> pCPPCadesSymAlg;
+    NS_SHARED_PTR::shared_ptr<CPPCadesSymmetricAlgorithmObject> pCPPCadesSymAlg;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->DiversifyKey(pCPPCadesSymAlg));
     PyObject *pPySymAlg = PyObject_CallObject((PyObject *)&SymmetricAlgorithmType, NULL);
     SymmetricAlgorithm *pSymAlg = (SymmetricAlgorithm *)pPySymAlg;

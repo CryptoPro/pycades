@@ -6,7 +6,7 @@
 
 typedef struct {
     PyObject_HEAD
-    boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCRLObject> m_pCppCadesImpl;
+    NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCRLObject> m_pCppCadesImpl;
 } CRL;
 
 extern PyTypeObject CRLType;

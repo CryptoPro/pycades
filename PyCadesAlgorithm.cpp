@@ -14,7 +14,7 @@ static PyObject *Algorithm_new(PyTypeObject *type, PyObject *args, PyObject *kwd
     self = (Algorithm *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPAlgorithmObject>(new CPPCadesCPAlgorithmObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPAlgorithmObject>(new CPPCadesCPAlgorithmObject());
     }
     return (PyObject *)self;
 }

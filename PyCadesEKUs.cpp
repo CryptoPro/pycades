@@ -15,7 +15,7 @@ static PyObject *EKUs_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     self = (EKUs *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPEKUsObject>(new CPPCadesCPEKUsObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUsObject>(new CPPCadesCPEKUsObject());
     }
     return (PyObject *)self;
 }
@@ -34,7 +34,7 @@ static PyObject *EKUs_getItem(EKUs *self, PyObject *args)
     {
         return NULL;
     }
-    boost::shared_ptr<CPPCadesCPEKUObject> pCppCadesEKU = boost::shared_ptr<CPPCadesCPEKUObject>(new CPPCadesCPEKUObject());
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUObject> pCppCadesEKU = NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUObject>(new CPPCadesCPEKUObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Item(index, pCppCadesEKU));
     PyObject *pPyEKU = PyObject_CallObject((PyObject *)&EKUType, NULL);
     EKU *pEKU = (EKU *)pPyEKU;

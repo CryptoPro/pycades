@@ -15,7 +15,7 @@ static PyObject *Attributes_new(PyTypeObject *type, PyObject *args, PyObject *kw
     self = (Attributes *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPAttributesObject>(new CPPCadesCPAttributesObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPAttributesObject>(new CPPCadesCPAttributesObject());
     }
     return (PyObject *)self;
 }

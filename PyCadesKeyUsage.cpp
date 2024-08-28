@@ -14,7 +14,7 @@ static PyObject *KeyUsage_new(PyTypeObject *type, PyObject *args, PyObject *kwds
     self = (KeyUsage *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPKeyUsageObject>(new CPPCadesCPKeyUsageObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPKeyUsageObject>(new CPPCadesCPKeyUsageObject());
     }
     return (PyObject *)self;
 }

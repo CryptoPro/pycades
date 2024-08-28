@@ -14,7 +14,7 @@ static PyObject *EKU_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     self = (EKU *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPEKUObject>(new CPPCadesCPEKUObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUObject>(new CPPCadesCPEKUObject());
     }
     return (PyObject *)self;
 }

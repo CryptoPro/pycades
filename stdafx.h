@@ -42,6 +42,10 @@
 #include <atlenc.h>
 #include <atlcrypt2.h>
 
+#ifndef NS_SHARED_PTR
+#define NS_SHARED_PTR boost
+#endif
+
 #define _ATL_APARTMENT_THREADED
 // some CString constructors will be explicit
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS

@@ -17,7 +17,7 @@ static PyObject *CertificateStatus_new(PyTypeObject *type, PyObject *args, PyObj
     self = (CertificateStatus *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPCertificateStatusObject>(new CPPCadesCPCertificateStatusObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateStatusObject>(new CPPCadesCPCertificateStatusObject());
     }
     return (PyObject *)self;
 }

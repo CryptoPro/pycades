@@ -15,7 +15,7 @@ static PyObject *Recipients_new(PyTypeObject *type, PyObject *args, PyObject *kw
     self = (Recipients *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPRecipientsObject>(new CPPCadesCPRecipientsObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPRecipientsObject>(new CPPCadesCPRecipientsObject());
     }
     return (PyObject *)self;
 }
@@ -27,7 +27,7 @@ static PyObject *Recipients_Item(Recipients *self, PyObject *args)
     {
         return NULL;
     }
-    boost::shared_ptr<CPPCadesCPCertificateObject> pCppCadesCert;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> pCppCadesCert;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Item(Index, pCppCadesCert));
     PyObject *pPyCert = PyObject_CallObject((PyObject *)&CertificateType, NULL);
     Certificate *pCert = (Certificate *)pPyCert;

@@ -6,7 +6,7 @@
 
 typedef struct {
     PyObject_HEAD
-    boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPOIDObject> m_pCppCadesImpl;
+    NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPOIDObject> m_pCppCadesImpl;
 } OID;
 
 extern PyTypeObject OIDType;

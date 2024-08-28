@@ -21,7 +21,7 @@ static PyObject *Certificate_new(PyTypeObject *type, PyObject *args, PyObject *k
     self = (Certificate *)type->tp_alloc(type, 0);
     if (self != NULL)
     {
-        self->m_pCppCadesImpl = boost::shared_ptr<CPPCadesCPCertificateObject>(new CPPCadesCPCertificateObject());
+        self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject>(new CPPCadesCPCertificateObject());
     }
     return (PyObject *)self;
 }
@@ -63,7 +63,7 @@ static PyObject *Certificate_hasPrivateKey(Certificate *self)
 
 static PyObject *Certificate_isValid(Certificate *self)
 {
-    boost::shared_ptr<CPPCadesCPCertificateStatusObject> pCppCadesStatus(new CPPCadesCPCertificateStatusObject());
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateStatusObject> pCppCadesStatus(new CPPCadesCPCertificateStatusObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->IsValid(pCppCadesStatus));
     PyObject *pPyStatus = PyObject_CallObject((PyObject *)&CertificateStatusType, NULL);
     CertificateStatus *pStatus = (CertificateStatus *)pPyStatus;
