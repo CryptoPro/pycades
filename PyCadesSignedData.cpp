@@ -378,7 +378,7 @@ static PyMethodDef SignedData_methods[] = {
     {"AdditionalStore", (PyCFunction)SignedData_AdditionalStore, METH_VARARGS, "AdditionalStore"},
 #if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15262)
     {"GetMsgType", (PyCFunction)SignedData_GetMsgType, METH_VARARGS, "GetMsgType"},
-    {"IsMsgType", (PyCFunction)SignedData_GetMsgType, METH_VARARGS, "IsMsgType"},
+    {"IsMsgType", (PyCFunction)SignedData_IsMsgType, METH_VARARGS, "IsMsgType"},
 #endif
     {NULL} /* Sentinel */
 };
