@@ -146,6 +146,7 @@ static PyObject *SymmetricAlgorithm_ImportKey(SymmetricAlgorithm *self, PyObject
     Py_RETURN_NONE;
 }
 
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 14892)
 static int SymmetricAlgorithm_setLegacyPluginSymmetricExport(SymmetricAlgorithm *self, PyObject *value)
 {
     int bLegacyPluginSymmetricExport = 0;
@@ -182,11 +183,14 @@ static PyObject *SymmetricAlgorithm_SetPadding(SymmetricAlgorithm *self, PyObjec
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->SetPadding(Padding));
     Py_RETURN_NONE;
 }
+#endif
 
 static PyGetSetDef SymmetricAlgorithm_getset[] = {
     {"DiversData", (getter)SymmetricAlgorithm_getDiversData, (setter)SymmetricAlgorithm_setDiversData, "DiversData", NULL},
     {"IV", (getter)SymmetricAlgorithm_getIV, (setter)SymmetricAlgorithm_setIV, "IV", NULL},
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 14892)
     {"LegacyPluginSymmetricExport", NULL, (setter)SymmetricAlgorithm_setLegacyPluginSymmetricExport, "LegacyPluginSymmetricExport", NULL},
+#endif
     {NULL} /* Sentinel */
 };
 
@@ -197,8 +201,10 @@ static PyMethodDef SymmetricAlgorithm_methods[] = {
     {"GenerateKey", (PyCFunction)SymmetricAlgorithm_GenerateKey, METH_VARARGS, "GenerateKey"},
     {"ExportKey", (PyCFunction)SymmetricAlgorithm_ExportKey, METH_VARARGS, "ExportKey"},
     {"ImportKey", (PyCFunction)SymmetricAlgorithm_ImportKey, METH_VARARGS, "ImportKey"},
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 14892)
     {"SetMode", (PyCFunction)SymmetricAlgorithm_SetMode, METH_VARARGS, "SetMode"},
     {"SetPadding", (PyCFunction)SymmetricAlgorithm_SetPadding, METH_VARARGS, "SetPadding"},
+#endif
     {NULL} /* Sentinel */
 };
 

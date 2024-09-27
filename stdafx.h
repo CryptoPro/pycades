@@ -17,6 +17,11 @@
 #define RETURN_ATL_STRINGL RETURN_ATL_STRINGL_W
 #endif
 
+#define IS_CADES_VERSION_GREATER_EQUAL(major, minor, build) \
+    (CPRO_CADES_VERSION_MAJOR > (major) || \
+    (CPRO_CADES_VERSION_MAJOR == (major) && CPRO_CADES_VERSION_MINOR > (minor)) || \
+    (CPRO_CADES_VERSION_MAJOR == (major) && CPRO_CADES_VERSION_MINOR == (minor) && CPRO_CADES_VERSION_BUILD >= (build)))
+
 #include <Python.h>
 #include <structmember.h>
 

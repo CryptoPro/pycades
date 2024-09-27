@@ -320,6 +320,42 @@ static PyObject *SignedData_AdditionalStore(SignedData *self, PyObject *args)
     Py_RETURN_NONE;
 }
 
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15262)
+static PyObject *SignedData_GetMsgType(SignedData *self, PyObject *args)
+{
+    char *szSignedMessage = "";
+    if (!PyArg_ParseTuple(args, "s", &szSignedMessage))
+    {
+        return NULL;
+    }
+
+    CStringBlob strBlobMessage(szSignedMessage, strlen(szSignedMessage));
+    DWORD result = 0;
+    HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->GetMsgType(strBlobMessage, &result));
+    return Py_BuildValue("l", result);
+}
+
+static PyObject *SignedData_IsMsgType(SignedData *self, PyObject *args)
+{
+    char *szSignedMessage = "";
+    long lCadesType = CADESCOM_CADES_DEFAULT;
+    if (!PyArg_ParseTuple(args, "sl", &szSignedMessage, &lCadesType))
+    {
+        return NULL;
+    }
+
+    CStringBlob strBlobMessage(szSignedMessage, strlen(szSignedMessage));
+    DWORD dwSignType = (DWORD)lCadesType;
+    BOOL bIsType;
+    HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->IsMsgType(strBlobMessage, dwSignType, &bIsType));
+    if (bIsType)
+    {
+        Py_RETURN_TRUE;
+    }
+    Py_RETURN_FALSE;
+}
+#endif
+
 static PyGetSetDef SignedData_getset[] = {
     {"ContentEncoding", (getter)SignedData_getContentEncoding, (setter)SignedData_setContentEncoding, "ContentEncoding", NULL},
     {"Content", (getter)SignedData_getContent, (setter)SignedData_setContent, "Content", NULL},
@@ -340,6 +376,10 @@ static PyMethodDef SignedData_methods[] = {
     {"VerifyCades", (PyCFunction)SignedData_VerifyCades, METH_VARARGS, "VerifyCades"},
     {"VerifyHash", (PyCFunction)SignedData_VerifyHash, METH_VARARGS, "VerifyHash"},
     {"AdditionalStore", (PyCFunction)SignedData_AdditionalStore, METH_VARARGS, "AdditionalStore"},
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15262)
+    {"GetMsgType", (PyCFunction)SignedData_GetMsgType, METH_VARARGS, "GetMsgType"},
+    {"IsMsgType", (PyCFunction)SignedData_GetMsgType, METH_VARARGS, "IsMsgType"},
+#endif
     {NULL} /* Sentinel */
 };
 

@@ -39,6 +39,26 @@ FIND_PACKAGE( Boost REQUIRED )
 
 ADD_DEFINITIONS(-DUNIX -DSIZEOF_VOID_P=${CMAKE_SIZEOF_VOID_P})
 
+EXECUTE_PROCESS(
+    COMMAND bash -c "if type dpkg > /dev/null 2>&1; then dpkg -l|grep cprocsp-pki-cades|awk ' { print $3 } '; else rpm -qa|grep cprocsp-pki-cades; fi|cut -d. -f1|cut -d- -f1"
+    OUTPUT_VARIABLE CPRO_CADES_VERSION_MAJOR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+EXECUTE_PROCESS(
+    COMMAND bash -c "if type dpkg > /dev/null 2>&1; then dpkg -l|grep cprocsp-pki-cades|awk ' { print $3 } '; else rpm -qa|grep cprocsp-pki-cades; fi|cut -d. -f2|cut -d- -f1"
+    OUTPUT_VARIABLE CPRO_CADES_VERSION_MINOR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+EXECUTE_PROCESS(
+    COMMAND bash -c "if type dpkg > /dev/null 2>&1; then dpkg -l|grep cprocsp-pki-cades|awk ' { print $3 } '; else rpm -qa|grep cprocsp-pki-cades; fi|cut -d. -f3|cut -d- -f1"
+    OUTPUT_VARIABLE CPRO_CADES_VERSION_BUILD
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+ADD_DEFINITIONS(-DCPRO_CADES_VERSION_MAJOR=${CPRO_CADES_VERSION_MAJOR})
+ADD_DEFINITIONS(-DCPRO_CADES_VERSION_MINOR=${CPRO_CADES_VERSION_MINOR})
+ADD_DEFINITIONS(-DCPRO_CADES_VERSION_BUILD=${CPRO_CADES_VERSION_BUILD})
+MESSAGE("-- cprocsp-pki-cades: ${CPRO_CADES_VERSION_MAJOR}.${CPRO_CADES_VERSION_MINOR}.${CPRO_CADES_VERSION_BUILD}")
+
 #SET(CMAKE_BUILD_TYPE Debug)
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-write-strings")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
