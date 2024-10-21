@@ -224,7 +224,7 @@ static PyObject *Certificate_BasicConstraints(Certificate *self)
     return Py_BuildValue("N", pBasicConstraints);
 }
 
-static PyGetSetDef Certificate_getset[]{
+static PyGetSetDef Certificate_getset[] = {
     {"SubjectName", (getter)Certificate_getSubjectName, NULL, "SubjectName", NULL},
     {"IssuerName", (getter)Certificate_getIssuerName, NULL, "IssuerName", NULL},
     {"PrivateKey", (getter)Certificate_PrivateKey, NULL, "PrivateKey", NULL},
@@ -233,7 +233,8 @@ static PyGetSetDef Certificate_getset[]{
     {"Version", (getter)Certificate_getVersion, NULL, "Version", NULL},
     {"ValidFromDate", (getter)Certificate_getValidFromDate, NULL, "ValidFromDate", NULL},
     {"ValidToDate", (getter)Certificate_getValidToDate, NULL, "ValidToDate", NULL},
-    {NULL}};
+    {NULL}
+};
 
 static PyMethodDef Certificate_methods[] = {
     {"GetInfo", (PyCFunction)Certificate_getInfo, METH_VARARGS, "getInfo"},
