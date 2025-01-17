@@ -1,5 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 SET(Python_INCLUDE_DIR "/usr/include/python3.11")
+set (CMAKE_CXX_STANDARD 11)
 PROJECT(PythonModule LANGUAGES CXX)
     SET (pycades_LIB_SRCS
             errormsg.cpp
