@@ -320,7 +320,7 @@ static PyObject *SignedData_AdditionalStore(SignedData *self, PyObject *args)
     Py_RETURN_NONE;
 }
 
-#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15262)
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15260)
 static PyObject *SignedData_GetMsgType(SignedData *self, PyObject *args)
 {
     char *szSignedMessage = "";
@@ -376,7 +376,7 @@ static PyMethodDef SignedData_methods[] = {
     {"VerifyCades", (PyCFunction)SignedData_VerifyCades, METH_VARARGS, "VerifyCades"},
     {"VerifyHash", (PyCFunction)SignedData_VerifyHash, METH_VARARGS, "VerifyHash"},
     {"AdditionalStore", (PyCFunction)SignedData_AdditionalStore, METH_VARARGS, "AdditionalStore"},
-#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15262)
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15260)
     {"GetMsgType", (PyCFunction)SignedData_GetMsgType, METH_VARARGS, "GetMsgType"},
     {"IsMsgType", (PyCFunction)SignedData_IsMsgType, METH_VARARGS, "IsMsgType"},
 #endif
