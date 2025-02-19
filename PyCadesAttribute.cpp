@@ -71,11 +71,16 @@ static PyObject *Attribute_getValue(Attribute *self)
     {
         FILETIME fTime;
         DWORD fTimeSize = sizeof(FILETIME);
-        CryptStringToBinary(reinterpret_cast<TCHAR *>(blobValue.pbData()), dwLen,
-                            CRYPT_STRING_BASE64, &vbValue[0], &dwLen, NULL, NULL);
-        CryptDecodeObject(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
-                          (LPCSTR)szOID_RSA_signingTime, &vbValue[0], dwLen, 0, &fTime,
-                          &fTimeSize);
+        if (!CryptStringToBinary(reinterpret_cast<TCHAR *>(blobValue.pbData()), dwLen, 
+            CRYPT_STRING_BASE64, &vbValue[0], &dwLen, NULL, NULL)) 
+        {
+            HR_METHOD_ERRORCHECK_RETURN(CAPICOM_E_ATTRIBUTE_INVALID_VALUE);
+        }
+        if (!CryptDecodeObject(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
+            (LPCSTR)szOID_RSA_signingTime, &vbValue[0], dwLen, 0, &fTime, &fTimeSize)) 
+        {
+            HR_METHOD_ERRORCHECK_RETURN(CAPICOM_E_ATTRIBUTE_INVALID_VALUE);
+        }
         CryptoPro::CDateTime Time(fTime);
         CryptoPro::CStringProxy strProxyTime = Time.tostring();
         return Py_BuildValue("s", strProxyTime.c_str());
