@@ -268,6 +268,7 @@ PyMODINIT_FUNC PyInit_pycades(void) {
     PyModule_AddIntConstant(module, "CADESCOM_CADES_BES", 1);
     PyModule_AddIntConstant(module, "CADESCOM_CADES_T", 0x5);
     PyModule_AddIntConstant(module, "CADESCOM_CADES_X_LONG_TYPE_1", 0x5d);
+    PyModule_AddIntConstant(module, "CADESCOM_CADES_A", 0xdd);
     PyModule_AddIntConstant(module, "CADESCOM_PKCS7_TYPE", 0xffff);
     PyModule_AddIntConstant(module, "CADESCOM_ENCODE_BASE64", 0);
     PyModule_AddIntConstant(module, "CADESCOM_ENCODE_BINARY", 1);
