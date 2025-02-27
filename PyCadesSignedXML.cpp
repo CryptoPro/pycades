@@ -38,7 +38,7 @@ static PyObject *SignedXML_getContent(SignedXML *self)
     CStringBlob strBlobContent;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Content(strBlobContent));
     DWORD dwContentLen = strBlobContent.GetLength();
-    char* szContent = (char *)calloc(dwContentLen, sizeof(char));
+    char* szContent = (char *)calloc(dwContentLen + 1, sizeof(char));
     if (!szContent)
     {
         PyErr_NoMemory();
@@ -110,18 +110,13 @@ static PyObject *SignedXML_Sign(SignedXML *self, PyObject *args)
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Sign(pSigner->m_pCppCadesImpl, strBlobXPath, strBlobResult));
 
     DWORD dwResultLen = strBlobResult.GetLength();
-    char *szResult = (char *)calloc(dwResultLen, sizeof(char));
+    char *szResult = (char *)calloc(dwResultLen + 1, sizeof(char));
     if (!szResult)
     {
         PyErr_NoMemory();
         return NULL;
     }
     memcpy(szResult, strBlobResult.GetBuffer(), dwResultLen);
-
-    // По умолчанию python использует кодировку utf-8, в которой 0x0A (new line) считается continuation byte.
-    // Если этот символ последний в строке, то декодер ломается с ошибкой Invalid continuation byte
-    if (szResult[dwResultLen - 1] == 0x0A)
-        szResult[dwResultLen - 1] = '\0';
 
     PyObject *pPyResult = Py_BuildValue("s", szResult);
     free(szResult);
