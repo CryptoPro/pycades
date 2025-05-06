@@ -86,8 +86,22 @@ static PyObject *About_CSPVersion(About *self, PyObject *args)
     return Py_BuildValue("N", pCSPVersion);
 }
 
+static PyObject *About_CSPName(About *self, PyObject *args)
+{
+    long dwProvType = 75;
+    if (!PyArg_ParseTuple(args, "|l", &dwProvType))
+    {
+        return NULL;
+    }
+
+    CAtlString sName;
+    HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_CSPName(dwProvType, sName));
+    return Py_BuildValue("s", sName.GetString());
+}
+
 static PyMethodDef About_methods[] = {
     {"CSPVersion", (PyCFunction)About_CSPVersion, METH_VARARGS, "CSPVersion"},
+    {"CSPName", (PyCFunction)About_CSPName, METH_VARARGS, "CSPName"},
     {NULL} /* Sentinel */
 };
 
