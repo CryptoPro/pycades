@@ -19,6 +19,8 @@ PROJECT(PythonModule LANGUAGES CXX)
             PyCadesEnvelopedData.cpp
             PyCadesEKU.cpp
             PyCadesEKUs.cpp
+            PyCadesExtension.cpp
+            PyCadesExtensions.cpp
             PyCadesExtendedKeyUsage.cpp
             PyCadesHashedData.cpp
             PyCadesKeyUsage.cpp

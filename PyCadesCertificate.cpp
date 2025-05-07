@@ -6,6 +6,9 @@
 #include "PyCadesKeyUsage.h"
 #include "PyCadesExtendedKeyUsage.h"
 #include "PyCadesStore.h"
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15000)
+#include "PyCadesExtensions.h"
+#endif
 
 using namespace CryptoPro::PKI::CAdES;
 
@@ -224,6 +227,18 @@ static PyObject *Certificate_BasicConstraints(Certificate *self)
     return Py_BuildValue("N", pBasicConstraints);
 }
 
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15000)
+static PyObject *Certificate_Extensions(Certificate *self)
+{
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPExtensionsObject> pCppCadesExtensions(new CPPCadesCPExtensionsObject());
+    HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Extensions(pCppCadesExtensions));
+    PyObject *pPyExtensions = PyObject_CallObject((PyObject *)&ExtensionsType, NULL);
+    Extensions *pExtensions = (Extensions *)pPyExtensions;
+    pExtensions->m_pCppCadesImpl = pCppCadesExtensions;
+    return Py_BuildValue("N", pExtensions);
+}
+#endif
+
 static PyGetSetDef Certificate_getset[] = {
     {"SubjectName", (getter)Certificate_getSubjectName, NULL, "SubjectName", NULL},
     {"IssuerName", (getter)Certificate_getIssuerName, NULL, "IssuerName", NULL},
@@ -248,6 +263,9 @@ static PyMethodDef Certificate_methods[] = {
     {"PublicKey", (PyCFunction)Certificate_PublicKey, METH_NOARGS, "PublicKey"},
     {"BasicConstraints", (PyCFunction)Certificate_BasicConstraints, METH_NOARGS, "BasicConstraints"},
     {"AdditionalStore", (PyCFunction)Certificate_AdditionalStore, METH_VARARGS, "AdditionalStore"},
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15000)
+    {"Extensions", (PyCFunction)Certificate_Extensions, METH_VARARGS, "Extensions"},
+#endif
     {NULL} /* Sentinel */
 };
 

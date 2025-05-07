@@ -29,6 +29,10 @@
 #include "PyCadesStore.h"
 #include "PyCadesSymmetricAlgorithm.h"
 #include "PyCadesVersion.h"
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15000)
+#include "PyCadesExtension.h"
+#include "PyCadesExtensions.h"
+#endif
 
 #define PYCADES_VERSION "0.1.70195"
 static PyObject * pycades_ModuleVersion(PyObject *self, PyObject *args)
@@ -251,6 +255,19 @@ PyMODINIT_FUNC PyInit_pycades(void) {
     }
     Py_INCREF(&VersionType);
 
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15000)
+    if (PyType_Ready (&ExtensionType) < 0){
+        PyErr_SetString(PyExc_RuntimeError, "Cannot create Extension object");
+        return NULL;
+    }
+    Py_INCREF(&ExtensionType);
+
+    if (PyType_Ready (&ExtensionsType) < 0){
+        PyErr_SetString(PyExc_RuntimeError, "Cannot create Extensions object");
+        return NULL;
+    }
+    Py_INCREF(&ExtensionsType);
+#endif
 
     PyModule_AddIntConstant(module, "CADESCOM_STRING_TO_UCS2LE", 0);
     PyModule_AddIntConstant(module, "CADESCOM_BASE64_TO_BINARY", 1);
