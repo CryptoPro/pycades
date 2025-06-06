@@ -239,6 +239,26 @@ static PyObject *Certificate_Extensions(Certificate *self)
 }
 #endif
 
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15400)
+static PyObject *Certificate_getPrivateKeyUsagePeriodFrom(Certificate *self)
+{
+    CryptoPro::CDateTime date;
+    CryptoPro::CStringProxy strProxyDate;
+    HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_PrivateKeyUsagePeriodFrom(date));
+    strProxyDate = date.tostring();
+    return Py_BuildValue("s", strProxyDate.c_str());
+}
+
+static PyObject *Certificate_getPrivateKeyUsagePeriodTo(Certificate *self)
+{
+    CryptoPro::CDateTime date;
+    CryptoPro::CStringProxy strProxyDate;
+    HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_PrivateKeyUsagePeriodTo(date));
+    strProxyDate = date.tostring();
+    return Py_BuildValue("s", strProxyDate.c_str());
+}
+#endif
+
 static PyGetSetDef Certificate_getset[] = {
     {"SubjectName", (getter)Certificate_getSubjectName, NULL, "SubjectName", NULL},
     {"IssuerName", (getter)Certificate_getIssuerName, NULL, "IssuerName", NULL},
@@ -248,6 +268,10 @@ static PyGetSetDef Certificate_getset[] = {
     {"Version", (getter)Certificate_getVersion, NULL, "Version", NULL},
     {"ValidFromDate", (getter)Certificate_getValidFromDate, NULL, "ValidFromDate", NULL},
     {"ValidToDate", (getter)Certificate_getValidToDate, NULL, "ValidToDate", NULL},
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15400)
+    {"PrivateKeyUsagePeriodFrom", (getter)Certificate_getPrivateKeyUsagePeriodFrom, NULL, "PrivateKeyUsagePeriodFrom", NULL},
+    {"PrivateKeyUsagePeriodTo", (getter)Certificate_getPrivateKeyUsagePeriodTo, NULL, "PrivateKeyUsagePeriodTo", NULL},
+#endif
     {NULL}
 };
 
