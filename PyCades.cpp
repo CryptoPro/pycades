@@ -424,6 +424,7 @@ PyMODINIT_FUNC PyInit_pycades(void) {
     PyModule_AddStringConstant(module, "CAPICOM_CA_STORE", "CA");
     PyModule_AddStringConstant(module, "CAPICOM_ROOT_STORE", "Root");
     PyModule_AddStringConstant(module, "CAPICOM_OTHER_STORE", "AddressBook");
+    PyModule_AddStringConstant(module, "CAPICOM_ADDRESSBOOK_STORE", "AddressBook");
     PyModule_AddStringConstant(module, "XmlDsigGost3410UrlObsolete", "http://www.w3.org/2001/04/xmldsig-more#gostr34102001-gostr3411");
     PyModule_AddStringConstant(module, "XmlDsigGost3411UrlObsolete", "http://www.w3.org/2001/04/xmldsig-more#gostr3411");
     PyModule_AddStringConstant(module, "XmlDsigGost3410Url", "urn:ietf:params:xml:ns:cpxmlsec:algorithms:gostr34102001-gostr3411");

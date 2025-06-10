@@ -93,6 +93,38 @@ static PyObject *Store_Close(Store *self)
     Py_RETURN_NONE;
 }
 
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 14589)
+static PyObject *Store_Remove(Store *self, PyObject *args)
+{
+    PyObject *pPyCert = NULL;
+    if (!PyArg_ParseTuple(args, "O!", &CertificateType, &pPyCert))
+    {
+        return NULL;
+    }
+
+    Certificate *pCert = (Certificate *)pPyCert;
+    HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Remove(pCert->m_pCppCadesImpl));
+    Py_RETURN_NONE;
+}
+#endif
+
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15400)
+static PyObject *Store_ImportPFX(Store *self, PyObject *args)
+{
+    char *szEncodedPFX = "";
+    char *szPassword = "";
+    long lFlags = 0;
+    if (!PyArg_ParseTuple(args, "s|sl", &szEncodedPFX, &szPassword, &lFlags))
+    {
+        return NULL;
+    }
+
+    CAtlStringW szPasswordW = CAtlStringW(CA2W(szPassword, CP_UTF8));
+    HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->ImportPFX(szEncodedPFX, szPasswordW.GetString(), lFlags));
+    Py_RETURN_NONE;
+}
+#endif
+
 static PyGetSetDef Store_getset[] = {
     {"Name", (getter)Store_getName, NULL, "Name", NULL},
     {"Certificates", (getter)Store_getCertificates, NULL, "Certificates", NULL},
@@ -105,6 +137,12 @@ static PyMethodDef Store_methods[] = {
     {"Close", (PyCFunction)Store_Close, METH_NOARGS, "Close"},
     {"Add", (PyCFunction)Store_Add, METH_VARARGS, "Add"},
     {"AddCRL", (PyCFunction)Store_AddCRL, METH_VARARGS, "AddCRL"},
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 14589)
+    {"Remove", (PyCFunction)Store_Remove, METH_VARARGS, "Remove"},
+#endif
+#if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15400)
+    {"ImportPFX", (PyCFunction)Store_ImportPFX, METH_VARARGS, "ImportPFX"},
+#endif
     {NULL} /* Sentinel */
 };
 
