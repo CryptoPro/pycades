@@ -1,5 +1,8 @@
 import pycades
 
+about = pycades.About()
+about.CSPVersion()
+
 store = pycades.Store()
 store.Open(pycades.CADESCOM_CONTAINER_STORE, pycades.CAPICOM_MY_STORE,
            pycades.CAPICOM_STORE_OPEN_MAXIMUM_ALLOWED)

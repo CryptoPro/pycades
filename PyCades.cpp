@@ -34,7 +34,7 @@
 #include "PyCadesExtensions.h"
 #endif
 
-#define PYCADES_VERSION "0.1.70195"
+#define PYCADES_VERSION "0.1.70196"
 static PyObject * pycades_ModuleVersion(PyObject *self, PyObject *args)
 {
     return Py_BuildValue("s", PYCADES_VERSION);

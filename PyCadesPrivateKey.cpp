@@ -83,6 +83,17 @@ static int PrivateKey_setKeyPin(PrivateKey *self, PyObject *value)
     return 0;
 }
 
+static PyObject *PrivateKey_getIsDefaultPin(PrivateKey *self)
+{
+    BOOL bIsDefaultPin;
+    HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsDefaultPin(bIsDefaultPin));
+    if (bIsDefaultPin)
+    {
+        Py_RETURN_TRUE;
+    }
+    Py_RETURN_FALSE;
+}
+
 static PyGetSetDef PrivateKey_getset[] = {
     {"ContainerName", (getter)PrivateKey_getContainerName, NULL, "ContainerName", NULL},
     {"UniqueContainerName", (getter)PrivateKey_getUniqueContainerName, NULL, "UniqueContainerName", NULL},
@@ -91,6 +102,7 @@ static PyGetSetDef PrivateKey_getset[] = {
     {"KeySpec", (getter)PrivateKey_getKeySpec, NULL, "KeySpec", NULL},
     {"CachePin", NULL, (setter)PrivateKey_setCachePin, "CachePin", NULL},
     {"KeyPin", NULL, (setter)PrivateKey_setKeyPin, "KeyPin", NULL},
+    {"IsDefaultPin", (getter)PrivateKey_getIsDefaultPin, NULL, "IsDefaultPin", NULL},
     {NULL} /* Sentinel */
 };
 
