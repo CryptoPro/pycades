@@ -15,10 +15,10 @@ content_to_sign += "XML Security Library example: Original XML doc file for sign
 content_to_sign += "-->"
 content_to_sign += "<Envelope xmlns=\"urn:envelope\">"
 content_to_sign += "  <Data>"
-content_to_sign += "	Hello, World!"
+content_to_sign += "  Hello, World!"
 content_to_sign += "  </Data>"
 content_to_sign += "  <Node xml:id=\"nodeID\">"
-content_to_sign += "	Hello, Node!"
+content_to_sign += "  Hello, Node!"
 content_to_sign += "  </Node>" + " " + "</Envelope>"
 
 signedXML = pycades.SignedXML()
