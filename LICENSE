@@ -1,0 +1,3 @@
+The extension is distributed free of charge in source code form and does not require a separate license for operation.
+Generating a digital signature using the GOST cryptographic algorithm requires a license for CryptoPro CSP.
+Generating an enhanced digital signature requires licenses for CryptoPro TSP Client and CryptoPro OCSP Client.
