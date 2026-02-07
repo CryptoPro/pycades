@@ -3,13 +3,32 @@ name = "pycades"
 dynamic = [ "version" ]
 description = "The Pycades extension provides a programming interface similar to CryptoPro"
 readme = "README.md"
+authors = [
+    { name = "CryptoPro LLC", email = "info@cryptopro.ru"}
+]
+maintainers = [
+    { name = "cpsdenis", email = "sdenis@cryptopro.ru"}
+]
 license-files = ["LICENSE"]
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Operating System :: POSIX :: Linux",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 requires-python = ">=3.9"
 dependencies = []
+
+[project.urls]
+homepage = "https://docs.cryptopro.ru/cades/pycades"
+documentation = "https://docs.cryptopro.ru/cades/pycades"
+source = "https://github.com/CryptoPro/pycades"
 
 [tool.py-build-cmake.module]
 name = "pycades"
