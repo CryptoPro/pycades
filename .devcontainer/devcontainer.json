@@ -12,8 +12,7 @@
                         "path": "/bin/bash"
                     }
                 },
-                "python.terminal.activateEnvInCurrentTerminal": true,
-                "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
+                "python.defaultInterpreterPath": "${workspaceRoot}/.venv/bin/python3",
                 "git.enabled": true,
                 "terminal.integrated.defaultProfile.linux": "bash",
                 "terminal.integrated.inheritEnv": true,
@@ -29,9 +28,9 @@
             ]
         }
     },
-    // "postCreateCommand": {
-    //     "setupEnvironment": "uv python install 3.11 && uv venv --python 3.11 ${containerWorkspaceFolder}/.venv && sudo chown -R $(whoami): ${containerWorkspaceFolder}/.venv"
-    // },
+    "postCreateCommand": {
+        "setupEnvironment": "uv python install 3.9 && uv venv --python 3.9 ${containerWorkspaceFolder}/.venv && sudo chown -R $(whoami): ${containerWorkspaceFolder}/.venv"
+    },
     "remoteEnv": {
         "PATH": "${containerWorkspaceFolder}/.venv/bin:${containerEnv:PATH}",
         "WORKSPACE": "/workspace",

@@ -5,7 +5,7 @@
             "name": "Python: Run sample_sign_verify.py",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/usr/bin/python3",
+            "program": "${command:python.interpreterPath}",
             "args": ["${workspaceFolder}/examplses/sample_sign_verify.py"], 
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal"
