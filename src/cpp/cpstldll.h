@@ -1,15 +1,15 @@
 /*
- * Copyright(C) 2004 Проект ИОК
+ * Copyright(C) 2004 РџСЂРѕРµРєС‚ РРћРљ
  *
- * Этот файл содержит информацию, являющуюся
- * собственностью компании Крипто Про.
+ * Р­С‚РѕС‚ С„Р°Р№Р» СЃРѕРґРµСЂР¶РёС‚ РёРЅС„РѕСЂРјР°С†РёСЋ, СЏРІР»СЏСЋС‰СѓСЋСЃСЏ
+ * СЃРѕР±СЃС‚РІРµРЅРЅРѕСЃС‚СЊСЋ РєРѕРјРїР°РЅРёРё РљСЂРёРїС‚Рѕ РџСЂРѕ.
  *
- * Любая часть этого файла не может быть скопирована,
- * исправлена, переведена на другие языки,
- * локализована или модифицирована любым способом,
- * откомпилирована, передана по сети с или на
- * любую компьютерную систему без предварительного
- * заключения соглашения с компанией Крипто Про.
+ * Р›СЋР±Р°СЏ С‡Р°СЃС‚СЊ СЌС‚РѕРіРѕ С„Р°Р№Р»Р° РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ СЃРєРѕРїРёСЂРѕРІР°РЅР°,
+ * РёСЃРїСЂР°РІР»РµРЅР°, РїРµСЂРµРІРµРґРµРЅР° РЅР° РґСЂСѓРіРёРµ СЏР·С‹РєРё,
+ * Р»РѕРєР°Р»РёР·РѕРІР°РЅР° РёР»Рё РјРѕРґРёС„РёС†РёСЂРѕРІР°РЅР° Р»СЋР±С‹Рј СЃРїРѕСЃРѕР±РѕРј,
+ * РѕС‚РєРѕРјРїРёР»РёСЂРѕРІР°РЅР°, РїРµСЂРµРґР°РЅР° РїРѕ СЃРµС‚Рё СЃ РёР»Рё РЅР°
+ * Р»СЋР±СѓСЋ РєРѕРјРїСЊСЋС‚РµСЂРЅСѓСЋ СЃРёСЃС‚РµРјСѓ Р±РµР· РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕРіРѕ
+ * Р·Р°РєР»СЋС‡РµРЅРёСЏ СЃРѕРіР»Р°С€РµРЅРёСЏ СЃ РєРѕРјРїР°РЅРёРµР№ РљСЂРёРїС‚Рѕ РџСЂРѕ.
  */
 
 /*!
@@ -18,7 +18,7 @@
  * \date $Date::                           $
  * \author $Author$
  *
- * \brief Обертки для stl классов, позволяющие их экспортировать в dll.
+ * \brief РћР±РµСЂС‚РєРё РґР»СЏ stl РєР»Р°СЃСЃРѕРІ, РїРѕР·РІРѕР»СЏСЋС‰РёРµ РёС… СЌРєСЃРїРѕСЂС‚РёСЂРѕРІР°С‚СЊ РІ dll.
  */
 
 #ifndef _CPSTLDLL_H_INCLUDED
@@ -35,19 +35,19 @@
 #   define EXPIMP_CDLLLIST_ITERATORS(...)
 #else
 #   define EXPIMP_CDLLLIST_ITERATORS(Type, Extern, Declspec) \
-	__pragma(warning(push)); \
-	__pragma(warning(disable: 4231)); \
-	Extern template class Declspec CDllList<Type>::_Const_iterator; \
-	Extern template class Declspec CDllList<Type>::_Iterator; \
-	__pragma(warning(pop));
+    __pragma(warning(push)); \
+    __pragma(warning(disable: 4231)); \
+    Extern template class Declspec CDllList<Type>::_Const_iterator; \
+    Extern template class Declspec CDllList<Type>::_Iterator; \
+    __pragma(warning(pop));
 #endif
 
 namespace CryptoPro {
 
 /**
  * \class CDllList cpstldll.h <cpstldll.h>
- * \brief Класс списка аналогичный по интерфейсу классу std::list из библиотеки
- * стандартных шаблонов.
+ * \brief РљР»Р°СЃСЃ СЃРїРёСЃРєР° Р°РЅР°Р»РѕРіРёС‡РЅС‹Р№ РїРѕ РёРЅС‚РµСЂС„РµР№СЃСѓ РєР»Р°СЃСЃСѓ std::list РёР· Р±РёР±Р»РёРѕС‚РµРєРё
+ * СЃС‚Р°РЅРґР°СЂС‚РЅС‹С… С€Р°Р±Р»РѕРЅРѕРІ.
  */
 template<class _Ty>
 class CDllList
@@ -76,58 +76,58 @@ public:
 
     class _Const_iterator
 #if defined(_MSC_VER) && (_MSC_VER >= 1500) && (_MSC_VER < 1600) && !defined ( _STL70_ )
-	// Чтобы VS2008 считала итератор за checked
-	: public std::_Iterator_base_universal
+    // Р§С‚РѕР±С‹ VS2008 СЃС‡РёС‚Р°Р»Р° РёС‚РµСЂР°С‚РѕСЂ Р·Р° checked
+    : public std::_Iterator_base_universal
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1500) && (_MSC_VER < 1700)
     {
-	friend CDllList;
+    friend CDllList;
 
-	cont_const_iterator *pImpl_;
+    cont_const_iterator *pImpl_;
 
-	_Const_iterator(const cont_const_iterator it);
+    _Const_iterator(const cont_const_iterator it);
 
     public:
-#if defined(_MSC_VER) && (_MSC_VER >= 1500) && (_MSC_VER < 1600)	
-	typedef std::_Range_checked_iterator_tag _Checked_iterator_category;
-#endif //defined(_MSC_VER) && (_MSC_VER >= 1500) && (_MSC_VER < 1700)	
+#if defined(_MSC_VER) && (_MSC_VER >= 1500) && (_MSC_VER < 1600)
+    typedef std::_Range_checked_iterator_tag _Checked_iterator_category;
+#endif //defined(_MSC_VER) && (_MSC_VER >= 1500) && (_MSC_VER < 1700)
 
-	typedef std::bidirectional_iterator_tag iterator_category;
-	typedef _Ty value_type;
-	typedef typename stlContainer::difference_type difference_type;
-	typedef typename stlContainer::const_pointer pointer;
-	typedef typename stlContainer::const_reference reference;
+    typedef std::bidirectional_iterator_tag iterator_category;
+    typedef _Ty value_type;
+    typedef typename stlContainer::difference_type difference_type;
+    typedef typename stlContainer::const_pointer pointer;
+    typedef typename stlContainer::const_reference reference;
 
-	_Const_iterator();
-	~_Const_iterator();
+    _Const_iterator();
+    ~_Const_iterator();
 
-	_Const_iterator(const _Const_iterator& _Right);
-	_Const_iterator& operator=(const _Const_iterator& _Right);
+    _Const_iterator(const _Const_iterator& _Right);
+    _Const_iterator& operator=(const _Const_iterator& _Right);
 
-	const_reference operator*() const;
-	const_pointer operator->() const;
-	_Const_iterator& operator++();
-	_Const_iterator operator++(int);
-	_Const_iterator& operator--();
-	_Const_iterator operator--(int);
-	bool operator==(const _Const_iterator& _Right) const;
-	bool operator!=(const _Const_iterator& _Right) const;
+    const_reference operator*() const;
+    const_pointer operator->() const;
+    _Const_iterator& operator++();
+    _Const_iterator operator++(int);
+    _Const_iterator& operator--();
+    _Const_iterator operator--(int);
+    bool operator==(const _Const_iterator& _Right) const;
+    bool operator!=(const _Const_iterator& _Right) const;
     };
 
     class _Iterator : public _Const_iterator
     {
-	friend CDllList;
+    friend CDllList;
 
-	_Iterator(const cont_iterator it);
+    _Iterator(const cont_iterator it);
 
     public:
-	_Iterator();
+    _Iterator();
 
-	_Reft operator*() const;
-	_Tptr operator->() const;
-	_Iterator& operator++();
-	_Iterator operator++(int);
-	_Iterator& operator--();
-	_Iterator operator--(int);
+    _Reft operator*() const;
+    _Tptr operator->() const;
+    _Iterator& operator++();
+    _Iterator operator++(int);
+    _Iterator& operator--();
+    _Iterator operator--(int);
     };
 
     typedef _Const_iterator const_iterator;

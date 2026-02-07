@@ -1,42 +1,42 @@
 {
-    "name": "pyCAdES",
-    "dockerComposeFile": "docker-compose.yaml",
-    "service": "app",
-    "remoteUser": "vscode",
-    "workspaceFolder": "/workspace",
-    "customizations": {
-        "vscode": {
-            "settings": {
-                "terminal.integrated.profiles.linux": {
-                    "bash": {
-                        "path": "/bin/bash"
-                    }
-                },
-                "python.defaultInterpreterPath": "${workspaceRoot}/.venv/bin/python3",
-                "git.enabled": true,
-                "terminal.integrated.defaultProfile.linux": "bash",
-                "terminal.integrated.inheritEnv": true,
-                "editor.bracketPairColorization.enabled": true,
-                "editor.guides.bracketPairs": "active"
-            },
-            "extensions": [
-                "adam-bender.commit-message-editor",
-                "christian-kohler.path-intellisense",
-                "codeium.codeium",
-                "ms-python.python",
-                "twxs.cmake"
-            ]
-        }
-    },
-    "postCreateCommand": {
-        "setupEnvironment": "uv python install 3.9 && uv venv --python 3.9 ${containerWorkspaceFolder}/.venv && sudo chown -R $(whoami): ${containerWorkspaceFolder}/.venv"
-    },
-    "remoteEnv": {
-        "PATH": "${containerWorkspaceFolder}/.venv/bin:${containerEnv:PATH}",
-        "WORKSPACE": "/workspace",
-        "UV_LINK_MODE": "copy"
-    },
-    "features": {
-        "ghcr.io/va-h/devcontainers-features/uv:1": {}
+  "name": "pyCAdES",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "app",
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        },
+        "python.defaultInterpreterPath": "${workspaceRoot}/.venv/bin/python3",
+        "git.enabled": true,
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.inheritEnv": true,
+        "editor.bracketPairColorization.enabled": true,
+        "editor.guides.bracketPairs": "active"
+      },
+      "extensions": [
+        "adam-bender.commit-message-editor",
+        "christian-kohler.path-intellisense",
+        "codeium.codeium",
+        "ms-python.python",
+        "twxs.cmake"
+      ]
     }
+  },
+  "postCreateCommand": {
+    "setupEnvironment": "uv python install 3.9 && uv venv --python 3.9 ${containerWorkspaceFolder}/.venv && sudo chown -R $(whoami): ${containerWorkspaceFolder}/.venv"
+  },
+  "remoteEnv": {
+    "PATH": "${containerWorkspaceFolder}/.venv/bin:${containerEnv:PATH}",
+    "WORKSPACE": "/workspace",
+    "UV_LINK_MODE": "copy"
+  },
+  "features": {
+    "ghcr.io/va-h/devcontainers-features/uv:1": {}
+  }
 }

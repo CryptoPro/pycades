@@ -1,29 +1,29 @@
 {
-    "search.followSymlinks": false,
-	"search.useIgnoreFiles": true,
-	"files.exclude": {
-        "**/.DS_Store": true,
-        "**/.git": true,
-        "**/.venv": true,
-        "**/Thumbs.db": true,
-        "**/__pycache__": true
-    },
-    "files.watcherExclude": {
-        "**/.git/objects/**": true,
-        "**/.git/subtree-cache/**": true,
-        "**/.hg/store/**": true,
-        "**/.venv/**": true,
-        "**/__pycache__/**": true
-    },
-	"git.autofetch": true,
-    "python.analysis.autoImportCompletions": true,
-    "python.analysis.diagnosticMode": "openFilesOnly",
-    "python.analysis.inlayHints.functionReturnTypes": true,
-    "python.analysis.inlayHints.variableTypes": true,
-    "python.analysis.typeCheckingMode": "standard",
-    "python.defaultInterpreterPath": "${workspaceRoot}/.venv/bin/python3",
-    "python.terminal.activateEnvInCurrentTerminal": true,
-    "python.terminal.activateEnvironment": true,
-    "editor.rulers": [80, 100, 120],
-	"files.eol": "\n",
+  "search.followSymlinks": false,
+  "search.useIgnoreFiles": true,
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.venv": true,
+    "**/Thumbs.db": true,
+    "**/__pycache__": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/.hg/store/**": true,
+    "**/.venv/**": true,
+    "**/__pycache__/**": true
+  },
+  "git.autofetch": true,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.diagnosticMode": "openFilesOnly",
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  "python.analysis.typeCheckingMode": "standard",
+  "python.defaultInterpreterPath": "${workspaceRoot}/.venv/bin/python3",
+  "python.terminal.activateEnvInCurrentTerminal": true,
+  "python.terminal.activateEnvironment": true,
+  "editor.rulers": [80, 100, 120],
+  "files.eol": "\n"
 }

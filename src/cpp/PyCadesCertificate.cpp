@@ -100,8 +100,8 @@ static PyObject *Certificate_Export(Certificate *self, PyObject *args)
     CryptoPro::CBlob value;
     CAPICOM_ENCODING_TYPE Type = (CAPICOM_ENCODING_TYPE)lType;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Export(Type, value));
-    return Type == CAPICOM_ENCODE_BINARY ? 
-        PyBytes_FromStringAndSize((const char *)value.pbData(), value.cbData()) : 
+    return Type == CAPICOM_ENCODE_BINARY ?
+        PyBytes_FromStringAndSize((const char *)value.pbData(), value.cbData()) :
         Py_BuildValue("s", value.pbData());
 }
 

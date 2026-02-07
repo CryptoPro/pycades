@@ -11,4 +11,3 @@ typedef struct {
 
 extern PyTypeObject ContainerType;
 #endif
-

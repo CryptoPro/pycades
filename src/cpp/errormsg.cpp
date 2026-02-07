@@ -25,9 +25,9 @@
 #   include "tspcli_e.h"
 #else //_WIN32
 
-#   define STRICT //    .    MS, 
+#   define STRICT //    .    MS,
           //  Visual C++ STRICT   .
-#   define WIN32_LEAN_AND_MEAN //   
+#   define WIN32_LEAN_AND_MEAN //
 #   define _WIN32_WINNT 0x0501 //     XP
 
 //  ActCtx.h
@@ -96,7 +96,7 @@ BOOL GetErrorMessage(
             hInst = ::GetModuleHandle(TEXT("cades.dll"));
             if (hInst)
             {
-                //TODO:    ,   
+                //TODO:    ,
                 // .
                 static CryptoPro::ActCtx::CActCtxHandle actCtxCadesDll(hInst);
                 CryptoPro::ActCtx::CActCtxActivator activatorCadesDll(actCtxCadesDll);
@@ -115,7 +115,7 @@ BOOL GetErrorMessage(
             hInst = ::GetModuleHandle(TEXT("cades.dll"));
             if (hInst)
             {
-                //TODO:    ,   
+                //TODO:    ,
                 // .
                 static CryptoPro::ActCtx::CActCtxHandle actCtxCadesDll(hInst);
                 CryptoPro::ActCtx::CActCtxActivator activatorCadesDll(actCtxCadesDll);
@@ -140,8 +140,8 @@ BOOL GetErrorMessage(
         //
         //     GetModuleHandleEx(
         // GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS)   ,
-        //       
-        // .    , ..  
+        //
+        // .    , ..
         // ,   hInst  0.
         ::GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS
             | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, _T(" "), &hInst);

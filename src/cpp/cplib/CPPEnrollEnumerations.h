@@ -7,12 +7,12 @@ namespace CryptoPro {
 namespace PKI {
 namespace Enroll {
 
-typedef enum _AlgorithmFlags { 
+typedef enum _AlgorithmFlags {
     AlgorithmFlagsNone  = 0x00000000,
     AlgorithmFlagsWrap  = 0x00000001
 } AlgorithmFlags;
 
-typedef enum _AlgorithmOperationFlags { 
+typedef enum _AlgorithmOperationFlags {
     XCN_NCRYPT_NO_OPERATION                     = 0,
     XCN_NCRYPT_CIPHER_OPERATION                 = 0x1,
     XCN_NCRYPT_HASH_OPERATION                   = 0x2,
@@ -27,7 +27,7 @@ typedef enum _AlgorithmOperationFlags {
     XCN_NCRYPT_PREFERENCE_MASK_OPERATION        = 0x00e00000
 } AlgorithmOperationFlags;
 
-typedef enum _AlgorithmType { 
+typedef enum _AlgorithmType {
     XCN_BCRYPT_UNKNOWN_INTERFACE                = 0,
     XCN_BCRYPT_CIPHER_INTERFACE                 = 0x1,
     XCN_BCRYPT_HASH_INTERFACE                   = 0x2,
@@ -39,7 +39,7 @@ typedef enum _AlgorithmType {
 
 //AlternativeNameType
 
-typedef enum CERTENROLL_OBJECTID { 
+typedef enum CERTENROLL_OBJECTID {
     XCN_OID_NONE                                        = 0,
     XCN_OID_RSA                                         = 1,
     XCN_OID_PKCS                                        = 2,
@@ -398,7 +398,7 @@ typedef enum CERTENROLL_OBJECTID {
 //CERTENROLL_PROPERTYID
 //CommitTemplateFlags
 
-typedef enum _EncodingType { 
+typedef enum _EncodingType {
   XCN_CRYPT_STRING_BASE64HEADER         = 0,
   XCN_CRYPT_STRING_BASE64               = 0x1,
   XCN_CRYPT_STRING_BINARY               = 0x2,
@@ -432,12 +432,12 @@ typedef enum _CADESCOM_InstallResponseRestrictionFlags {
     CADESCOM_AllowUntrustedRoot = 0x4,
     CADESCOM_SkipInstallToStore = 0x10000000,
     CADESCOM_InstallCertChainToContainer = 0x20000000,
-	CADESCOM_UseContainerStore = 0x40000000
+    CADESCOM_UseContainerStore = 0x40000000
 } CADESCOM_InstallResponseRestrictionFlags;
 
 //KeyIdentifierHashAlgorithm
 
-typedef enum _ObjectIdGroupId { 
+typedef enum _ObjectIdGroupId {
   XCN_CRYPT_ANY_GROUP_ID                = 0,
   XCN_CRYPT_HASH_ALG_OID_GROUP_ID       = 1,
   XCN_CRYPT_ENCRYPT_ALG_OID_GROUP_ID    = 2,
@@ -455,7 +455,7 @@ typedef enum _ObjectIdGroupId {
   XCN_CRYPT_KEY_LENGTH_MASK             = 0xffff0000
 } ObjectIdGroupId;
 
-typedef enum _ObjectIdPublicKeyFlags { 
+typedef enum _ObjectIdPublicKeyFlags {
   XCN_CRYPT_OID_INFO_PUBKEY_ANY               = 0,
   XCN_CRYPT_OID_INFO_PUBKEY_SIGN_KEY_FLAG     = 0x80000000,
   XCN_CRYPT_OID_INFO_PUBKEY_ENCRYPT_KEY_FLAG  = 0x40000000
@@ -467,7 +467,7 @@ typedef enum _ObjectIdPublicKeyFlags {
 //PolicyServerUrlFlags
 //PolicyServerUrlPropertyID
 
-typedef enum _RequestClientInfoClientId { 
+typedef enum _RequestClientInfoClientId {
   ClientIdNone            = 0,
   ClientIdXEnroll2003     = 1,
   ClientIdAutoEnroll2003  = 2,
@@ -485,7 +485,7 @@ typedef enum _RequestClientInfoClientId {
 //WebEnrollmentFlags
 //WebSecurityLevel
 
-typedef enum _X500NameFlags { 
+typedef enum _X500NameFlags {
   XCN_CERT_NAME_STR_NONE                       = 0,
   XCN_CERT_SIMPLE_NAME_STR                     = 1,
   XCN_CERT_OID_NAME_STR                        = 2,
@@ -505,7 +505,7 @@ typedef enum _X500NameFlags {
   XCN_CERT_NAME_STR_DISABLE_UTF8_DIR_STR_FLAG  = 0x100000
 } X500NameFlags;
 
-typedef enum _X509CertificateEnrollmentContext { 
+typedef enum _X509CertificateEnrollmentContext {
   ContextUser                       = 0x1,
   ContextMachine                    = 0x2,
   ContextAdministratorForceMachine  = 0x3
@@ -518,13 +518,13 @@ typedef enum _X509CertificateEnrollmentContext {
 //X509EnrollmentPolicyExportFlags
 //X509EnrollmentPolicyLoadOption
 
-typedef enum _X509KeySpec { 
+typedef enum _X509KeySpec {
   XCN_AT_NONE         = 0,
   XCN_AT_KEYEXCHANGE  = 1,
   XCN_AT_SIGNATURE    = 2
 } X509KeySpec;
 
-typedef enum _X509KeyUsageFlags { 
+typedef enum _X509KeyUsageFlags {
   XCN_CERT_NO_KEY_USAGE                 = 0,
   XCN_CERT_DIGITAL_SIGNATURE_KEY_USAGE  = 0x80,
   XCN_CERT_NON_REPUDIATION_KEY_USAGE    = 0x40,
@@ -538,7 +538,7 @@ typedef enum _X509KeyUsageFlags {
   XCN_CERT_DECIPHER_ONLY_KEY_USAGE      = ( 0x80 << 8 )
 } X509KeyUsageFlags;
 
-typedef enum _X509PrivateKeyExportFlags { 
+typedef enum _X509PrivateKeyExportFlags {
   XCN_NCRYPT_ALLOW_EXPORT_NONE               = 0,
   XCN_NCRYPT_ALLOW_EXPORT_FLAG               = 0x1,
   XCN_NCRYPT_ALLOW_PLAINTEXT_EXPORT_FLAG     = 0x2,
@@ -546,13 +546,13 @@ typedef enum _X509PrivateKeyExportFlags {
   XCN_NCRYPT_ALLOW_PLAINTEXT_ARCHIVING_FLAG  = 0x8
 } X509PrivateKeyExportFlags;
 
-typedef enum _X509PrivateKeyProtection { 
+typedef enum _X509PrivateKeyProtection {
   XCN_NCRYPT_UI_NO_PROTECTION_FLAG          = 0,
   XCN_NCRYPT_UI_PROTECT_KEY_FLAG            = 0x1,
   XCN_NCRYPT_UI_FORCE_HIGH_PROTECTION_FLAG  = 0x2
 } X509PrivateKeyProtection;
 
-typedef enum _X509PrivateKeyUsageFlags { 
+typedef enum _X509PrivateKeyUsageFlags {
   XCN_NCRYPT_ALLOW_USAGES_NONE         = 0,
   XCN_NCRYPT_ALLOW_DECRYPT_FLAG        = 0x1,
   XCN_NCRYPT_ALLOW_SIGNING_FLAG        = 0x2,
@@ -562,7 +562,7 @@ typedef enum _X509PrivateKeyUsageFlags {
 
 //X509PrivateKeyVerify
 
-typedef enum _X509ProviderType { 
+typedef enum _X509ProviderType {
   XCN_PROV_NONE           = 0,
   XCN_PROV_RSA_FULL       = 1,
   XCN_PROV_RSA_SIG        = 2,

@@ -4,9 +4,9 @@
 * \date $Date::                           $
 * \author $Author$
 *
-* \brief Интерфейс для форматирования сообщений об ошибках.
+* \brief РРЅС‚РµСЂС„РµР№СЃ РґР»СЏ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ СЃРѕРѕР±С‰РµРЅРёР№ РѕР± РѕС€РёР±РєР°С….
 *
-* Интерфейс для форматирования сообщений об ошибках.
+* РРЅС‚РµСЂС„РµР№СЃ РґР»СЏ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ СЃРѕРѕР±С‰РµРЅРёР№ РѕР± РѕС€РёР±РєР°С….
 */
 #ifndef _ERRORMSG_H_INCLUDED
 #define _ERRORMSG_H_INCLUDED
@@ -22,7 +22,7 @@ BOOL GetErrorMessage(HRESULT hr, LPWSTR szBuf, DWORD chBufLen, DWORD dwLangId = 
 
 #else //_WIN32
 const ATL::CAtlStringW GetErrorMessage(HRESULT hr, DWORD dwLangId = 0);
-#endif	/* _WIN32 */
+#endif  /* _WIN32 */
 
 #if defined _WIN32 && defined  __CSTRINGT_H__
 const ATL::CAtlStringW GetErrorMessage(HRESULT hr, DWORD dwLangId = 0);

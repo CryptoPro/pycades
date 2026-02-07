@@ -21,7 +21,7 @@ RUN echo "deb https://cryptopro.ru/repo/deb 5.0-unstable main" > /etc/apt/source
 RUN wget -qO - https://www.cryptopro.ru/sites/default/files/products/csp/cryptopro_key.pub | \
     gpg --dearmor > /etc/apt/trusted.gpg.d/cryptopro.gpg
 
-RUN echo "deb https://repo.rutoken.ru/apt/ stable main" > /etc/apt/sources.list.d/rutoken.list 
+RUN echo "deb https://repo.rutoken.ru/apt/ stable main" > /etc/apt/sources.list.d/rutoken.list
 
 RUN wget -qO- 'https://dev.rutoken.ru/download/attachments/142508509/repo-rutoken-public.gpg' | \
     gpg --dearmor > /etc/apt/trusted.gpg.d/rutoken.gpg

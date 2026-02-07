@@ -42,8 +42,8 @@ static PyObject *EncodedData_getValue(EncodedData *self, PyObject *args)
     CryptoPro::CBlob data;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Value(Type, data));
     CAtlString sValue = CAtlString((const char *)data.pbData(), data.cbData());
-    return Type == CAPICOM_ENCODE_BINARY ? 
-            PyBytes_FromStringAndSize((const char *)data.pbData(), data.cbData()) : 
+    return Type == CAPICOM_ENCODE_BINARY ?
+            PyBytes_FromStringAndSize((const char *)data.pbData(), data.cbData()) :
             Py_BuildValue("s", sValue.GetString());
 }
 

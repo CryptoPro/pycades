@@ -52,8 +52,8 @@ static PyObject *SignedData_SignCades(SignedData *self, PyObject *args)
         pSignerCppCadesImpl, CadesType, bDetached, EncodingType, &blobSignedMessage));
 
     CAtlString sSignedMessage = CAtlString((const char *)blobSignedMessage.pbData(), blobSignedMessage.cbData());
-    return EncodingType == CAPICOM_ENCODE_BINARY ? 
-        PyBytes_FromStringAndSize((const char *)blobSignedMessage.pbData(), blobSignedMessage.cbData()) : 
+    return EncodingType == CAPICOM_ENCODE_BINARY ?
+        PyBytes_FromStringAndSize((const char *)blobSignedMessage.pbData(), blobSignedMessage.cbData()) :
         Py_BuildValue("s", sSignedMessage.GetString());
 }
 
@@ -79,8 +79,8 @@ static PyObject *SignedData_SignHash(SignedData *self, PyObject *args)
         pSigner->m_pCppCadesImpl, pHashedData->m_pCppCadesImpl, CadesType, EncodingType, &blobValue));
 
     CAtlString sValue = CAtlString((const char *)blobValue.pbData(), blobValue.cbData());
-    return EncodingType == CAPICOM_ENCODE_BINARY ? 
-        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) : 
+    return EncodingType == CAPICOM_ENCODE_BINARY ?
+        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) :
         Py_BuildValue("s", sValue.GetString());
 }
 
@@ -105,8 +105,8 @@ static PyObject *SignedData_CoSignHash(SignedData *self, PyObject *args)
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->CoSignHash(pSigner->m_pCppCadesImpl, pHashedData->m_pCppCadesImpl, CadesType, EncodingType, &blobValue));
 
     CAtlString sValue = CAtlString((const char *)blobValue.pbData(), blobValue.cbData());
-    return EncodingType == CAPICOM_ENCODE_BINARY ? 
-        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) : 
+    return EncodingType == CAPICOM_ENCODE_BINARY ?
+        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) :
         Py_BuildValue("s", sValue.GetString());
 }
 
@@ -126,8 +126,8 @@ static PyObject *SignedData_Sign(SignedData *self, PyObject *args)
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Sign(pSigner->m_pCppCadesImpl, bDetached, EncodingType, &blobValue));
 
     CAtlString sValue = CAtlString((const char *)blobValue.pbData(), blobValue.cbData());
-    return EncodingType == CAPICOM_ENCODE_BINARY ? 
-        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) : 
+    return EncodingType == CAPICOM_ENCODE_BINARY ?
+        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) :
         Py_BuildValue("s", sValue.GetString());
 }
 
@@ -146,8 +146,8 @@ static PyObject *SignedData_CoSign(SignedData *self, PyObject *args)
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->CoSign(pSigner->m_pCppCadesImpl, EncodingType, &blobValue));
 
     CAtlString sValue = CAtlString((const char *)blobValue.pbData(), blobValue.cbData());
-    return EncodingType == CAPICOM_ENCODE_BINARY ? 
-        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) : 
+    return EncodingType == CAPICOM_ENCODE_BINARY ?
+        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) :
         Py_BuildValue("s", sValue.GetString());
 }
 
@@ -168,8 +168,8 @@ static PyObject *SignedData_CoSignCades(SignedData *self, PyObject *args)
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->CoSignCades(pSigner->m_pCppCadesImpl, CadesType, EncodingType, &blobValue));
 
     CAtlString sValue = CAtlString((const char *)blobValue.pbData(), blobValue.cbData());
-    return EncodingType == CAPICOM_ENCODE_BINARY ? 
-        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) : 
+    return EncodingType == CAPICOM_ENCODE_BINARY ?
+        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) :
         Py_BuildValue("s", sValue.GetString());
 }
 
@@ -191,8 +191,8 @@ static PyObject *SignedData_EnhanceCades(SignedData *self, PyObject *args)
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->EnhanceCades(CadesType, CAtlString(szTSAAddress), EncodingType, &blobValue));
 
     CAtlString sValue = CAtlString((const char *)blobValue.pbData(), blobValue.cbData());
-    return EncodingType == CAPICOM_ENCODE_BINARY ? 
-        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) : 
+    return EncodingType == CAPICOM_ENCODE_BINARY ?
+        PyBytes_FromStringAndSize((const char *)blobValue.pbData(), blobValue.cbData()) :
         Py_BuildValue("s", sValue.GetString());
 }
 

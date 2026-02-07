@@ -1,15 +1,15 @@
 /*
- * Copyright(C) 2004 Проект ИОК
+ * Copyright(C) 2004 РџСЂРѕРµРєС‚ РРћРљ
  *
- * Этот файл содержит информацию, являющуюся
- * собственностью компании Крипто Про.
+ * Р­С‚РѕС‚ С„Р°Р№Р» СЃРѕРґРµСЂР¶РёС‚ РёРЅС„РѕСЂРјР°С†РёСЋ, СЏРІР»СЏСЋС‰СѓСЋСЃСЏ
+ * СЃРѕР±СЃС‚РІРµРЅРЅРѕСЃС‚СЊСЋ РєРѕРјРїР°РЅРёРё РљСЂРёРїС‚Рѕ РџСЂРѕ.
  *
- * Любая часть этого файла не может быть скопирована,
- * исправлена, переведена на другие языки,
- * локализована или модифицирована любым способом,
- * откомпилирована, передана по сети с или на
- * любую компьютерную систему без предварительного
- * заключения соглашения с компанией Крипто Про.
+ * Р›СЋР±Р°СЏ С‡Р°СЃС‚СЊ СЌС‚РѕРіРѕ С„Р°Р№Р»Р° РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ СЃРєРѕРїРёСЂРѕРІР°РЅР°,
+ * РёСЃРїСЂР°РІР»РµРЅР°, РїРµСЂРµРІРµРґРµРЅР° РЅР° РґСЂСѓРіРёРµ СЏР·С‹РєРё,
+ * Р»РѕРєР°Р»РёР·РѕРІР°РЅР° РёР»Рё РјРѕРґРёС„РёС†РёСЂРѕРІР°РЅР° Р»СЋР±С‹Рј СЃРїРѕСЃРѕР±РѕРј,
+ * РѕС‚РєРѕРјРїРёР»РёСЂРѕРІР°РЅР°, РїРµСЂРµРґР°РЅР° РїРѕ СЃРµС‚Рё СЃ РёР»Рё РЅР°
+ * Р»СЋР±СѓСЋ РєРѕРјРїСЊСЋС‚РµСЂРЅСѓСЋ СЃРёСЃС‚РµРјСѓ Р±РµР· РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕРіРѕ
+ * Р·Р°РєР»СЋС‡РµРЅРёСЏ СЃРѕРіР»Р°С€РµРЅРёСЏ СЃ РєРѕРјРїР°РЅРёРµР№ РљСЂРёРїС‚Рѕ РџСЂРѕ.
  */
 
 /*!
@@ -18,7 +18,7 @@
  * \date $Date::                           $
  * \author $Author$
  *
- * \brief Класс для работы со временем.
+ * \brief РљР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃРѕ РІСЂРµРјРµРЅРµРј.
  */
 
 #ifndef _CPLIB_DATETIME_H_INCLUDED
@@ -27,7 +27,7 @@
 #include <time.h>
 #if !defined UNIX
 #   include <windows.h>
-#endif	/* !UNIX */
+#endif  /* !UNIX */
 #include <cplib/StringProxy.h>
 
 #ifdef UNIX
@@ -72,7 +72,7 @@ inline tm FileTimeToTm(const FILETIME &ftime)
     tm dest;
     SYSTEMTIME time;
     if(!::FileTimeToSystemTime(&ftime,&time))
-	throw;
+    throw;
     dest.tm_year = time.wYear - 1900;
     dest.tm_mon = time.wMonth - 1;
     dest.tm_mday = time.wDay;
@@ -89,79 +89,79 @@ class CPLIB_CLASS CDateTime;
 
 /**
  * \class CDateTimeSpan DateTime.h <cplib/DateTime.h>
- * \brief Период времени.
+ * \brief РџРµСЂРёРѕРґ РІСЂРµРјРµРЅРё.
  *
- * Класс хранит период времени с точностью до миксросекунды.
+ * РљР»Р°СЃСЃ С…СЂР°РЅРёС‚ РїРµСЂРёРѕРґ РІСЂРµРјРµРЅРё СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ РґРѕ РјРёРєСЃСЂРѕСЃРµРєСѓРЅРґС‹.
  *
  * \sa CDateTime
  */
-class CPLIB_CLASS 
+class CPLIB_CLASS
 CDateTimeSpan
 {
 public:
-    /// Создает пустой объект
+    /// РЎРѕР·РґР°РµС‚ РїСѓСЃС‚РѕР№ РѕР±СЉРµРєС‚
     explicit CDateTimeSpan();
     /**
-     * \brief Создает и инициализирует объект
+     * \brief РЎРѕР·РґР°РµС‚ Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РѕР±СЉРµРєС‚
      *
-     * \param alya_generalizedTime [in] строковое представление периода времени
-     * \remarks Формат строкового представления следующий: "YYYYMMDDhhmmss.ddddddZ"
-     * где YYYY - годы, MM - месяцы, DD - дни, hh - часы, mm - минуты, ss - секудны, 
-     * dddddd - доли секунды (до 6-ти знаков, могут отсутствовать вместе с разделительной
-     * точкой. Примеры: "00050600114530Z", "00000000000023.123Z", "00000000000003.123456Z"
+     * \param alya_generalizedTime [in] СЃС‚СЂРѕРєРѕРІРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РїРµСЂРёРѕРґР° РІСЂРµРјРµРЅРё
+     * \remarks Р¤РѕСЂРјР°С‚ СЃС‚СЂРѕРєРѕРІРѕРіРѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ СЃР»РµРґСѓСЋС‰РёР№: "YYYYMMDDhhmmss.ddddddZ"
+     * РіРґРµ YYYY - РіРѕРґС‹, MM - РјРµСЃСЏС†С‹, DD - РґРЅРё, hh - С‡Р°СЃС‹, mm - РјРёРЅСѓС‚С‹, ss - СЃРµРєСѓРґРЅС‹,
+     * dddddd - РґРѕР»Рё СЃРµРєСѓРЅРґС‹ (РґРѕ 6-С‚Рё Р·РЅР°РєРѕРІ, РјРѕРіСѓС‚ РѕС‚СЃСѓС‚СЃС‚РІРѕРІР°С‚СЊ РІРјРµСЃС‚Рµ СЃ СЂР°Р·РґРµР»РёС‚РµР»СЊРЅРѕР№
+     * С‚РѕС‡РєРѕР№. РџСЂРёРјРµСЂС‹: "00050600114530Z", "00000000000023.123Z", "00000000000003.123456Z"
      */
     explicit CDateTimeSpan( const char* alya_generalizedTime);
     /**
-     * \brief Создает и инициализирует объект
+     * \brief РЎРѕР·РґР°РµС‚ Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РѕР±СЉРµРєС‚
      *
-     * \param seconds [in] - количество секунд в периоде времени
-     * \param microseconds [in] - количество микросекунд в периоде времени
+     * \param seconds [in] - РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРµРєСѓРЅРґ РІ РїРµСЂРёРѕРґРµ РІСЂРµРјРµРЅРё
+     * \param microseconds [in] - РєРѕР»РёС‡РµСЃС‚РІРѕ РјРёРєСЂРѕСЃРµРєСѓРЅРґ РІ РїРµСЂРёРѕРґРµ РІСЂРµРјРµРЅРё
      */
     explicit CDateTimeSpan( unsigned seconds, unsigned microseconds = 0);
     /**
-     * \brief Создает копию заданного объекта.
+     * \brief РЎРѕР·РґР°РµС‚ РєРѕРїРёСЋ Р·Р°РґР°РЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°.
      *
-     * \param src [in] объект, копия которого создается
+     * \param src [in] РѕР±СЉРµРєС‚, РєРѕРїРёСЏ РєРѕС‚РѕСЂРѕРіРѕ СЃРѕР·РґР°РµС‚СЃСЏ
      */
     CDateTimeSpan( const CDateTimeSpan& src);
 
     /**
-     * \brief Возвращает период времени в строковом формате (ANSI)
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРµСЂРёРѕРґ РІСЂРµРјРµРЅРё РІ СЃС‚СЂРѕРєРѕРІРѕРј С„РѕСЂРјР°С‚Рµ (ANSI)
      * \sa getGeneralizedTime(), towstring(), CDateTimeSpan()
      */
     CStringProxy tostring() const;
     /**
-     * \brief Возвращает период времени в строковом формате (Unicode)
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРµСЂРёРѕРґ РІСЂРµРјРµРЅРё РІ СЃС‚СЂРѕРєРѕРІРѕРј С„РѕСЂРјР°С‚Рµ (Unicode)
      * \sa getGeneralizedTime(), tostring(), CDateTimeSpan()
      */
     CWStringProxy towstring() const;
     /**
-     * \brief Возвращает период времени в строковом формате (ANSI)
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРµСЂРёРѕРґ РІСЂРµРјРµРЅРё РІ СЃС‚СЂРѕРєРѕРІРѕРј С„РѕСЂРјР°С‚Рµ (ANSI)
      * \sa tostring(), towstring(), CDateTimeSpan()
      */
     CStringProxy getGeneralizedTime() const;
 
     /**
-     * \brief Возвращает младшую часть внутренней переменной
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РјР»Р°РґС€СѓСЋ С‡Р°СЃС‚СЊ РІРЅСѓС‚СЂРµРЅРЅРµР№ РїРµСЂРµРјРµРЅРЅРѕР№
      */
     DWORD getLowPart();
 
     /**
-     * \brief Возвращает старшую часть внутренней переменной
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃС‚Р°СЂС€СѓСЋ С‡Р°СЃС‚СЊ РІРЅСѓС‚СЂРµРЅРЅРµР№ РїРµСЂРµРјРµРЅРЅРѕР№
      */
     DWORD getHighPart();
 
     /**
-     * \brief Создает копию заданного объекта.
+     * \brief РЎРѕР·РґР°РµС‚ РєРѕРїРёСЋ Р·Р°РґР°РЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°.
      *
-     * \param src [in] объект, копия которого создается
+     * \param src [in] РѕР±СЉРµРєС‚, РєРѕРїРёСЏ РєРѕС‚РѕСЂРѕРіРѕ СЃРѕР·РґР°РµС‚СЃСЏ
      */
     CDateTimeSpan& operator=( const CDateTimeSpan& src);
     /**
-     * \brief Операция обмена объектов.
+     * \brief РћРїРµСЂР°С†РёСЏ РѕР±РјРµРЅР° РѕР±СЉРµРєС‚РѕРІ.
      *
-     * \param src [in] объект для обмена
-     * \remarks Функция не генерирует исключений.
+     * \param src [in] РѕР±СЉРµРєС‚ РґР»СЏ РѕР±РјРµРЅР°
+     * \remarks Р¤СѓРЅРєС†РёСЏ РЅРµ РіРµРЅРµСЂРёСЂСѓРµС‚ РёСЃРєР»СЋС‡РµРЅРёР№.
      */
     void swap( CDateTimeSpan &src ) throw();
 
@@ -175,7 +175,7 @@ public:
     CPLIB_API friend CDateTime& operator -=( CDateTime &lhs, const CDateTimeSpan& rhs);
     CPLIB_API friend CDateTimeSpan& operator +=( CDateTimeSpan &lhs, const CDateTimeSpan& rhs);
     CPLIB_API friend CDateTimeSpan& operator -=( CDateTimeSpan &lhs, const CDateTimeSpan& rhs);
-    CPLIB_API friend CDateTimeSpan operator -( const CDateTime &lhs, const CDateTime &rhs); 
+    CPLIB_API friend CDateTimeSpan operator -( const CDateTime &lhs, const CDateTime &rhs);
 
     CPLIB_API friend CDateTimeSpan& operator *=( CDateTimeSpan &lhs, unsigned rhs);
     CPLIB_API friend CDateTimeSpan& operator /=( CDateTimeSpan &lhs, unsigned rhs);
@@ -197,19 +197,19 @@ public:
     static const CDateTimeSpan& OneMillisecond();
 
 private:
-    /// Период один год (365 дней)
+    /// РџРµСЂРёРѕРґ РѕРґРёРЅ РіРѕРґ (365 РґРЅРµР№)
     static const CDateTimeSpan oneYear;
-    /// Период один месяц (30 дней)
+    /// РџРµСЂРёРѕРґ РѕРґРёРЅ РјРµСЃСЏС† (30 РґРЅРµР№)
     static const CDateTimeSpan oneMonth;
-    /// Период один день
+    /// РџРµСЂРёРѕРґ РѕРґРёРЅ РґРµРЅСЊ
     static const CDateTimeSpan oneDay;
-    /// Период один час
+    /// РџРµСЂРёРѕРґ РѕРґРёРЅ С‡Р°СЃ
     static const CDateTimeSpan oneHour;
-    /// Период одна минута
+    /// РџРµСЂРёРѕРґ РѕРґРЅР° РјРёРЅСѓС‚Р°
     static const CDateTimeSpan oneMinute;
-    /// Период одна секунда
+    /// РџРµСЂРёРѕРґ РѕРґРЅР° СЃРµРєСѓРЅРґР°
     static const CDateTimeSpan oneSecond;
-    /// Период одна миллисекунда
+    /// РџРµСЂРёРѕРґ РѕРґРЅР° РјРёР»Р»РёСЃРµРєСѓРЅРґР°
     static const CDateTimeSpan oneMillisecond;
 
     DWORD high_;
@@ -218,9 +218,9 @@ private:
 
 /**
  * \class CDateTime DateTime.h <cplib/DateTime.h>
- * \brief Время.
+ * \brief Р’СЂРµРјСЏ.
  *
- * Класс хранит значение времени с точностью до миксросекунды.
+ * РљР»Р°СЃСЃ С…СЂР°РЅРёС‚ Р·РЅР°С‡РµРЅРёРµ РІСЂРµРјРµРЅРё СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ РґРѕ РјРёРєСЃСЂРѕСЃРµРєСѓРЅРґС‹.
  *
  * \sa CDateTimeSpan
  */
@@ -229,145 +229,145 @@ CDateTime
 {
 public:
      /**
-     * \brief Создает и инициализирует объект
+     * \brief РЎРѕР·РґР°РµС‚ Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РѕР±СЉРµРєС‚
      *
-     * \param time [in] - время в формате __time64_t 
-     * \param micro [in] - количество микросекунд
+     * \param time [in] - РІСЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ __time64_t
+     * \param micro [in] - РєРѕР»РёС‡РµСЃС‚РІРѕ РјРёРєСЂРѕСЃРµРєСѓРЅРґ
      */
     explicit CDateTime( long long time = 0, unsigned int micro = 0);
     /**
-     * \brief Создает и инициализирует объект
+     * \brief РЎРѕР·РґР°РµС‚ Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РѕР±СЉРµРєС‚
      *
-     * \param generalizedTime [in] строковое представление периода времени
-     * \remarks Формат строкового представления следующий: "YYYYMMDDhhmmss.ddddddZ"
-     * где YYYY - годы, MM - месяцы, DD - дни, hh - часы, mm - минуты, ss - секудны, 
-     * dddddd - доли секунды (до 6-ти знаков, могут отсутствовать вместе с разделительной
-     * точкой. Примеры: "20041105114530Z", "19940821101532.123Z", "19940821101532.123456Z"
+     * \param generalizedTime [in] СЃС‚СЂРѕРєРѕРІРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РїРµСЂРёРѕРґР° РІСЂРµРјРµРЅРё
+     * \remarks Р¤РѕСЂРјР°С‚ СЃС‚СЂРѕРєРѕРІРѕРіРѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ СЃР»РµРґСѓСЋС‰РёР№: "YYYYMMDDhhmmss.ddddddZ"
+     * РіРґРµ YYYY - РіРѕРґС‹, MM - РјРµСЃСЏС†С‹, DD - РґРЅРё, hh - С‡Р°СЃС‹, mm - РјРёРЅСѓС‚С‹, ss - СЃРµРєСѓРґРЅС‹,
+     * dddddd - РґРѕР»Рё СЃРµРєСѓРЅРґС‹ (РґРѕ 6-С‚Рё Р·РЅР°РєРѕРІ, РјРѕРіСѓС‚ РѕС‚СЃСѓС‚СЃС‚РІРѕРІР°С‚СЊ РІРјРµСЃС‚Рµ СЃ СЂР°Р·РґРµР»РёС‚РµР»СЊРЅРѕР№
+     * С‚РѕС‡РєРѕР№. РџСЂРёРјРµСЂС‹: "20041105114530Z", "19940821101532.123Z", "19940821101532.123456Z"
      */
     explicit CDateTime( const char* generalizedTime);
         /**
-     * \brief Создает и инициализирует объект
+     * \brief РЎРѕР·РґР°РµС‚ Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РѕР±СЉРµРєС‚
      *
-     * \param time [in] - время в формате __time32_t 
-     * \param micro [in] - количество микросекунд
+     * \param time [in] - РІСЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ __time32_t
+     * \param micro [in] - РєРѕР»РёС‡РµСЃС‚РІРѕ РјРёРєСЂРѕСЃРµРєСѓРЅРґ
      */
     CDateTime( long time, unsigned int micro);
     /**
-     * \brief Создает и инициализирует объект
+     * \brief РЎРѕР·РґР°РµС‚ Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РѕР±СЉРµРєС‚
      *
-     * \param filetime [in] время в формате FILETIME
+     * \param filetime [in] РІСЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ FILETIME
      */
     CDateTime( FILETIME filetime);
     /**
-     * \brief Создает и инициализирует объект
+     * \brief РЎРѕР·РґР°РµС‚ Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РѕР±СЉРµРєС‚
      *
-     * \param systemtime [in] время в формате SYSTEMTIME
+     * \param systemtime [in] РІСЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ SYSTEMTIME
      */
     CDateTime( SYSTEMTIME systemtime);
     /**
-    * \brief Создает и инициализирует объект
+    * \brief РЎРѕР·РґР°РµС‚ Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚ РѕР±СЉРµРєС‚
     *
-    * \param year [in] год
-    * \param month [in] месяц
-    * \param day [in] день
-    * \param hour [in] час
-    * \param minute [in] минуты
-    * \param second [in] секунды
-    * \param milli [in] миллисекунды
-    * \param micro [in] микросекунды
+    * \param year [in] РіРѕРґ
+    * \param month [in] РјРµСЃСЏС†
+    * \param day [in] РґРµРЅСЊ
+    * \param hour [in] С‡Р°СЃ
+    * \param minute [in] РјРёРЅСѓС‚С‹
+    * \param second [in] СЃРµРєСѓРЅРґС‹
+    * \param milli [in] РјРёР»Р»РёСЃРµРєСѓРЅРґС‹
+    * \param micro [in] РјРёРєСЂРѕСЃРµРєСѓРЅРґС‹
     */
     CDateTime(
-	unsigned int year,
-	unsigned int month,
-	unsigned int day,
-	unsigned int hour = 0,
-	unsigned int minute = 0,
-	unsigned int second = 0,
-	unsigned int milli = 0,
-	unsigned int micro = 0);
+    unsigned int year,
+    unsigned int month,
+    unsigned int day,
+    unsigned int hour = 0,
+    unsigned int minute = 0,
+    unsigned int second = 0,
+    unsigned int milli = 0,
+    unsigned int micro = 0);
     /**
-     * \brief Создает копию заданного объекта.
+     * \brief РЎРѕР·РґР°РµС‚ РєРѕРїРёСЋ Р·Р°РґР°РЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°.
      *
-     * \param time [in] объект, копия которого создается
+     * \param time [in] РѕР±СЉРµРєС‚, РєРѕРїРёСЏ РєРѕС‚РѕСЂРѕРіРѕ СЃРѕР·РґР°РµС‚СЃСЏ
      */
     CDateTime( const CDateTime& time);
     /**
-     * \brief Создает копию заданного объекта.
+     * \brief РЎРѕР·РґР°РµС‚ РєРѕРїРёСЋ Р·Р°РґР°РЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°.
      *
-     * \param src [in] объект, копия которого создается
+     * \param src [in] РѕР±СЉРµРєС‚, РєРѕРїРёСЏ РєРѕС‚РѕСЂРѕРіРѕ СЃРѕР·РґР°РµС‚СЃСЏ
      */
     CDateTime& operator=( const CDateTime& src);
     /**
-     * \brief Операция обмена объектов.
+     * \brief РћРїРµСЂР°С†РёСЏ РѕР±РјРµРЅР° РѕР±СЉРµРєС‚РѕРІ.
      *
-     * \param src [in] объект для обмена
-     * \remarks Функция не генерирует исключений.
+     * \param src [in] РѕР±СЉРµРєС‚ РґР»СЏ РѕР±РјРµРЅР°
+     * \remarks Р¤СѓРЅРєС†РёСЏ РЅРµ РіРµРЅРµСЂРёСЂСѓРµС‚ РёСЃРєР»СЋС‡РµРЅРёР№.
      */
     void swap( CDateTime &src ) throw();
 
-    /// Возвращает год
+    /// Р’РѕР·РІСЂР°С‰Р°РµС‚ РіРѕРґ
     unsigned int year() const;
-    /// Возвращает месяц
+    /// Р’РѕР·РІСЂР°С‰Р°РµС‚ РјРµСЃСЏС†
     unsigned int month() const;
-    /// Возвращает день
+    /// Р’РѕР·РІСЂР°С‰Р°РµС‚ РґРµРЅСЊ
     unsigned int day() const;
-    /// Возвращает час
+    /// Р’РѕР·РІСЂР°С‰Р°РµС‚ С‡Р°СЃ
     unsigned int hour() const;
-    /// Возвращает минуту
+    /// Р’РѕР·РІСЂР°С‰Р°РµС‚ РјРёРЅСѓС‚Сѓ
     unsigned int minute() const;
-    /// Возвращает секунды
+    /// Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРµРєСѓРЅРґС‹
     unsigned int second() const;
-    /// Возвращает миллисекунды
+    /// Р’РѕР·РІСЂР°С‰Р°РµС‚ РјРёР»Р»РёСЃРµРєСѓРЅРґС‹
     unsigned int millisecond() const;
-    /// Возвращает микросекунды
+    /// Р’РѕР·РІСЂР°С‰Р°РµС‚ РјРёРєСЂРѕСЃРµРєСѓРЅРґС‹
     unsigned int microsecond() const;
 
     /**
-     * \brief Возвращает время в строковом формате (ANSI)
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЂРµРјСЏ РІ СЃС‚СЂРѕРєРѕРІРѕРј С„РѕСЂРјР°С‚Рµ (ANSI)
      * \sa getTime(), getFileTime(), getSystemTime(), tostring(), towstring(), CDateTimeSpan
      */
     CStringProxy getGeneralizedTime() const;
     CStringProxy getGeneralizedTimeTrimMicroseconds() const;
     /**
-     * \brief Возвращает время в формате time_t
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ time_t
      * \sa getGeneralizedTime(), getFileTime(), getSystemTime(), tostring(), towstring(), CDateTimeSpan
      */
     time_t getTime() const;
     /**
-     * \brief Возвращает время в формате FILETIME
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ FILETIME
      * \sa getGeneralizedTime(), getTime(), getSystemTime(), tostring(), towstring(), CDateTimeSpan
      */
     FILETIME getFileTime() const;
     /**
-     * \brief Возвращает время в формате SYSTEMTIME
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ SYSTEMTIME
      * \sa getGeneralizedTime(), getTime(), getFileTime(), tostring(), towstring(), CDateTimeSpan
      */
     SYSTEMTIME getSystemTime() const;
     /**
-     * \brief Возвращает время в локализованном строковом формате (ANSI)
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЂРµРјСЏ РІ Р»РѕРєР°Р»РёР·РѕРІР°РЅРЅРѕРј СЃС‚СЂРѕРєРѕРІРѕРј С„РѕСЂРјР°С‚Рµ (ANSI)
      * \sa getGeneralizedTime(), getTime(), getFileTime(), getSystemTime(), towstring(), CDateTimeSpan
      */
     CStringProxy tostring() const;
     /**
-     * \brief Возвращает время в локализованном строковом формате (Unicode)
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЂРµРјСЏ РІ Р»РѕРєР°Р»РёР·РѕРІР°РЅРЅРѕРј СЃС‚СЂРѕРєРѕРІРѕРј С„РѕСЂРјР°С‚Рµ (Unicode)
      * \sa getGeneralizedTime(), getTime(), getFileTime(), getSystemTime(), tostring(), CDateTimeSpan
      */
     CWStringProxy towstring() const;
     /**
-     * \brief Возвращает время, преобразованное к локальному представлению
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЂРµРјСЏ, РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРЅРѕРµ Рє Р»РѕРєР°Р»СЊРЅРѕРјСѓ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЋ
      * \sa localToUtc()
      */
     CDateTime utcToLocal() const;
     /**
-     * \brief Возвращает время, преобразованное к представлению в системе универсального координированного времени (UTC)
+     * \brief Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЂРµРјСЏ, РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРЅРѕРµ Рє РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЋ РІ СЃРёСЃС‚РµРјРµ СѓРЅРёРІРµСЂСЃР°Р»СЊРЅРѕРіРѕ РєРѕРѕСЂРґРёРЅРёСЂРѕРІР°РЅРЅРѕРіРѕ РІСЂРµРјРµРЅРё (UTC)
      * \sa utcToLocal()
      */
     CDateTime localToUtc() const;
 
-    /// Возвращает объект с текущим значение времени с точностью до микросекунд в системе универсального координированного времени (UTC)
+    /// Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ СЃ С‚РµРєСѓС‰РёРј Р·РЅР°С‡РµРЅРёРµ РІСЂРµРјРµРЅРё СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ РґРѕ РјРёРєСЂРѕСЃРµРєСѓРЅРґ РІ СЃРёСЃС‚РµРјРµ СѓРЅРёРІРµСЂСЃР°Р»СЊРЅРѕРіРѕ РєРѕРѕСЂРґРёРЅРёСЂРѕРІР°РЅРЅРѕРіРѕ РІСЂРµРјРµРЅРё (UTC)
     static CDateTime Now();
 
-    /// Возвращает объект с текущим значение времени с точностью до микросекунд в системе универсального координированного времени (UTC)
+    /// Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ СЃ С‚РµРєСѓС‰РёРј Р·РЅР°С‡РµРЅРёРµ РІСЂРµРјРµРЅРё СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ РґРѕ РјРёРєСЂРѕСЃРµРєСѓРЅРґ РІ СЃРёСЃС‚РµРјРµ СѓРЅРёРІРµСЂСЃР°Р»СЊРЅРѕРіРѕ РєРѕРѕСЂРґРёРЅРёСЂРѕРІР°РЅРЅРѕРіРѕ РІСЂРµРјРµРЅРё (UTC)
     static CDateTime GetCurrentTime(){return Now();}
 
     CPLIB_API friend bool operator==( const CDateTime& lhs, const CDateTime& rhs);
@@ -378,7 +378,7 @@ public:
     CPLIB_API friend bool operator>( const CDateTime& lhs, const CDateTime& rhs);
     CPLIB_API friend CDateTime& operator +=( CDateTime &lhs, const CDateTimeSpan& rhs);
     CPLIB_API friend CDateTime& operator -=( CDateTime &lhs, const CDateTimeSpan& rhs);
-    CPLIB_API friend CDateTimeSpan operator -( const CDateTime &lhs, const CDateTime &rhs); 
+    CPLIB_API friend CDateTimeSpan operator -( const CDateTime &lhs, const CDateTime &rhs);
 
 #ifdef UNIX
     CDateTime( timeval tval);
@@ -389,135 +389,135 @@ private:
     DWORD low_;
 };
 
-/// Операция проверки на равенство
+/// РћРїРµСЂР°С†РёСЏ РїСЂРѕРІРµСЂРєРё РЅР° СЂР°РІРµРЅСЃС‚РІРѕ
 CPLIB_API bool operator==( const CDateTime& lhs, const CDateTime& rhs);
-/// Операция проверки на неравенство
+/// РћРїРµСЂР°С†РёСЏ РїСЂРѕРІРµСЂРєРё РЅР° РЅРµСЂР°РІРµРЅСЃС‚РІРѕ
 CPLIB_API bool operator!=( const CDateTime& lhs, const CDateTime& rhs);
-/// Операция сравнения (меньше или равно)
+/// РћРїРµСЂР°С†РёСЏ СЃСЂР°РІРЅРµРЅРёСЏ (РјРµРЅСЊС€Рµ РёР»Рё СЂР°РІРЅРѕ)
 CPLIB_API bool operator<=( const CDateTime& lhs, const CDateTime& rhs);
-/// Операция сравнения (больше или равно)
+/// РћРїРµСЂР°С†РёСЏ СЃСЂР°РІРЅРµРЅРёСЏ (Р±РѕР»СЊС€Рµ РёР»Рё СЂР°РІРЅРѕ)
 CPLIB_API bool operator>=( const CDateTime& lhs, const CDateTime& rhs);
-/// Операция сравнения (меньше)
+/// РћРїРµСЂР°С†РёСЏ СЃСЂР°РІРЅРµРЅРёСЏ (РјРµРЅСЊС€Рµ)
 CPLIB_API bool operator<( const CDateTime& lhs, const CDateTime& rhs);
-/// Операция сравнения (больше)
+/// РћРїРµСЂР°С†РёСЏ СЃСЂР°РІРЅРµРЅРёСЏ (Р±РѕР»СЊС€Рµ)
 CPLIB_API bool operator>( const CDateTime& lhs, const CDateTime& rhs);
 
-/// Операция проверки на равенство
+/// РћРїРµСЂР°С†РёСЏ РїСЂРѕРІРµСЂРєРё РЅР° СЂР°РІРµРЅСЃС‚РІРѕ
 CPLIB_API bool operator==( const CDateTimeSpan& lhs, const CDateTimeSpan& rhs);
-/// Операция проверки на неравенство
+/// РћРїРµСЂР°С†РёСЏ РїСЂРѕРІРµСЂРєРё РЅР° РЅРµСЂР°РІРµРЅСЃС‚РІРѕ
 CPLIB_API bool operator!=( const CDateTimeSpan& lhs, const CDateTimeSpan& rhs);
-/// Операция сравнения (меньше или равно)
+/// РћРїРµСЂР°С†РёСЏ СЃСЂР°РІРЅРµРЅРёСЏ (РјРµРЅСЊС€Рµ РёР»Рё СЂР°РІРЅРѕ)
 CPLIB_API bool operator<=( const CDateTimeSpan& lhs, const CDateTimeSpan& rhs);
-/// Операция сравнения (больше или равно)
+/// РћРїРµСЂР°С†РёСЏ СЃСЂР°РІРЅРµРЅРёСЏ (Р±РѕР»СЊС€Рµ РёР»Рё СЂР°РІРЅРѕ)
 CPLIB_API bool operator>=( const CDateTimeSpan& lhs, const CDateTimeSpan& rhs);
-/// Операция сравнения (меньше)
+/// РћРїРµСЂР°С†РёСЏ СЃСЂР°РІРЅРµРЅРёСЏ (РјРµРЅСЊС€Рµ)
 CPLIB_API bool operator<( const CDateTimeSpan& lhs, const CDateTimeSpan& rhs);
-/// Операция сравнения (больше)
+/// РћРїРµСЂР°С†РёСЏ СЃСЂР°РІРЅРµРЅРёСЏ (Р±РѕР»СЊС€Рµ)
 CPLIB_API bool operator>( const CDateTimeSpan& lhs, const CDateTimeSpan& rhs);
-/// Операция прибавления периода ко времени
+/// РћРїРµСЂР°С†РёСЏ РїСЂРёР±Р°РІР»РµРЅРёСЏ РїРµСЂРёРѕРґР° РєРѕ РІСЂРµРјРµРЅРё
 CPLIB_API CDateTime& operator +=( CDateTime &lhs, const CDateTimeSpan& rhs);
-/// Операция вычитания периода из времени
+/// РћРїРµСЂР°С†РёСЏ РІС‹С‡РёС‚Р°РЅРёСЏ РїРµСЂРёРѕРґР° РёР· РІСЂРµРјРµРЅРё
 CPLIB_API CDateTime& operator -=( CDateTime &lhs, const CDateTimeSpan& rhs);
 
-/// Операция прибавления периода к периоду
+/// РћРїРµСЂР°С†РёСЏ РїСЂРёР±Р°РІР»РµРЅРёСЏ РїРµСЂРёРѕРґР° Рє РїРµСЂРёРѕРґСѓ
 CPLIB_API CDateTimeSpan& operator +=( CDateTimeSpan &lhs, const CDateTimeSpan& rhs);
 /**
- * \brief Операция вычитания периода из периода
- * \remark Период времени не может буть отрицательным. Если в результате
- * вычитания получается отрицательный период, генерируется исключение.
+ * \brief РћРїРµСЂР°С†РёСЏ РІС‹С‡РёС‚Р°РЅРёСЏ РїРµСЂРёРѕРґР° РёР· РїРµСЂРёРѕРґР°
+ * \remark РџРµСЂРёРѕРґ РІСЂРµРјРµРЅРё РЅРµ РјРѕР¶РµС‚ Р±СѓС‚СЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рј. Р•СЃР»Рё РІ СЂРµР·СѓР»СЊС‚Р°С‚Рµ
+ * РІС‹С‡РёС‚Р°РЅРёСЏ РїРѕР»СѓС‡Р°РµС‚СЃСЏ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Р№ РїРµСЂРёРѕРґ, РіРµРЅРµСЂРёСЂСѓРµС‚СЃСЏ РёСЃРєР»СЋС‡РµРЅРёРµ.
  */
 CPLIB_API CDateTimeSpan& operator -=( CDateTimeSpan &lhs, const CDateTimeSpan& rhs);
 
-/// Операция умножения периода на число
+/// РћРїРµСЂР°С†РёСЏ СѓРјРЅРѕР¶РµРЅРёСЏ РїРµСЂРёРѕРґР° РЅР° С‡РёСЃР»Рѕ
 CPLIB_API CDateTimeSpan& operator *=( CDateTimeSpan &lhs, unsigned rhs);
-/// Операция деления периода на число
+/// РћРїРµСЂР°С†РёСЏ РґРµР»РµРЅРёСЏ РїРµСЂРёРѕРґР° РЅР° С‡РёСЃР»Рѕ
 CPLIB_API CDateTimeSpan& operator /=( CDateTimeSpan &lhs, unsigned rhs);
-/// Операция получения остатка от деления периода на число
+/// РћРїРµСЂР°С†РёСЏ РїРѕР»СѓС‡РµРЅРёСЏ РѕСЃС‚Р°С‚РєР° РѕС‚ РґРµР»РµРЅРёСЏ РїРµСЂРёРѕРґР° РЅР° С‡РёСЃР»Рѕ
 CPLIB_API CDateTimeSpan& operator %=( CDateTimeSpan &lhs, unsigned rhs);
 
-/// Операция умножения периода на число
+/// РћРїРµСЂР°С†РёСЏ СѓРјРЅРѕР¶РµРЅРёСЏ РїРµСЂРёРѕРґР° РЅР° С‡РёСЃР»Рѕ
 CPLIB_API CDateTimeSpan operator *( const CDateTimeSpan &lhs, unsigned rhs);
-/// Операция деления периода на число
+/// РћРїРµСЂР°С†РёСЏ РґРµР»РµРЅРёСЏ РїРµСЂРёРѕРґР° РЅР° С‡РёСЃР»Рѕ
 CPLIB_API CDateTimeSpan operator /( const CDateTimeSpan &lhs, unsigned rhs);
-/// Операция получения остатка от деления периода на число
+/// РћРїРµСЂР°С†РёСЏ РїРѕР»СѓС‡РµРЅРёСЏ РѕСЃС‚Р°С‚РєР° РѕС‚ РґРµР»РµРЅРёСЏ РїРµСЂРёРѕРґР° РЅР° С‡РёСЃР»Рѕ
 CPLIB_API CDateTimeSpan operator %( const CDateTimeSpan &lhs, unsigned rhs);
 
-/// Операция деления периода на период
+/// РћРїРµСЂР°С†РёСЏ РґРµР»РµРЅРёСЏ РїРµСЂРёРѕРґР° РЅР° РїРµСЂРёРѕРґ
 CPLIB_API unsigned operator / ( const CDateTimeSpan &lhs, const CDateTimeSpan &rhs );
-/// Операция получения остатка от деления периода на период
+/// РћРїРµСЂР°С†РёСЏ РїРѕР»СѓС‡РµРЅРёСЏ РѕСЃС‚Р°С‚РєР° РѕС‚ РґРµР»РµРЅРёСЏ РїРµСЂРёРѕРґР° РЅР° РїРµСЂРёРѕРґ
 CPLIB_API CDateTimeSpan operator % ( const CDateTimeSpan &lhs, const CDateTimeSpan &rhs );
 
 /**
- * \brief Операция вычитания периода из периода
- * \remark Период времени не может буть отрицательным. Если в результате
- * вычитания получается отрицательный период, генерируется исключение.
+ * \brief РћРїРµСЂР°С†РёСЏ РІС‹С‡РёС‚Р°РЅРёСЏ РїРµСЂРёРѕРґР° РёР· РїРµСЂРёРѕРґР°
+ * \remark РџРµСЂРёРѕРґ РІСЂРµРјРµРЅРё РЅРµ РјРѕР¶РµС‚ Р±СѓС‚СЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рј. Р•СЃР»Рё РІ СЂРµР·СѓР»СЊС‚Р°С‚Рµ
+ * РІС‹С‡РёС‚Р°РЅРёСЏ РїРѕР»СѓС‡Р°РµС‚СЃСЏ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Р№ РїРµСЂРёРѕРґ, РіРµРЅРµСЂРёСЂСѓРµС‚СЃСЏ РёСЃРєР»СЋС‡РµРЅРёРµ.
  */
-CPLIB_API CDateTimeSpan operator -( const CDateTimeSpan &lhs, const CDateTimeSpan &rhs); 
+CPLIB_API CDateTimeSpan operator -( const CDateTimeSpan &lhs, const CDateTimeSpan &rhs);
 /**
- * \brief Операция вычитания времени из времени
- * \remark Период времени не может буть отрицательным. При вычитании
- * более позднего момента времени из более раннего генерируется исключение
+ * \brief РћРїРµСЂР°С†РёСЏ РІС‹С‡РёС‚Р°РЅРёСЏ РІСЂРµРјРµРЅРё РёР· РІСЂРµРјРµРЅРё
+ * \remark РџРµСЂРёРѕРґ РІСЂРµРјРµРЅРё РЅРµ РјРѕР¶РµС‚ Р±СѓС‚СЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рј. РџСЂРё РІС‹С‡РёС‚Р°РЅРёРё
+ * Р±РѕР»РµРµ РїРѕР·РґРЅРµРіРѕ РјРѕРјРµРЅС‚Р° РІСЂРµРјРµРЅРё РёР· Р±РѕР»РµРµ СЂР°РЅРЅРµРіРѕ РіРµРЅРµСЂРёСЂСѓРµС‚СЃСЏ РёСЃРєР»СЋС‡РµРЅРёРµ
  */
-CPLIB_API CDateTimeSpan operator -( const CDateTime &lhs, const CDateTime &rhs); 
-/// Операция вычитания периода из даты
-CPLIB_API CDateTime operator -( const CDateTime &lhs, const CDateTimeSpan &rhs); 
+CPLIB_API CDateTimeSpan operator -( const CDateTime &lhs, const CDateTime &rhs);
+/// РћРїРµСЂР°С†РёСЏ РІС‹С‡РёС‚Р°РЅРёСЏ РїРµСЂРёРѕРґР° РёР· РґР°С‚С‹
+CPLIB_API CDateTime operator -( const CDateTime &lhs, const CDateTimeSpan &rhs);
 
-/// Операция прибавления периода к периоду
-CPLIB_API CDateTimeSpan operator +( const CDateTimeSpan &lhs, const CDateTimeSpan &rhs); 
-/// Операция прибавления периода ко времени
-CPLIB_API CDateTime operator +( const CDateTime &lhs, const CDateTimeSpan &rhs); 
+/// РћРїРµСЂР°С†РёСЏ РїСЂРёР±Р°РІР»РµРЅРёСЏ РїРµСЂРёРѕРґР° Рє РїРµСЂРёРѕРґСѓ
+CPLIB_API CDateTimeSpan operator +( const CDateTimeSpan &lhs, const CDateTimeSpan &rhs);
+/// РћРїРµСЂР°С†РёСЏ РїСЂРёР±Р°РІР»РµРЅРёСЏ РїРµСЂРёРѕРґР° РєРѕ РІСЂРµРјРµРЅРё
+CPLIB_API CDateTime operator +( const CDateTime &lhs, const CDateTimeSpan &rhs);
 
 /**
-* \brief Функция прибавления к дате заданного отрезка времени
+* \brief Р¤СѓРЅРєС†РёСЏ РїСЂРёР±Р°РІР»РµРЅРёСЏ Рє РґР°С‚Рµ Р·Р°РґР°РЅРЅРѕРіРѕ РѕС‚СЂРµР·РєР° РІСЂРµРјРµРЅРё
 *
-* \param intervalUnit [in] единицы измерения в которых задаётся интервал, значение
-*        параметра может быть равным:
-*	 - "s" - секунды;
-*	 - "n" - минуты;
-*	 - "h" - часы;
-*	 - "d" - дни; 
-*	 - "w" - недели;
-*	 - "m" - месяцы;
-*	 - "y" - годы.
-* \param interval [in] размер прибавляемого интервала
-* \param value [in] дата, к которой прибавляется интервал
+* \param intervalUnit [in] РµРґРёРЅРёС†С‹ РёР·РјРµСЂРµРЅРёСЏ РІ РєРѕС‚РѕСЂС‹С… Р·Р°РґР°С‘С‚СЃСЏ РёРЅС‚РµСЂРІР°Р», Р·РЅР°С‡РµРЅРёРµ
+*        РїР°СЂР°РјРµС‚СЂР° РјРѕР¶РµС‚ Р±С‹С‚СЊ СЂР°РІРЅС‹Рј:
+*    - "s" - СЃРµРєСѓРЅРґС‹;
+*    - "n" - РјРёРЅСѓС‚С‹;
+*    - "h" - С‡Р°СЃС‹;
+*    - "d" - РґРЅРё;
+*    - "w" - РЅРµРґРµР»Рё;
+*    - "m" - РјРµСЃСЏС†С‹;
+*    - "y" - РіРѕРґС‹.
+* \param interval [in] СЂР°Р·РјРµСЂ РїСЂРёР±Р°РІР»СЏРµРјРѕРіРѕ РёРЅС‚РµСЂРІР°Р»Р°
+* \param value [in] РґР°С‚Р°, Рє РєРѕС‚РѕСЂРѕР№ РїСЂРёР±Р°РІР»СЏРµС‚СЃСЏ РёРЅС‚РµСЂРІР°Р»
 *
-* \return Новое значение даты.
+* \return РќРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ РґР°С‚С‹.
 */
 CPLIB_API CDateTime DateAddA( const char* intervalUnit,
     int interval, const CDateTime& value);
 
 /**
-* \brief Функция прибавления к дате заданного отрезка времени
+* \brief Р¤СѓРЅРєС†РёСЏ РїСЂРёР±Р°РІР»РµРЅРёСЏ Рє РґР°С‚Рµ Р·Р°РґР°РЅРЅРѕРіРѕ РѕС‚СЂРµР·РєР° РІСЂРµРјРµРЅРё
 *
-* \param intervalUnit [in] единицы измерения в которых задаётся интервал, значение
-*        параметра может быть равным:
-*	 - "s" - секунды;
-*	 - "n" - минуты;
-*	 - "h" - часы;
-*	 - "d" - дни; 
-*	 - "w" - недели;
-*	 - "m" - месяцы;
-*	 - "y" - годы.
-* \param interval [in] размер прибавляемого интервала
-* \param value [in] дата, к которой прибавляется интервал
+* \param intervalUnit [in] РµРґРёРЅРёС†С‹ РёР·РјРµСЂРµРЅРёСЏ РІ РєРѕС‚РѕСЂС‹С… Р·Р°РґР°С‘С‚СЃСЏ РёРЅС‚РµСЂРІР°Р», Р·РЅР°С‡РµРЅРёРµ
+*        РїР°СЂР°РјРµС‚СЂР° РјРѕР¶РµС‚ Р±С‹С‚СЊ СЂР°РІРЅС‹Рј:
+*    - "s" - СЃРµРєСѓРЅРґС‹;
+*    - "n" - РјРёРЅСѓС‚С‹;
+*    - "h" - С‡Р°СЃС‹;
+*    - "d" - РґРЅРё;
+*    - "w" - РЅРµРґРµР»Рё;
+*    - "m" - РјРµСЃСЏС†С‹;
+*    - "y" - РіРѕРґС‹.
+* \param interval [in] СЂР°Р·РјРµСЂ РїСЂРёР±Р°РІР»СЏРµРјРѕРіРѕ РёРЅС‚РµСЂРІР°Р»Р°
+* \param value [in] РґР°С‚Р°, Рє РєРѕС‚РѕСЂРѕР№ РїСЂРёР±Р°РІР»СЏРµС‚СЃСЏ РёРЅС‚РµСЂРІР°Р»
 *
-* \return Новое значение даты.
+* \return РќРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ РґР°С‚С‹.
 */
 CPLIB_API CDateTime DateAddW( const wchar_t* intervalUnit,
     int interval, const CDateTime& value);
 
 /**
- * \brief Функция возвращает объект со временем (UTC), извлеченным из строки, представленной в формате xsd:dateTime.
+ * \brief Р¤СѓРЅРєС†РёСЏ РІРѕР·РІСЂР°С‰Р°РµС‚ РѕР±СЉРµРєС‚ СЃРѕ РІСЂРµРјРµРЅРµРј (UTC), РёР·РІР»РµС‡РµРЅРЅС‹Рј РёР· СЃС‚СЂРѕРєРё, РїСЂРµРґСЃС‚Р°РІР»РµРЅРЅРѕР№ РІ С„РѕСЂРјР°С‚Рµ xsd:dateTime.
  *
- * \param lexicalDateTime [in] строка в формате xsd:dateTime
+ * \param lexicalDateTime [in] СЃС‚СЂРѕРєР° РІ С„РѕСЂРјР°С‚Рµ xsd:dateTime
  * \sa toXsdDateTimeString()
  */
 CPLIB_API CDateTime fromXsdDateTimeString(const char* lexicalDateTime);
 /**
- * \brief Функция возвращает строку в формате xsd:dateTime со значением переданного времени с точностью до миллисекунд в системе универсального координированного времени (UTC) или пустую строку в случае ошибки.
+ * \brief Р¤СѓРЅРєС†РёСЏ РІРѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєСѓ РІ С„РѕСЂРјР°С‚Рµ xsd:dateTime СЃРѕ Р·РЅР°С‡РµРЅРёРµРј РїРµСЂРµРґР°РЅРЅРѕРіРѕ РІСЂРµРјРµРЅРё СЃ С‚РѕС‡РЅРѕСЃС‚СЊСЋ РґРѕ РјРёР»Р»РёСЃРµРєСѓРЅРґ РІ СЃРёСЃС‚РµРјРµ СѓРЅРёРІРµСЂСЃР°Р»СЊРЅРѕРіРѕ РєРѕРѕСЂРґРёРЅРёСЂРѕРІР°РЅРЅРѕРіРѕ РІСЂРµРјРµРЅРё (UTC) РёР»Рё РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ РІ СЃР»СѓС‡Р°Рµ РѕС€РёР±РєРё.
  *
- * \param dateTime [in] время
+ * \param dateTime [in] РІСЂРµРјСЏ
  * \sa fromXsdDateTimeString()
  */
 CPLIB_API CStringProxy toXsdDateTimeString(const CDateTime& dateTime);
