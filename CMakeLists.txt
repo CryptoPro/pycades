@@ -126,4 +126,8 @@ find_library(FOUND_LIB_CPPCADES
     REQUIRED
 )
 
+install(TARGETS _pycades
+        EXCLUDE_FROM_ALL
+        COMPONENT python_modules
+        DESTINATION ${PY_BUILD_CMAKE_IMPORT_NAME})
 target_link_libraries(_pycades PRIVATE ${FOUND_LIB_CPPCADES})
