@@ -31,8 +31,8 @@ RUN git clone https://github.com/CryptoPro/pycades.git
 
 WORKDIR /pycades
 
-RUN PY_VERSION=$(python3 --version | awk '{print $2}' | cut -d. -f1-2) && \
-    sed -i "s/3\\.12/$PY_VERSION/g" CMakeLists.txt
+# RUN PY_VERSION=$(python3 --version | awk '{print $2}' | cut -d. -f1-2) && \
+#     sed -i "s/3\\.12/$PY_VERSION/g" CMakeLists.txt
 
 RUN mkdir build && cd build && \
     cmake .. && \
@@ -40,4 +40,4 @@ RUN mkdir build && cd build && \
 
 # docker run -it pycades-build
 # /opt/cprocsp/bin/amd64/cryptcp -createcert -dn "CN=test" -provtype 80 -cont '\\.\HDIMAGE\test' -ca https://cryptopro.ru/certsrv
-# python3 sample_sign_verify.py
+# python3 examples/sample_sign_verify.py
