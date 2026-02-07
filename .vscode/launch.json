@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "/usr/bin/python3",
-            "args": ["${workspaceFolder}/sample_sign_verify.py"], 
+            "args": ["${workspaceFolder}/examplses/sample_sign_verify.py"], 
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal"
         }

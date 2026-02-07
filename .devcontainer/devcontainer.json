@@ -24,7 +24,8 @@
                 "adam-bender.commit-message-editor",
                 "christian-kohler.path-intellisense",
                 "codeium.codeium",
-                "ms-python.python"
+                "ms-python.python",
+                "twxs.cmake"
             ]
         }
     },
