@@ -24,7 +24,8 @@
         "christian-kohler.path-intellisense",
         "codeium.codeium",
         "ms-python.python",
-        "twxs.cmake"
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools"
       ]
     }
   },
