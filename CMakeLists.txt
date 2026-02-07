@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.17...4.0)
 project(
     pycades
     LANGUAGES CXX
+    VERSION 0.1.70200
 )
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
@@ -104,6 +105,7 @@ target_compile_definitions(_pycades PRIVATE
     CPRO_CADES_VERSION_MAJOR=${CPRO_CADES_VERSION_MAJOR}
     CPRO_CADES_VERSION_MINOR=${CPRO_CADES_VERSION_MINOR}
     CPRO_CADES_VERSION_BUILD=${CPRO_CADES_VERSION_BUILD}
+    PYCADES_VERSION="${PROJECT_VERSION}"
 )
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
