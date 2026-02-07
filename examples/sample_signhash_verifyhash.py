@@ -1,4 +1,7 @@
 import pycades
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 store = pycades.Store()
 store.Open(pycades.CADESCOM_CONTAINER_STORE, pycades.CAPICOM_MY_STORE,
@@ -16,10 +19,10 @@ hashedData.Hash("test data")
 
 signedData = pycades.SignedData()
 signature = signedData.SignHash(hashedData, signer, pycades.CADESCOM_CADES_BES)
-print("--Signature--")
-print(signature)
-print("----")
+logging.info("--Signature--")
+logging.info(signature)
+logging.info("----")
 
 _signedData = pycades.SignedData()
 _signedData.VerifyHash(hashedData, signature, pycades.CADESCOM_CADES_BES)
-print("Verified successfully")
+logging.info("Verified successfully")

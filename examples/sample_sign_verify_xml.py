@@ -1,4 +1,7 @@
 import pycades
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 store = pycades.Store()
 store.Open(pycades.CADESCOM_CONTAINER_STORE, pycades.CAPICOM_MY_STORE,
@@ -25,11 +28,11 @@ signedXML = pycades.SignedXML()
 signedXML.Content = content_to_sign
 signedXML.SignatureType = pycades.CADESCOM_XML_SIGNATURE_TYPE_ENVELOPED | pycades.CADESCOM_XADES_BES
 signature = signedXML.Sign(signer)
-print("--Signature--")
-print(signature)
-print("----")
+logging.info("--Signature--")
+logging.info(signature)
+logging.info("----")
 
 signedXML.Content = ""
 signedXML.Verify(signature)
 assert(signature == signedXML.Content), "Incorrect value of SignedXML.Verify result"
-print("Verified successfully")
+logging.info("Verified successfully")

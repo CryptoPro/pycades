@@ -1,4 +1,7 @@
 import pycades
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 store = pycades.Store()
 store.Open(pycades.CADESCOM_CONTAINER_STORE, pycades.CAPICOM_MY_STORE,
@@ -11,12 +14,12 @@ envelopedData = pycades.EnvelopedData()
 envelopedData.Content = "Message to encrypt с русскими буквами"
 envelopedData.Recipients.Add(cert)
 encryptedMessage = envelopedData.Encrypt(pycades.CADESCOM_ENCODE_BASE64)
-print("--Encrypted Message--")
-print(encryptedMessage)
-print("----")
+logging.info("--Encrypted Message--")
+logging.info(encryptedMessage)
+logging.info("----")
 
 envelopedData2 = pycades.EnvelopedData()
 envelopedData2.Decrypt(encryptedMessage)
 content = envelopedData2.Content
 assert(content == "Message to encrypt с русскими буквами"), "Incorrect value of EnvelopedData.Decrypt result"
-print("Decrypted successfully")
+logging.info("Decrypted successfully")
