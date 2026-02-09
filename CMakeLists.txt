@@ -126,8 +126,18 @@ find_library(FOUND_LIB_CPPCADES
     REQUIRED
 )
 
+if(DEFINED PY_BUILD_CMAKE_IMPORT_NAME AND NOT "${PY_BUILD_CMAKE_IMPORT_NAME}" STREQUAL "")
+    set(PY_MODULE_INSTALL_DEST "${PY_BUILD_CMAKE_IMPORT_NAME}")
+else()
+    if(NOT DEFINED Python3_SITELIB)
+        message(FATAL_ERROR "Python3_SITELIB is not available. Please use CMake >= 3.18 or define PY_BUILD_CMAKE_IMPORT_NAME.")
+    endif()
+    set(PY_MODULE_INSTALL_DEST "${Python3_SITELIB}")
+endif()
+
 install(TARGETS _pycades
         EXCLUDE_FROM_ALL
         COMPONENT python_modules
-        DESTINATION ${PY_BUILD_CMAKE_IMPORT_NAME})
+        DESTINATION ${PY_MODULE_INSTALL_DEST})
+
 target_link_libraries(_pycades PRIVATE ${FOUND_LIB_CPPCADES})
