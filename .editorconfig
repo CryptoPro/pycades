@@ -1,0 +1,31 @@
+root = true
+
+[*]
+charset = utf-8
+trim_trailing_whitespace = true
+end_of_line = lf
+insert_final_newline = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{py,java,r,R}]
+indent_style = space
+indent_size = 4
+
+[{**.yml,**.yaml}]
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+[*.{c++,cc,cpp,cxx,h,h++,hh,hpp,hxx,inl,ipp,tlh,tli}]
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+
+[{Makefile,**.mk}]
+indent_style = tab

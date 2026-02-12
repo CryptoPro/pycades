@@ -1,0 +1,19 @@
+services:
+  app:
+    env_file:
+      - .env
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        - WORKSPACE=${WORKSPACE}
+        - CRYPTOPRO_USERNAME=${CRYPTOPRO_USERNAME}
+        - CRYPTOPRO_PASSWORD=${CRYPTOPRO_PASSWORD}
+    command: sleep infinity
+    networks:
+      - default
+    volumes:
+      - ..:${WORKSPACE}:cached
+
+networks:
+  default:

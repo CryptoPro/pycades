@@ -1,0 +1,46 @@
+{
+  "name": "pyCAdES",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "app",
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        },
+        "python.defaultInterpreterPath": "${workspaceRoot}/.venv/bin/python3",
+        "git.enabled": true,
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.inheritEnv": true,
+        "editor.bracketPairColorization.enabled": true,
+        "editor.guides.bracketPairs": "active"
+      },
+      "extensions": [
+        "adam-bender.commit-message-editor",
+        "christian-kohler.path-intellisense",
+        "codeium.codeium",
+        "ms-python.python",
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "EditorConfig.EditorConfig"
+      ]
+    }
+  },
+  "postCreateCommand": {
+    "setupEnvironment": "rm -rf .venv &&uv python install 3.11 && uv venv --python 3.11 ${containerWorkspaceFolder}/.venv && sudo chown -R $(whoami): ${containerWorkspaceFolder}/.venv"
+  },
+  "remoteEnv": {
+    "PATH": "${containerWorkspaceFolder}/.venv/bin:${containerEnv:PATH}",
+    "SSH_AUTH_SOCK": "/ssh-agent",
+    "WORKSPACE": "${containerWorkspaceFolder}",
+    "UV_LINK_MODE": "copy"
+  },
+  "features": {
+    "ghcr.io/va-h/devcontainers-features/uv:1": {}
+  },
+  "mounts": ["source=${SSH_AUTH_SOCK},target=/ssh-agent,type=bind"]
+}

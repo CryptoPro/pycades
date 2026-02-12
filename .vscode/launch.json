@@ -1,14 +1,14 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Python: Run sample_sign_verify.py",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "/usr/bin/python3",
-            "args": ["${workspaceFolder}/sample_sign_verify.py"], 
-            "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Run sample_sign_verify.py",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "/usr/bin/python3",
+      "args": ["${workspaceFolder}/sample_sign_verify.py"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
 }
