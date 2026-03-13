@@ -13,9 +13,9 @@ tar xvf linux-amd64_deb.tgz
 cd linux-amd64_deb
 sudo ./install.sh
 ```
-3. Установить пакет cprocsp-devel:
+3. Установить пакеты cprocsp-devel и cprocsp-legacy:
 ```
-sudo apt install ./lsb-cprocsp-devel_5.0*.deb
+sudo apt install ./lsb-cprocsp-devel_5.0*.deb ./cprocsp-legacy*.deb
 ```
 4. Если используется [КриптоПро CSP 5.0 R3 (сборка 5.0.12900 Selene)](https://www.cryptopro.ru/forum2/default.aspx?g=posts&m=142169#post142169) и выше, 
 то все необходимые пакеты CAdES входят в состав дистрибутива КриптоПро CSP 5.0 R3, их не надо скачивать и ставить отдельно.<br/>

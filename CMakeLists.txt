@@ -94,6 +94,11 @@ FIND_LIBRARY(FOUND_LIB_CPPCADES
     HINTS /opt/cprocsp/lib/amd64 /opt/cprocsp/lib/ia32 /opt/cprocsp/lib/aarch64)
 TARGET_LINK_LIBRARIES(pycades ${FOUND_LIB_CPPCADES})
 
+FIND_LIBRARY(FOUND_LIB_CPLIB
+    NAMES cplib
+    HINTS /opt/cprocsp/lib/amd64 /opt/cprocsp/lib/ia32 /opt/cprocsp/lib/aarch64)
+TARGET_LINK_LIBRARIES(pycades ${FOUND_LIB_CPLIB})
+
 ADD_CUSTOM_COMMAND(TARGET pycades
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pycades> ..)
