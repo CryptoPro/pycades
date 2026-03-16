@@ -30,6 +30,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN git clone https://github.com/CryptoPro/pycades.git
 
+# for development purposes
+# COPY . /pycades/
+
 WORKDIR /pycades
 
 RUN PY_VERSION=$(python3 --version | awk '{print $2}' | cut -d. -f1-2) && \
