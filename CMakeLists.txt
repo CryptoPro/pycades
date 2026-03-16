@@ -3,7 +3,6 @@ SET(Python_INCLUDE_DIR "/usr/include/python3.12")
 set (CMAKE_CXX_STANDARD 11)
 PROJECT(PythonModule LANGUAGES CXX)
     SET (pycades_LIB_SRCS
-            errormsg.cpp
             PyCades.cpp
             PyCadesAbout.cpp
             PyCadesAlgorithm.cpp
