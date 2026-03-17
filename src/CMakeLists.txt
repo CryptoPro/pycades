@@ -100,4 +100,4 @@ TARGET_LINK_LIBRARIES(pycades ${FOUND_LIB_CPLIB})
 
 ADD_CUSTOM_COMMAND(TARGET pycades
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pycades> ..)
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pycades> ../../samples)
