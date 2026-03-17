@@ -33,7 +33,7 @@ RUN git clone https://github.com/CryptoPro/pycades.git
 # for development purposes
 # COPY . /pycades/
 
-WORKDIR /pycades
+WORKDIR /pycades/src
 
 RUN PY_VERSION=$(python3 --version | awk '{print $2}' | cut -d. -f1-2) && \
     sed -i "s/3\\.12/$PY_VERSION/g" CMakeLists.txt
