@@ -10,8 +10,9 @@
 В данном разделе
 ---
 
-[Пример создания и проверки подписи](/cades/pycades/pycades-samples/pycades-sign-verify.md)<br>
-[Пример создания и проверки отделенной подписи формата CAdES-BES по хэш-значению данных](/cades/pycades/pycades-samples/pycades-signhash-verifyhash.md)<br>
-[Пример создания и проверки подписи документа XML](/cades/pycades/pycades-samples/pycades-sign-verify-xml.md)<br>
-[Пример шифрования и расшифрования данных](/cades/pycades/pycades-samples/pycades-encrypt-decrypt.md)<br>
+[Пример создания и проверки подписи](../samples/sign_verify.py)<br>
+[Пример создания и проверки отделенной подписи формата CAdES-BES по хэш-значению данных](../samples/signhash_verifyhash.py)<br>
+[Пример создания и проверки подписи документа XML](../samples/sign_verify_xml.py)<br>
+[Пример шифрования и расшифрования данных](../samples/encrypt_decrypt.py)<br>
+[Пример перечисления контейнеров](../samples/enum_containers.py)<br>
 

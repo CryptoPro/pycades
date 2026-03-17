@@ -42,6 +42,6 @@ RUN mkdir build && cd build && \
     cmake .. && \
     make -j$(nproc)
 
-# docker run -it pycades-build
+# docker run -it -w /pycades/samples/ pycades-build
 # /opt/cprocsp/bin/amd64/cryptcp -createcert -dn "CN=test" -provtype 80 -cont '\\.\HDIMAGE\test' -ca https://cryptopro.ru/certsrv
-# python3 sample_sign_verify.py
+# python3 sign_verify.py
