@@ -34,6 +34,7 @@ RUN wget -qO- 'https://dev.rutoken.ru/download/attachments/142508509/repo-rutoke
     gpg --dearmor > /etc/apt/trusted.gpg.d/rutoken.gpg
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    cprocsp-legacy \
     cprocsp-pki-cades \
     lsb-cprocsp-devel
 
