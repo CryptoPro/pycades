@@ -179,3 +179,4 @@ cython_debug/
 .py-build-cmake_cache
 .devcontainer/.env
 /*.000
+linux-*/
