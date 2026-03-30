@@ -49,7 +49,6 @@
     git clone https://github.com/CryptoPro/pycades.git
     cd pycades/src
     ```
-1. Задать значение переменной Python_INCLUDE_DIR в файле CMakeLists.txt (папка с Python.h). 
 1. Если сборка осуществляется на arm64, то применить патч для поддержки arm64:
     ```
     patch < ./arm64_support.patch
