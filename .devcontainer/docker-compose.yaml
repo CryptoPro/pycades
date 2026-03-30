@@ -1,0 +1,21 @@
+services:
+  devcontainer:
+    env_file:
+      - .env
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        - WORKSPACE=${WORKSPACE}
+        - CRYPTOPRO_USERNAME=${CRYPTOPRO_USERNAME}
+        - CRYPTOPRO_PASSWORD=${CRYPTOPRO_PASSWORD}
+        - GPG_CRYPTOPRO=${GPG_CRYPTOPRO}
+        - GPG_RUTOKEN=${GPG_RUTOKEN}
+    command: sleep infinity
+    networks:
+      - default
+    volumes:
+      - ..:${WORKSPACE}:cached
+
+networks:
+  default:
