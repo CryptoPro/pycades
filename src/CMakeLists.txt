@@ -44,7 +44,18 @@ PROJECT(PythonModule LANGUAGES CXX)
 FIND_PACKAGE( Python3 REQUIRED COMPONENTS Development.Module )
 FIND_PACKAGE( Boost REQUIRED )
 
-ADD_DEFINITIONS(-DUNIX -DSIZEOF_VOID_P=${CMAKE_SIZEOF_VOID_P})
+ADD_DEFINITIONS(
+    -DUNIX 
+    -DSIZEOF_VOID_P=${CMAKE_SIZEOF_VOID_P}
+    )
+
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
+    ADD_DEFINITIONS(
+        -DLINUX 
+        -DPROC_TYPE_ARM64=7 
+        -DPROCESSOR_TYPE=PROC_TYPE_ARM64
+        )
+endif()
 
 EXECUTE_PROCESS(
     COMMAND bash -c "if type dpkg > /dev/null 2>&1; then dpkg -l|grep cprocsp-pki-cades|awk ' { print $3 } '; else rpm -qa|grep cprocsp-pki-cades; fi|cut -d. -f1|cut -d- -f1"
