@@ -5,10 +5,9 @@
             "name": "Python: Run sample_sign_verify.py",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/usr/bin/python3",
+            "program": "${workspaceFolder}/.venv/bin/python3",
             "args": ["${workspaceFolder}/samples/sign_verify.py"], 
             "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal"
         }
     ]
 }

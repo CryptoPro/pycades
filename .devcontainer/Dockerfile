@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     gpg \
     libboost-all-dev \
+    gdb \
     python3-dev
 
 RUN echo "machine cryptopro.ru login ${CRYPTOPRO_USERNAME} password ${CRYPTOPRO_PASSWORD}" > /etc/apt/auth.conf.d/cryptopro.conf && \
