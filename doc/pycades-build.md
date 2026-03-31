@@ -47,7 +47,7 @@
 1. Скачать исходный код pycades
     ```
     git clone https://github.com/CryptoPro/pycades.git
-    cd pycades/src
+    cd pycades
     ```
 1. Выполнить сборку:
     ```

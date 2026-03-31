@@ -33,7 +33,7 @@ RUN git clone https://github.com/CryptoPro/pycades.git
 # for development purposes
 # COPY . /pycades/
 
-WORKDIR /pycades/src
+WORKDIR /pycades
 
 RUN mkdir build && cd build && \
     cmake .. && \

@@ -5,7 +5,7 @@
             "label": "cmake-build",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/src"
+                "cwd": "${workspaceFolder}"
             },
             "command": "cmake -S . -B build && cmake --build build -j$(nproc)",
             "group": {
