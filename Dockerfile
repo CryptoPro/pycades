@@ -35,9 +35,9 @@ RUN git clone https://github.com/CryptoPro/pycades.git
 
 WORKDIR /pycades
 
-RUN mkdir build && cd build && \
-    cmake .. && \
-    make -j$(nproc)
+RUN BUILD_DIR=build && \
+    cmake -S . -B ${BUILD_DIR} && \
+    cmake --build ${BUILD_DIR} -j$(nproc)
 
 # docker run -it -w /pycades/samples/ pycades-build
 # /opt/cprocsp/bin/amd64/cryptcp -createcert -dn "CN=test" -provtype 80 -cont '\\.\HDIMAGE\test' -ca https://cryptopro.ru/certsrv

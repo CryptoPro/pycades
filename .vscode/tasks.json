@@ -5,9 +5,12 @@
             "label": "cmake-build",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "BUILD_DIR": "build" 
+                }
             },
-            "command": "cmake -S . -B build && cmake --build build -j$(nproc)",
+            "command": "cmake -S . -B ${BUILD_DIR} && cmake --build ${BUILD_DIR} -j$(nproc)",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -15,7 +18,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "detail": "CMake build task for src directory"
+            "detail": "CMake build task"
         }
     ]
 }

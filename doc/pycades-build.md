@@ -51,8 +51,7 @@
     ```
 1. Выполнить сборку:
     ```
-    mkdir build
-    cd build
-    cmake ..
-    make -j$(nproc)
+    BUILD_DIR=build && \
+    cmake -S . -B ${BUILD_DIR} && \
+    cmake --build ${BUILD_DIR} -j$(nproc)
     ```
