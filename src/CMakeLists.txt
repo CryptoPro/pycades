@@ -62,6 +62,11 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
         )
 endif()
 
+if(DEFINED ENV{REMOTE_CONTAINERS})
+    MESSAGE(STATUS "Dev Container detected: Forcing Debug build")
+    SET(CMAKE_BUILD_TYPE Debug)
+endif()
+
 EXECUTE_PROCESS(
     COMMAND bash -c "if type dpkg > /dev/null 2>&1; then dpkg -l|grep cprocsp-pki-cades|awk ' { print $3 } '; else rpm -qa|grep cprocsp-pki-cades; fi|cut -d. -f1|cut -d- -f1"
     OUTPUT_VARIABLE CPRO_CADES_VERSION_MAJOR
@@ -82,7 +87,6 @@ ADD_DEFINITIONS(-DCPRO_CADES_VERSION_MINOR=${CPRO_CADES_VERSION_MINOR})
 ADD_DEFINITIONS(-DCPRO_CADES_VERSION_BUILD=${CPRO_CADES_VERSION_BUILD})
 MESSAGE("-- cprocsp-pki-cades: ${CPRO_CADES_VERSION_MAJOR}.${CPRO_CADES_VERSION_MINOR}.${CPRO_CADES_VERSION_BUILD}")
 
-#SET(CMAKE_BUILD_TYPE Debug)
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-write-strings")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-narrowing")
