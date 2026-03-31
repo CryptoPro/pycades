@@ -8,6 +8,7 @@
             "program": "${workspaceFolder}/.venv/bin/python3",
             "args": ["${workspaceFolder}/samples/sign_verify.py"], 
             "cwd": "${workspaceFolder}",
+            "preLaunchTask": "cmake-build"
         }
     ]
 }
