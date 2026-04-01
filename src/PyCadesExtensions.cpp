@@ -4,41 +4,35 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Extensions_dealloc(Extensions *self)
-{
+static void Extensions_dealloc(Extensions* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Extensions_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Extensions *self;
-    self = (Extensions *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Extensions_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Extensions* self;
+    self = (Extensions*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPExtensionsObject>(new CPPCadesCPExtensionsObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Extensions_getCount(Extensions *self)
-{
+static PyObject* Extensions_getCount(Extensions* self) {
     unsigned int count = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Count(&count));
     return Py_BuildValue("l", count);
 }
 
-static PyObject *Extensions_getItem(Extensions *self, PyObject *args)
-{
+static PyObject* Extensions_getItem(Extensions* self, PyObject* args) {
     long index = 0;
-    if (!PyArg_ParseTuple(args, "l", &index))
-    {
+    if (!PyArg_ParseTuple(args, "l", &index)) {
         return NULL;
     }
     NS_SHARED_PTR::shared_ptr<CPPCadesCPExtensionObject> pCppCadesExtension = NS_SHARED_PTR::shared_ptr<CPPCadesCPExtensionObject>(new CPPCadesCPExtensionObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Item(index, pCppCadesExtension));
-    PyObject *pPyExtension = PyObject_CallObject((PyObject *)&ExtensionType, NULL);
-    Extension *pExtension = (Extension *)pPyExtension;
+    PyObject* pPyExtension = PyObject_CallObject((PyObject*)&ExtensionType, NULL);
+    Extension* pExtension = (Extension*)pPyExtension;
     pExtension->m_pCppCadesImpl = pCppCadesExtension;
     return Py_BuildValue("N", pExtension);
 }

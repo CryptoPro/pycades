@@ -5,29 +5,24 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void CertificateStatus_dealloc(CertificateStatus *self)
-{
+static void CertificateStatus_dealloc(CertificateStatus* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *CertificateStatus_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    CertificateStatus *self;
-    self = (CertificateStatus *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* CertificateStatus_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    CertificateStatus* self;
+    self = (CertificateStatus*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateStatusObject>(new CPPCadesCPCertificateStatusObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *CertificateStatus_getResult(CertificateStatus *self)
-{
+static PyObject* CertificateStatus_getResult(CertificateStatus* self) {
     BOOL bResult = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Result(&bResult));
-    if (bResult)
-    {
+    if (bResult) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;

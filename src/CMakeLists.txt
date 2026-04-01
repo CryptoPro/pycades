@@ -21,16 +21,16 @@ target_compile_definitions(pycades PRIVATE
 )
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
-    target_compile_definitions(pycades PRIVATE 
-        LINUX 
-        PROC_TYPE_ARM64=7 
+    target_compile_definitions(pycades PRIVATE
+        LINUX
+        PROC_TYPE_ARM64=7
         PROCESSOR_TYPE=PROC_TYPE_ARM64
     )
 endif()
 
-target_compile_options(pycades PRIVATE 
-    -Wno-write-strings 
-    -Wno-deprecated-declarations 
+target_compile_options(pycades PRIVATE
+    -Wno-write-strings
+    -Wno-deprecated-declarations
     -Wno-narrowing
 )
 
@@ -46,7 +46,7 @@ target_include_directories(pycades PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/cplib
 )
 
-set_target_properties(pycades PROPERTIES 
+set_target_properties(pycades PROPERTIES
     PREFIX ""
     OUTPUT_NAME "pycades"
 )
@@ -59,8 +59,8 @@ find_library(FOUND_LIB_CPLIB
     NAMES cplib
     HINTS /opt/cprocsp/lib/amd64 /opt/cprocsp/lib/ia32 /opt/cprocsp/lib/aarch64)
 
-target_link_libraries(pycades PRIVATE 
-    ${FOUND_LIB_CPPCADES} 
+target_link_libraries(pycades PRIVATE
+    ${FOUND_LIB_CPPCADES}
     ${FOUND_LIB_CPLIB}
 )
 

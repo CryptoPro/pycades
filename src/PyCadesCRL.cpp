@@ -2,41 +2,34 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void CRL_dealloc(CRL *self)
-{
+static void CRL_dealloc(CRL* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *CRL_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    CRL *self;
-    self = (CRL *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* CRL_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    CRL* self;
+    self = (CRL*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPCRLObject>(new CPPCadesCPCRLObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *CRL_Import(CRL *self, PyObject *args)
-{
-    char *szCRL = "";
-    if (!PyArg_ParseTuple(args, "s", &szCRL))
-    {
+static PyObject* CRL_Import(CRL* self, PyObject* args) {
+    char* szCRL = "";
+    if (!PyArg_ParseTuple(args, "s", &szCRL)) {
         return NULL;
     }
     CryptoPro::CBlob blobCRL;
-    blobCRL.assign((unsigned char *)szCRL, strlen((const char *)szCRL));
+    blobCRL.assign((unsigned char*)szCRL, strlen((const char*)szCRL));
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Import(blobCRL));
     Py_RETURN_NONE;
 }
 
-static PyObject *CRL_Export(CRL *self, PyObject *args)
-{
+static PyObject* CRL_Export(CRL* self, PyObject* args) {
     long lType = 0;
-    if (!PyArg_ParseTuple(args, "l", &lType))
-    {
+    if (!PyArg_ParseTuple(args, "l", &lType)) {
         return NULL;
     }
     CAPICOM_ENCODING_TYPE Type = (CAPICOM_ENCODING_TYPE)lType;
@@ -45,22 +38,19 @@ static PyObject *CRL_Export(CRL *self, PyObject *args)
     return Py_BuildValue("s", blobCRL.pbData());
 }
 
-static PyObject *CRL_getAuthKeyID(CRL *self)
-{
+static PyObject* CRL_getAuthKeyID(CRL* self) {
     CAtlString sKeyID;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_AuthKeyID(sKeyID));
     return Py_BuildValue("s", sKeyID.GetString());
 }
 
-static PyObject *CRL_getIssuerName(CRL *self)
-{
+static PyObject* CRL_getIssuerName(CRL* self) {
     CAtlString sIssuerName;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IssuerName(sIssuerName));
     return Py_BuildValue("s", sIssuerName.GetString());
 }
 
-static PyObject *CRL_getNextUpdate(CRL *self)
-{
+static PyObject* CRL_getNextUpdate(CRL* self) {
     CryptoPro::CDateTime nextUpdate;
     CryptoPro::CStringProxy strProxyNextUpdate;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_NextUpdate(nextUpdate));
@@ -68,8 +58,7 @@ static PyObject *CRL_getNextUpdate(CRL *self)
     return Py_BuildValue("s", strProxyNextUpdate.c_str());
 }
 
-static PyObject *CRL_getThisUpdate(CRL *self)
-{
+static PyObject* CRL_getThisUpdate(CRL* self) {
     CryptoPro::CDateTime thisUpdate;
     CryptoPro::CStringProxy strProxyThisUpdate;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_ThisUpdate(thisUpdate));
@@ -77,8 +66,7 @@ static PyObject *CRL_getThisUpdate(CRL *self)
     return Py_BuildValue("s", strProxyThisUpdate.c_str());
 }
 
-static PyObject *CRL_getThumbprint(CRL *self)
-{
+static PyObject* CRL_getThumbprint(CRL* self) {
     CAtlString sThumbprint;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Thumbprint(sThumbprint));
     return Py_BuildValue("s", sThumbprint.GetString());

@@ -3,41 +3,35 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Signers_dealloc(Signers *self)
-{
+static void Signers_dealloc(Signers* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Signers_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Signers *self;
-    self = (Signers *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Signers_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Signers* self;
+    self = (Signers*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPSignersObject>(new CPPCadesCPSignersObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Signers_getCount(Signers *self)
-{
+static PyObject* Signers_getCount(Signers* self) {
     unsigned int Count = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Count(&Count));
     return Py_BuildValue("l", Count);
 }
 
-static PyObject *Signers_getItem(Signers *self, PyObject *args)
-{
+static PyObject* Signers_getItem(Signers* self, PyObject* args) {
     long lIndex = 0;
-    if (!PyArg_ParseTuple(args, "l", &lIndex))
-    {
+    if (!PyArg_ParseTuple(args, "l", &lIndex)) {
         return NULL;
     }
     NS_SHARED_PTR::shared_ptr<CPPCadesCPSignerObject> pCPPCadesCPSigner;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Item(lIndex, pCPPCadesCPSigner));
-    PyObject *pPySigner = PyObject_CallObject((PyObject *)&SignerType, NULL);
-    Signer *pSigner = (Signer *)pPySigner;
+    PyObject* pPySigner = PyObject_CallObject((PyObject*)&SignerType, NULL);
+    Signer* pSigner = (Signer*)pPySigner;
     pSigner->m_pCppCadesImpl = pCPPCadesCPSigner;
     return Py_BuildValue("N", pSigner);
 }

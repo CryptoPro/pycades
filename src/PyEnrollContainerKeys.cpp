@@ -4,41 +4,35 @@
 
 using namespace CryptoPro::PKI::Enroll;
 
-static void ContainerKeys_dealloc(ContainerKeys *self)
-{
+static void ContainerKeys_dealloc(ContainerKeys* self) {
     self->m_pCppEnrollImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *ContainerKeys_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    ContainerKeys *self;
-    self = (ContainerKeys *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* ContainerKeys_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    ContainerKeys* self;
+    self = (ContainerKeys*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppEnrollImpl = NS_SHARED_PTR::shared_ptr<CPPEnrollContainerKeys>(new CPPEnrollContainerKeys());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *ContainerKeys_getCount(ContainerKeys *self)
-{
+static PyObject* ContainerKeys_getCount(ContainerKeys* self) {
     unsigned int Count = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_Count(&Count));
     return Py_BuildValue("l", Count);
 }
 
-static PyObject *ContainerKeys_getItemByIndex(ContainerKeys *self, PyObject *args)
-{
+static PyObject* ContainerKeys_getItemByIndex(ContainerKeys* self, PyObject* args) {
     long lIndex = 0;
-    if (!PyArg_ParseTuple(args, "l", &lIndex))
-    {
+    if (!PyArg_ParseTuple(args, "l", &lIndex)) {
         return NULL;
     }
     NS_SHARED_PTR::shared_ptr<CPPEnrollContainerKey> pCPPEnrollContainerKey;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_ItemByIndex(lIndex, pCPPEnrollContainerKey));
-    PyObject *pPyContainerKey = PyObject_CallObject((PyObject *)&ContainerKeyType, NULL);
-    ContainerKey *pContainerKey = (ContainerKey *)pPyContainerKey;
+    PyObject* pPyContainerKey = PyObject_CallObject((PyObject*)&ContainerKeyType, NULL);
+    ContainerKey* pContainerKey = (ContainerKey*)pPyContainerKey;
     pContainerKey->m_pCppEnrollImpl = pCPPEnrollContainerKey;
     return Py_BuildValue("N", pContainerKey);
 }

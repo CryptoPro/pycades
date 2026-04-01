@@ -6,7 +6,7 @@
 
 typedef struct {
     PyObject_HEAD
-    NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::Enroll::CPPEnrollContainerKeys> m_pCppEnrollImpl;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::Enroll::CPPEnrollContainerKeys> m_pCppEnrollImpl;
 } ContainerKeys;
 
 extern PyTypeObject ContainerKeysType;

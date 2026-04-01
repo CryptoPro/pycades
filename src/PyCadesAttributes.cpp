@@ -3,67 +3,56 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Attributes_dealloc(Attributes *self)
-{
+static void Attributes_dealloc(Attributes* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Attributes_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Attributes *self;
-    self = (Attributes *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Attributes_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Attributes* self;
+    self = (Attributes*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPAttributesObject>(new CPPCadesCPAttributesObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Attributes_getCount(Attributes *self)
-{
+static PyObject* Attributes_getCount(Attributes* self) {
     long count = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Count(&count));
     return Py_BuildValue("l", count);
 }
 
-static PyObject *Attributes_Add(Attributes *self, PyObject *args)
-{
-    PyObject *item = NULL;
-    if (!PyArg_ParseTuple(args, "O!", &AttributeType, &item))
-    {
+static PyObject* Attributes_Add(Attributes* self, PyObject* args) {
+    PyObject* item = NULL;
+    if (!PyArg_ParseTuple(args, "O!", &AttributeType, &item)) {
         return NULL;
     }
-    Attribute *pAttribute = (Attribute *)item;
+    Attribute* pAttribute = (Attribute*)item;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Add(pAttribute->m_pCppCadesImpl));
     Py_RETURN_NONE;
 }
 
-static PyObject *Attributes_getItem(Attributes *self, PyObject *args)
-{
+static PyObject* Attributes_getItem(Attributes* self, PyObject* args) {
     long index = 0;
-    if (!PyArg_ParseTuple(args, "l", &index))
-    {
+    if (!PyArg_ParseTuple(args, "l", &index)) {
         return NULL;
     }
 
-    PyObject *pPyAttribute = PyObject_CallObject((PyObject *)&AttributeType, NULL);
-    Attribute *pAttribute = (Attribute *)pPyAttribute;
+    PyObject* pPyAttribute = PyObject_CallObject((PyObject*)&AttributeType, NULL);
+    Attribute* pAttribute = (Attribute*)pPyAttribute;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Item(index, pAttribute->m_pCppCadesImpl));
     return Py_BuildValue("N", pAttribute);
 }
 
-static PyObject *Attributes_Clear(Attributes *self, PyObject *args)
-{
+static PyObject* Attributes_Clear(Attributes* self, PyObject* args) {
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Clear());
     Py_RETURN_NONE;
 }
 
-static PyObject *Attributes_Remove(Attributes *self, PyObject *args)
-{
+static PyObject* Attributes_Remove(Attributes* self, PyObject* args) {
     long index = 0;
-    if (!PyArg_ParseTuple(args, "l", &index))
-    {
+    if (!PyArg_ParseTuple(args, "l", &index)) {
         return NULL;
     }
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Remove(index));

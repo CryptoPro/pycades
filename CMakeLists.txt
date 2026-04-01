@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.18)
 
 set(PYCADES_VERSION "0.1.70200")
-project(PythonModule 
-    LANGUAGES CXX 
+project(PythonModule
+    LANGUAGES CXX
     VERSION ${PYCADES_VERSION}
 )
 

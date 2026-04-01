@@ -4,54 +4,47 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void RawSignature_dealloc(RawSignature *self)
-{
+static void RawSignature_dealloc(RawSignature* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *RawSignature_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    RawSignature *self;
-    self = (RawSignature *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* RawSignature_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    RawSignature* self;
+    self = (RawSignature*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesRawSignatureObject>(new CPPCadesRawSignatureObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *RawSignature_SignHash(RawSignature *self, PyObject *args)
-{
-    PyObject *pPyHashedData = NULL;
-    PyObject *pPyCert = NULL;
+static PyObject* RawSignature_SignHash(RawSignature* self, PyObject* args) {
+    PyObject* pPyHashedData = NULL;
+    PyObject* pPyCert = NULL;
     CAtlString sSignature;
 
-    if (!PyArg_ParseTuple(args, "O!O!", &HashedDataType, &pPyHashedData, &CertificateType, &pPyCert))
-    {
+    if (!PyArg_ParseTuple(args, "O!O!", &HashedDataType, &pPyHashedData, &CertificateType, &pPyCert)) {
         return NULL;
     }
 
-    HashedData *pHashedData = (HashedData *)pPyHashedData;
-    Certificate *pCert = (Certificate *)pPyCert;
+    HashedData* pHashedData = (HashedData*)pPyHashedData;
+    Certificate* pCert = (Certificate*)pPyCert;
 
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->SignHash(pHashedData->m_pCppCadesImpl, pCert->m_pCppCadesImpl, sSignature));
     return Py_BuildValue("s", sSignature.GetString());
 }
 
-static PyObject *RawSignature_VerifyHash(RawSignature *self, PyObject *args)
-{
-    PyObject *pPyHashedData = NULL;
-    PyObject *pPyCert = NULL;
-    char *szSignature = "";
+static PyObject* RawSignature_VerifyHash(RawSignature* self, PyObject* args) {
+    PyObject* pPyHashedData = NULL;
+    PyObject* pPyCert = NULL;
+    char* szSignature = "";
 
-    if (!PyArg_ParseTuple(args, "O!O!s", &HashedDataType, &pPyHashedData, &CertificateType, &pPyCert, &szSignature))
-    {
+    if (!PyArg_ParseTuple(args, "O!O!s", &HashedDataType, &pPyHashedData, &CertificateType, &pPyCert, &szSignature)) {
         return NULL;
     }
 
-    HashedData *pHashedData = (HashedData *)pPyHashedData;
-    Certificate *pCertificate = (Certificate *)pPyCert;
+    HashedData* pHashedData = (HashedData*)pPyHashedData;
+    Certificate* pCertificate = (Certificate*)pPyCert;
     CAtlString sSignature(szSignature);
 
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->VerifyHash(pHashedData->m_pCppCadesImpl, sSignature, pCertificate->m_pCppCadesImpl));

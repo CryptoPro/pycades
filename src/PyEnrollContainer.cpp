@@ -3,79 +3,67 @@
 
 using namespace CryptoPro::PKI::Enroll;
 
-static void Container_dealloc(Container *self)
-{
+static void Container_dealloc(Container* self) {
     self->m_pCppEnrollImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Container_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Container *self;
-    self = (Container *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Container_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Container* self;
+    self = (Container*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppEnrollImpl = NS_SHARED_PTR::shared_ptr<CPPEnrollContainer>(new CPPEnrollContainer());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Container_getUniqueName(Container *self)
-{
+static PyObject* Container_getUniqueName(Container* self) {
     CAtlString sValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_UniqueName(sValue));
     return Py_BuildValue("s", sValue.GetString());
 }
 
-static PyObject *Container_getMedia(Container *self)
-{
+static PyObject* Container_getMedia(Container* self) {
     CAtlString sValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_Media(sValue));
     return Py_BuildValue("s", sValue.GetString());
 }
 
-static PyObject *Container_getReader(Container *self)
-{
+static PyObject* Container_getReader(Container* self) {
     CAtlString sValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_Reader(sValue));
     return Py_BuildValue("s", sValue.GetString());
 }
 
-static PyObject *Container_getFQCN(Container *self)
-{
+static PyObject* Container_getFQCN(Container* self) {
     CAtlString sValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_FQCN(sValue));
     return Py_BuildValue("s", sValue.GetString());
 }
 
-static PyObject *Container_getName(Container *self)
-{
+static PyObject* Container_getName(Container* self) {
     CAtlString sValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_Name(sValue));
     return Py_BuildValue("s", sValue.GetString());
 }
 
-static PyObject *Container_Delete(Container *self, PyObject *args)
-{
+static PyObject* Container_Delete(Container* self, PyObject* args) {
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->Delete());
     Py_RETURN_NONE;
 }
 
-static PyObject *Container_getKeys(Container *self)
-{
+static PyObject* Container_getKeys(Container* self) {
     NS_SHARED_PTR::shared_ptr<CPPEnrollContainerKeys> pContKeys;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_Keys(pContKeys));
-    PyObject *pPyContainerKeys = PyObject_CallObject((PyObject *)&ContainerKeysType, NULL);
-    ContainerKeys *pContainerKeys = (ContainerKeys *)pPyContainerKeys;
+    PyObject* pPyContainerKeys = PyObject_CallObject((PyObject*)&ContainerKeysType, NULL);
+    ContainerKeys* pContainerKeys = (ContainerKeys*)pPyContainerKeys;
     pContainerKeys->m_pCppEnrollImpl = pContKeys;
     return Py_BuildValue("N", pContainerKeys);
 }
 
-static int Container_setSilent(Container *self, PyObject *value)
-{
+static int Container_setSilent(Container* self, PyObject* value) {
     int bValue = 0;
-    if (!PyArg_Parse(value, "i", &bValue))
-    {
+    if (!PyArg_Parse(value, "i", &bValue)) {
         return -1;
     }
     HR_SETTER_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->set_Silent(bValue));

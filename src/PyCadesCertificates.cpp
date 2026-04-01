@@ -3,62 +3,53 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Certificates_dealloc(Certificates *self)
-{
+static void Certificates_dealloc(Certificates* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Certificates_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Certificates *self;
-    self = (Certificates *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Certificates_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Certificates* self;
+    self = (Certificates*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificatesObject>(new CPPCadesCPCertificatesObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Certificates_Item(Certificates *self, PyObject *args)
-{
+static PyObject* Certificates_Item(Certificates* self, PyObject* args) {
     long lIndex = 0;
-    if (!PyArg_ParseTuple(args, "l", &lIndex))
-    {
+    if (!PyArg_ParseTuple(args, "l", &lIndex)) {
         return NULL;
     }
     NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> pCPPCadesCPCert;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Item(lIndex, pCPPCadesCPCert));
-    PyObject *pPyCertificate = PyObject_CallObject((PyObject *)&CertificateType, NULL);
-    Certificate *pCertificate = (Certificate *)pPyCertificate;
+    PyObject* pPyCertificate = PyObject_CallObject((PyObject*)&CertificateType, NULL);
+    Certificate* pCertificate = (Certificate*)pPyCertificate;
     pCertificate->m_pCppCadesImpl = pCPPCadesCPCert;
     return Py_BuildValue("N", pCertificate);
 }
 
-static PyObject *Certficates_Count(Certificates *self)
-{
+static PyObject* Certficates_Count(Certificates* self) {
     unsigned int count = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Count(&count));
     return Py_BuildValue("l", count);
 }
 
-static PyObject *Certificates_Find(Certificates *self, PyObject *args)
-{
-    PyObject *pPyQuery = NULL;
+static PyObject* Certificates_Find(Certificates* self, PyObject* args) {
+    PyObject* pPyQuery = NULL;
     long lType = 0;
     int iValidOnly = 0;
-    if (!PyArg_ParseTuple(args, "l|Oi", &lType, &pPyQuery, &iValidOnly))
-    {
+    if (!PyArg_ParseTuple(args, "l|Oi", &lType, &pPyQuery, &iValidOnly)) {
         return NULL;
     }
 
     CAPICOM_CERTIFICATE_FIND_TYPE Type = (CAPICOM_CERTIFICATE_FIND_TYPE)lType;
     FindCriteria findCriteria;
-    char *szQuery = "";
+    char* szQuery = "";
     long lQuery = 0;
 
-    switch (Type)
-    {
+    switch (Type) {
     case CAPICOM_CERTIFICATE_FIND_SHA1_HASH:
     case CAPICOM_CERTIFICATE_FIND_SUBJECT_NAME:
     case CAPICOM_CERTIFICATE_FIND_ISSUER_NAME:
@@ -66,8 +57,7 @@ static PyObject *Certificates_Find(Certificates *self, PyObject *args)
     case CAPICOM_CERTIFICATE_FIND_TEMPLATE_NAME:
     case CAPICOM_CERTIFICATE_FIND_CERTIFICATE_POLICY:
     {
-        if (!PyArg_Parse(pPyQuery, "s", &szQuery))
-        {
+        if (!PyArg_Parse(pPyQuery, "s", &szQuery)) {
             return NULL;
         }
 
@@ -78,8 +68,7 @@ static PyObject *Certificates_Find(Certificates *self, PyObject *args)
     case CAPICOM_CERTIFICATE_FIND_EXTENDED_PROPERTY:
     case CAPICOM_CERTIFICATE_FIND_KEY_USAGE:
     {
-        if (!PyArg_Parse(pPyQuery, "l", &lQuery))
-        {
+        if (!PyArg_Parse(pPyQuery, "l", &lQuery)) {
             return NULL;
         }
         findCriteria.dwCriteriaFlag = FIND_CRITERIA_DWORD;
@@ -89,15 +78,12 @@ static PyObject *Certificates_Find(Certificates *self, PyObject *args)
     case CAPICOM_CERTIFICATE_FIND_EXTENSION:
     case CAPICOM_CERTIFICATE_FIND_APPLICATION_POLICY:
     {
-        if (PyArg_Parse(pPyQuery, "s", &szQuery))
-        {
+        if (PyArg_Parse(pPyQuery, "s", &szQuery)) {
             findCriteria.str = CAtlString(szQuery);
             findCriteria.dwCriteriaFlag = FIND_CRITERIA_STRING;
         }
-        else
-        {
-            if (!PyArg_Parse(pPyQuery, "l", &lQuery))
-            {
+        else {
+            if (!PyArg_Parse(pPyQuery, "l", &lQuery)) {
                 return NULL;
             }
             findCriteria.dwCriteriaFlag = FIND_CRITERIA_DWORD;
@@ -110,24 +96,19 @@ static PyObject *Certificates_Find(Certificates *self, PyObject *args)
     case CAPICOM_CERTIFICATE_FIND_TIME_EXPIRED:
     {
         CryptoPro::CDateTime utcDate;
-        if (pPyQuery)
-        {
-            if (!PyArg_Parse(pPyQuery, "s", &szQuery))
-            {
+        if (pPyQuery) {
+            if (!PyArg_Parse(pPyQuery, "s", &szQuery)) {
                 return NULL;
             }
-            try
-            {
+            try {
                 utcDate = CryptoPro::CDateTime(szQuery);
             }
-            catch (...)
-            {
+            catch (...) {
                 PyErr_BadArgument();
                 return NULL;
             }
         }
-        else
-        {
+        else {
             utcDate = CryptoPro::CDateTime::Now();
         }
         findCriteria.dwCriteriaFlag = FIND_CRITERIA_DATE;
@@ -139,8 +120,8 @@ static PyObject *Certificates_Find(Certificates *self, PyObject *args)
         return NULL;
     }
 
-    PyObject *pPyCertificates = PyObject_CallObject((PyObject *)&CertificatesType, NULL);
-    Certificates *pCertificates = (Certificates *)pPyCertificates;
+    PyObject* pPyCertificates = PyObject_CallObject((PyObject*)&CertificatesType, NULL);
+    Certificates* pCertificates = (Certificates*)pPyCertificates;
     BOOL bValidOnly = (BOOL)iValidOnly;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Find(Type, &findCriteria, bValidOnly, pCertificates->m_pCppCadesImpl));
     return Py_BuildValue("N", pCertificates);

@@ -2,39 +2,33 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Version_dealloc(Version *self)
-{
+static void Version_dealloc(Version* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Version_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Version *self;
-    self = (Version *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Version_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Version* self;
+    self = (Version*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPVersionObject>(new CPPVersionObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Version_getMajorVersion(Version *self)
-{
+static PyObject* Version_getMajorVersion(Version* self) {
     unsigned int version = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_MajorVersion(&version));
     return Py_BuildValue("i", version);
 }
 
-static PyObject *Version_getMinorVersion(Version *self)
-{
+static PyObject* Version_getMinorVersion(Version* self) {
     unsigned int version = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_MinorVersion(&version));
     return Py_BuildValue("i", version);
 }
 
-static PyObject *Version_getBuildVersion(Version *self)
-{
+static PyObject* Version_getBuildVersion(Version* self) {
     unsigned int version = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_BuildVersion(&version));
     return Py_BuildValue("i", version);
@@ -47,8 +41,7 @@ static PyGetSetDef Version_getset[] = {
     {NULL} /* Sentinel */
 };
 
-static PyObject *Version_toString(Version *self)
-{
+static PyObject* Version_toString(Version* self) {
     CAtlString AtlVersion;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->toString(AtlVersion));
     return Py_BuildValue("s", AtlVersion.GetString());

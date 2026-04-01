@@ -12,28 +12,23 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Certificate_dealloc(Certificate *self)
-{
+static void Certificate_dealloc(Certificate* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Certificate_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Certificate *self;
-    self = (Certificate *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Certificate_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Certificate* self;
+    self = (Certificate*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject>(new CPPCadesCPCertificateObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Certificate_getInfo(Certificate *self, PyObject *args)
-{
+static PyObject* Certificate_getInfo(Certificate* self, PyObject* args) {
     long lType = 0;
-    if (!PyArg_ParseTuple(args, "l", &lType))
-    {
+    if (!PyArg_ParseTuple(args, "l", &lType)) {
         return NULL;
     }
     CAPICOM_CERT_INFO_TYPE Type = (CAPICOM_CERT_INFO_TYPE)lType;
@@ -42,139 +37,119 @@ static PyObject *Certificate_getInfo(Certificate *self, PyObject *args)
     return Py_BuildValue("s", sInfo.GetString());
 }
 
-static PyObject *Certificate_findPrivateKey(Certificate *self, PyObject *args)
-{
-    PyObject *pPyCriteria = NULL;
-    if (!PyArg_ParseTuple(args, "|O", &pPyCriteria))
-    {
+static PyObject* Certificate_findPrivateKey(Certificate* self, PyObject* args) {
+    PyObject* pPyCriteria = NULL;
+    if (!PyArg_ParseTuple(args, "|O", &pPyCriteria)) {
         return NULL;
     }
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->FindPrivateKey(CAtlString()));
     Py_RETURN_NONE;
 }
 
-static PyObject *Certificate_hasPrivateKey(Certificate *self)
-{
+static PyObject* Certificate_hasPrivateKey(Certificate* self) {
     BOOL has = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->HasPrivateKey(&has));
-    if (has)
-    {
+    if (has) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *Certificate_isValid(Certificate *self)
-{
+static PyObject* Certificate_isValid(Certificate* self) {
     NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateStatusObject> pCppCadesStatus(new CPPCadesCPCertificateStatusObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->IsValid(pCppCadesStatus));
-    PyObject *pPyStatus = PyObject_CallObject((PyObject *)&CertificateStatusType, NULL);
-    CertificateStatus *pStatus = (CertificateStatus *)pPyStatus;
+    PyObject* pPyStatus = PyObject_CallObject((PyObject*)&CertificateStatusType, NULL);
+    CertificateStatus* pStatus = (CertificateStatus*)pPyStatus;
     pStatus->m_pCppCadesImpl = pCppCadesStatus;
     return Py_BuildValue("N", pStatus);
 }
 
-static PyObject *Certificate_KeyUsage(Certificate *self)
-{
-    PyObject *pPyKeyUsage = PyObject_CallObject((PyObject *)&KeyUsageType, NULL);
-    KeyUsage *pKeyUsage = (KeyUsage *)pPyKeyUsage;
+static PyObject* Certificate_KeyUsage(Certificate* self) {
+    PyObject* pPyKeyUsage = PyObject_CallObject((PyObject*)&KeyUsageType, NULL);
+    KeyUsage* pKeyUsage = (KeyUsage*)pPyKeyUsage;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->KeyUsage(pKeyUsage->m_pCppCadesImpl));
     return Py_BuildValue("N", pKeyUsage);
 }
 
-static PyObject *Certificate_ExtendedKeyUsage(Certificate *self)
-{
-    PyObject *pPyExtendedKeyUsage = PyObject_CallObject((PyObject *)&ExtendedKeyUsageType, NULL);
-    ExtendedKeyUsage *pExtendedKeyUsage = (ExtendedKeyUsage *)pPyExtendedKeyUsage;
+static PyObject* Certificate_ExtendedKeyUsage(Certificate* self) {
+    PyObject* pPyExtendedKeyUsage = PyObject_CallObject((PyObject*)&ExtendedKeyUsageType, NULL);
+    ExtendedKeyUsage* pExtendedKeyUsage = (ExtendedKeyUsage*)pPyExtendedKeyUsage;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->ExtendedKeyUsage(pExtendedKeyUsage->m_pCppCadesImpl));
     return Py_BuildValue("N", pExtendedKeyUsage);
 }
 
-static PyObject *Certificate_Export(Certificate *self, PyObject *args)
-{
+static PyObject* Certificate_Export(Certificate* self, PyObject* args) {
     long lType = 0;
-    if (!PyArg_ParseTuple(args, "l", &lType))
-    {
+    if (!PyArg_ParseTuple(args, "l", &lType)) {
         return NULL;
     }
     CryptoPro::CBlob value;
     CAPICOM_ENCODING_TYPE Type = (CAPICOM_ENCODING_TYPE)lType;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Export(Type, value));
-    return Type == CAPICOM_ENCODE_BINARY ? 
-        PyBytes_FromStringAndSize((const char *)value.pbData(), value.cbData()) : 
+    return Type == CAPICOM_ENCODE_BINARY ?
+        PyBytes_FromStringAndSize((const char*)value.pbData(), value.cbData()) :
         Py_BuildValue("s", value.pbData());
 }
 
-static PyObject *Certificate_Import(Certificate *self, PyObject *args)
-{
-    PyObject *pArg = NULL;
-    if (!PyArg_ParseTuple(args, "O", &pArg))
-    {
+static PyObject* Certificate_Import(Certificate* self, PyObject* args) {
+    PyObject* pArg = NULL;
+    if (!PyArg_ParseTuple(args, "O", &pArg)) {
         return NULL;
     }
 
-    char *pCertificateBuf = "";
+    char* pCertificateBuf = "";
     int CertificateLength = 0;
-    if (PyObject_TypeCheck(pArg, &PyBytes_Type))
-    {
+    if (PyObject_TypeCheck(pArg, &PyBytes_Type)) {
         pCertificateBuf = PyBytes_AS_STRING(pArg);
         CertificateLength = PyBytes_Size(pArg);
     }
-    else if (PyObject_TypeCheck(pArg, &PyUnicode_Type))
-    {
+    else if (PyObject_TypeCheck(pArg, &PyUnicode_Type)) {
         if (!PyArg_Parse(pArg, "s", &pCertificateBuf))
             return NULL;
         CertificateLength = PyUnicode_GET_LENGTH(pArg);
     }
-    else
-    {
+    else {
         PyErr_BadArgument();
         return NULL;
     }
 
     CryptoPro::CBlob value;
-    value.assign((unsigned char *)pCertificateBuf, CertificateLength);
+    value.assign((unsigned char*)pCertificateBuf, CertificateLength);
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Import(value));
     Py_RETURN_NONE;
 }
 
-static PyObject *Certificate_getSerialNumber(Certificate *self)
-{
+static PyObject* Certificate_getSerialNumber(Certificate* self) {
     CAtlString sSerialNumber;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_SerialNumber(sSerialNumber));
     return Py_BuildValue("s", sSerialNumber.GetString());
 }
 
-static PyObject *Certificate_getThumbprint(Certificate *self)
-{
+static PyObject* Certificate_getThumbprint(Certificate* self) {
     CAtlString sThumbprint;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Thumbprint(sThumbprint));
     return Py_BuildValue("s", sThumbprint.GetString());
 }
 
-static PyObject *Certificate_getSubjectName(Certificate *self)
-{
+static PyObject* Certificate_getSubjectName(Certificate* self) {
     CAtlString sSubjectName;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_SubjectName(sSubjectName));
     return Py_BuildValue("s", sSubjectName.GetString());
 }
 
-static PyObject *Certificate_getIssuerName(Certificate *self)
-{
+static PyObject* Certificate_getIssuerName(Certificate* self) {
     CAtlString sIssuerName;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IssuerName(sIssuerName));
     return Py_BuildValue("s", sIssuerName.GetString());
 }
 
-static PyObject *Certificate_getVersion(Certificate *self)
-{
+static PyObject* Certificate_getVersion(Certificate* self) {
     DWORD dwVersion;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Version(&dwVersion));
     return Py_BuildValue("l", dwVersion);
 }
 
-static PyObject *Certificate_getValidFromDate(Certificate *self)
-{
+static PyObject* Certificate_getValidFromDate(Certificate* self) {
     CryptoPro::CDateTime date;
     CryptoPro::CStringProxy strProxyDate;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_ValidFromDate(date));
@@ -182,8 +157,7 @@ static PyObject *Certificate_getValidFromDate(Certificate *self)
     return Py_BuildValue("s", strProxyDate.c_str());
 }
 
-static PyObject *Certificate_getValidToDate(Certificate *self)
-{
+static PyObject* Certificate_getValidToDate(Certificate* self) {
     CryptoPro::CDateTime date;
     CryptoPro::CStringProxy strProxyDate;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_ValidToDate(date));
@@ -191,57 +165,50 @@ static PyObject *Certificate_getValidToDate(Certificate *self)
     return Py_BuildValue("s", strProxyDate.c_str());
 }
 
-static PyObject *Certificate_PrivateKey(Certificate *self)
-{
-    PyObject *pPyPrivateKey = PyObject_CallObject((PyObject *)&PrivateKeyType, NULL);
-    PrivateKey *pPrivateKey = (PrivateKey *)pPyPrivateKey;
+static PyObject* Certificate_PrivateKey(Certificate* self) {
+    PyObject* pPyPrivateKey = PyObject_CallObject((PyObject*)&PrivateKeyType, NULL);
+    PrivateKey* pPrivateKey = (PrivateKey*)pPyPrivateKey;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->PrivateKey(pPrivateKey->m_pCppCadesImpl));
     return Py_BuildValue("N", pPrivateKey);
 }
 
-static PyObject *Certificate_PublicKey(Certificate *self)
-{
-    PyObject *pPyPublicKey = PyObject_CallObject((PyObject *)&PublicKeyType, NULL);
-    PublicKey *pPublicKey = (PublicKey *)pPyPublicKey;
+static PyObject* Certificate_PublicKey(Certificate* self) {
+    PyObject* pPyPublicKey = PyObject_CallObject((PyObject*)&PublicKeyType, NULL);
+    PublicKey* pPublicKey = (PublicKey*)pPyPublicKey;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->PublicKey(pPublicKey->m_pCppCadesImpl));
     return Py_BuildValue("N", pPublicKey);
 }
 
-static PyObject *Certificate_AdditionalStore(Certificate *self, PyObject *args)
-{
-    PyObject *pPyStore = NULL;
-    if (!PyArg_ParseTuple(args, "O!", &StoreType, &pPyStore))
-    {
+static PyObject* Certificate_AdditionalStore(Certificate* self, PyObject* args) {
+    PyObject* pPyStore = NULL;
+    if (!PyArg_ParseTuple(args, "O!", &StoreType, &pPyStore)) {
         return NULL;
     }
-    Store *pStore = (Store *)pPyStore;
+    Store* pStore = (Store*)pPyStore;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->AdditionalStore(pStore->m_pCppCadesImpl));
     Py_RETURN_NONE;
 }
 
-static PyObject *Certificate_BasicConstraints(Certificate *self)
-{
-    PyObject *pPyBasicConstraints = PyObject_CallObject((PyObject *)&BasicConstraintsType, NULL);
-    BasicConstraints *pBasicConstraints = (BasicConstraints *)pPyBasicConstraints;
+static PyObject* Certificate_BasicConstraints(Certificate* self) {
+    PyObject* pPyBasicConstraints = PyObject_CallObject((PyObject*)&BasicConstraintsType, NULL);
+    BasicConstraints* pBasicConstraints = (BasicConstraints*)pPyBasicConstraints;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->BasicConstraints(pBasicConstraints->m_pCppCadesImpl));
     return Py_BuildValue("N", pBasicConstraints);
 }
 
 #if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15000)
-static PyObject *Certificate_Extensions(Certificate *self)
-{
+static PyObject* Certificate_Extensions(Certificate* self) {
     NS_SHARED_PTR::shared_ptr<CPPCadesCPExtensionsObject> pCppCadesExtensions(new CPPCadesCPExtensionsObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Extensions(pCppCadesExtensions));
-    PyObject *pPyExtensions = PyObject_CallObject((PyObject *)&ExtensionsType, NULL);
-    Extensions *pExtensions = (Extensions *)pPyExtensions;
+    PyObject* pPyExtensions = PyObject_CallObject((PyObject*)&ExtensionsType, NULL);
+    Extensions* pExtensions = (Extensions*)pPyExtensions;
     pExtensions->m_pCppCadesImpl = pCppCadesExtensions;
     return Py_BuildValue("N", pExtensions);
 }
 #endif
 
 #if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15400)
-static PyObject *Certificate_getPrivateKeyUsagePeriodFrom(Certificate *self)
-{
+static PyObject* Certificate_getPrivateKeyUsagePeriodFrom(Certificate* self) {
     CryptoPro::CDateTime date;
     CryptoPro::CStringProxy strProxyDate;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_PrivateKeyUsagePeriodFrom(date));
@@ -249,8 +216,7 @@ static PyObject *Certificate_getPrivateKeyUsagePeriodFrom(Certificate *self)
     return Py_BuildValue("s", strProxyDate.c_str());
 }
 
-static PyObject *Certificate_getPrivateKeyUsagePeriodTo(Certificate *self)
-{
+static PyObject* Certificate_getPrivateKeyUsagePeriodTo(Certificate* self) {
     CryptoPro::CDateTime date;
     CryptoPro::CStringProxy strProxyDate;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_PrivateKeyUsagePeriodTo(date));

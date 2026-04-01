@@ -4,35 +4,29 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void EnvelopedData_dealloc(EnvelopedData *self)
-{
+static void EnvelopedData_dealloc(EnvelopedData* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *EnvelopedData_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    EnvelopedData *self;
-    self = (EnvelopedData *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* EnvelopedData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    EnvelopedData* self;
+    self = (EnvelopedData*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPEnvelopedDataObject>(new CPPCadesCPEnvelopedDataObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *EnvelopedData_getContent(EnvelopedData *self)
-{
+static PyObject* EnvelopedData_getContent(EnvelopedData* self) {
     CStringBlob blobContent;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Content(blobContent));
     return Py_BuildValue("s", blobContent.GetString());
 }
 
-static int EnvelopedData_setContent(EnvelopedData *self, PyObject *value)
-{
-    char *szContent = "";
-    if (!PyArg_Parse(value, "s", &szContent))
-    {
+static int EnvelopedData_setContent(EnvelopedData* self, PyObject* value) {
+    char* szContent = "";
+    if (!PyArg_Parse(value, "s", &szContent)) {
         return -1;
     }
     CAtlString sContent = CAtlString(szContent);
@@ -40,108 +34,93 @@ static int EnvelopedData_setContent(EnvelopedData *self, PyObject *value)
     return 0;
 }
 
-static PyObject *EnvelopedData_getContentEncoding(EnvelopedData *self)
-{
+static PyObject* EnvelopedData_getContentEncoding(EnvelopedData* self) {
     CADESCOM_CONTENT_ENCODING_TYPE ContentEncoding;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_ContentEncoding(&ContentEncoding));
     return Py_BuildValue("l", ContentEncoding);
 }
 
-static int EnvelopedData_setContentEncoding(EnvelopedData *self, PyObject *value)
-{
+static int EnvelopedData_setContentEncoding(EnvelopedData* self, PyObject* value) {
     long ContentEncoding = 0;
-    if (!PyArg_Parse(value, "l", &ContentEncoding))
-    {
+    if (!PyArg_Parse(value, "l", &ContentEncoding)) {
         return -1;
     }
     HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_ContentEncoding((CADESCOM_CONTENT_ENCODING_TYPE)ContentEncoding));
     return 0;
 }
 
-static PyObject *EnvelopedData_getRecipients(EnvelopedData *self)
-{
-    PyObject *pPyRecipients = PyObject_CallObject((PyObject *)&RecipientsType, NULL);
-    Recipients *pRecipients = (Recipients *)pPyRecipients;
+static PyObject* EnvelopedData_getRecipients(EnvelopedData* self) {
+    PyObject* pPyRecipients = PyObject_CallObject((PyObject*)&RecipientsType, NULL);
+    Recipients* pRecipients = (Recipients*)pPyRecipients;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Recipients(pRecipients->m_pCppCadesImpl));
     return Py_BuildValue("N", pRecipients);
 }
 
-static PyObject *EnvelopedData_getAlgorithm(EnvelopedData *self)
-{
-    PyObject *pPyAlgorithmType = PyObject_CallObject((PyObject *)&AlgorithmType, NULL);
-    Algorithm *pAlgorithm = (Algorithm *)pPyAlgorithmType;
+static PyObject* EnvelopedData_getAlgorithm(EnvelopedData* self) {
+    PyObject* pPyAlgorithmType = PyObject_CallObject((PyObject*)&AlgorithmType, NULL);
+    Algorithm* pAlgorithm = (Algorithm*)pPyAlgorithmType;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Algorithm(pAlgorithm->m_pCppCadesImpl));
     return Py_BuildValue("N", pAlgorithm);
 }
 
-static PyObject *EnvelopedData_Encrypt(EnvelopedData *self, PyObject *args)
-{
+static PyObject* EnvelopedData_Encrypt(EnvelopedData* self, PyObject* args) {
     long lEncodingType = 0;
-    if (!PyArg_ParseTuple(args, "|l", &lEncodingType))
-    {
+    if (!PyArg_ParseTuple(args, "|l", &lEncodingType)) {
         return NULL;
     }
 
     CAPICOM_ENCODING_TYPE EncodingType = (CAPICOM_ENCODING_TYPE)lEncodingType;
     CryptoPro::CBlob blobData;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Encrypt(EncodingType, blobData));
-    CAtlString sData = CAtlString((const char *)blobData.pbData(), blobData.cbData());
+    CAtlString sData = CAtlString((const char*)blobData.pbData(), blobData.cbData());
     return Py_BuildValue("s", sData.GetString());
 }
 
-static PyObject *EnvelopedData_Decrypt(EnvelopedData *self, PyObject *args)
-{
-    char *szData = "";
-    if (!PyArg_ParseTuple(args, "s", &szData))
-    {
+static PyObject* EnvelopedData_Decrypt(EnvelopedData* self, PyObject* args) {
+    char* szData = "";
+    if (!PyArg_ParseTuple(args, "s", &szData)) {
         return NULL;
     }
     CryptoPro::CBlob blobData;
-    blobData.assign((unsigned char *)szData, strlen((const char *)szData));
+    blobData.assign((unsigned char*)szData, strlen((const char*)szData));
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Decrypt(blobData));
     Py_RETURN_NONE;
 }
 
-static PyObject *EnvelopedData_StreamEncrypt(EnvelopedData *self, PyObject *args)
-{
-    char *szData = "";
+static PyObject* EnvelopedData_StreamEncrypt(EnvelopedData* self, PyObject* args) {
+    char* szData = "";
     int bIsFinal = 0;
-    if (!PyArg_ParseTuple(args, "si", &szData, &bIsFinal))
-    {
+    if (!PyArg_ParseTuple(args, "si", &szData, &bIsFinal)) {
         return NULL;
     }
 
     CAtlString sData = CAtlString(CA2CT(CAtlStringA(szData), CP_UTF8));
     CryptoPro::CBlob blobResult;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->StreamEncrypt(
-            sData.GetString(), sData.GetLength(), bIsFinal, blobResult));
+        sData.GetString(), sData.GetLength(), bIsFinal, blobResult));
 
     CAtlString sResult;
-    if (blobResult.cbData())
-    {
-        sResult = CAtlString((const char *)blobResult.pbData(), blobResult.cbData());
+    if (blobResult.cbData()) {
+        sResult = CAtlString((const char*)blobResult.pbData(), blobResult.cbData());
     }
     return Py_BuildValue("s", sResult.GetString());
 }
 
-static PyObject *EnvelopedData_StreamDecrypt(EnvelopedData *self, PyObject *args)
-{
-    char *szData = "";
+static PyObject* EnvelopedData_StreamDecrypt(EnvelopedData* self, PyObject* args) {
+    char* szData = "";
     int bIsFinal = 0;
-    if (!PyArg_ParseTuple(args, "si", &szData, &bIsFinal))
-    {
+    if (!PyArg_ParseTuple(args, "si", &szData, &bIsFinal)) {
         return NULL;
     }
 
     CAtlString sData = CAtlString(CA2CT(CAtlStringA(szData), CP_UTF8));
     CryptoPro::CBlob blobResult;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->StreamDecrypt(
-            sData.GetString(), sData.GetLength(), bIsFinal, blobResult));
+        sData.GetString(), sData.GetLength(), bIsFinal, blobResult));
 
     CAtlString sResult;
-    if (blobResult.cbData())
-    {
-        sResult = CAtlString((const char *)blobResult.pbData(), blobResult.cbData());
+    if (blobResult.cbData()) {
+        sResult = CAtlString((const char*)blobResult.pbData(), blobResult.cbData());
     }
     return Py_BuildValue("s", sResult.GetString());
 }

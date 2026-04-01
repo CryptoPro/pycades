@@ -3,41 +3,35 @@
 
 using namespace CryptoPro::PKI::Enroll;
 
-static void Containers_dealloc(Containers *self)
-{
+static void Containers_dealloc(Containers* self) {
     self->m_pCppEnrollImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Containers_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Containers *self;
-    self = (Containers *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Containers_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Containers* self;
+    self = (Containers*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppEnrollImpl = NS_SHARED_PTR::shared_ptr<CPPEnrollContainers>(new CPPEnrollContainers());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Containers_getCount(Containers *self)
-{
+static PyObject* Containers_getCount(Containers* self) {
     unsigned int Count = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_Count(&Count));
     return Py_BuildValue("l", Count);
 }
 
-static PyObject *Containers_getItemByIndex(Containers *self, PyObject *args)
-{
+static PyObject* Containers_getItemByIndex(Containers* self, PyObject* args) {
     long lIndex = 0;
-    if (!PyArg_ParseTuple(args, "l", &lIndex))
-    {
+    if (!PyArg_ParseTuple(args, "l", &lIndex)) {
         return NULL;
     }
     NS_SHARED_PTR::shared_ptr<CPPEnrollContainer> pCPPEnrollContainer;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_ItemByIndex(lIndex, pCPPEnrollContainer));
-    PyObject *pPyContainer = PyObject_CallObject((PyObject *)&ContainerType, NULL);
-    Container *pContainer = (Container *)pPyContainer;
+    PyObject* pPyContainer = PyObject_CallObject((PyObject*)&ContainerType, NULL);
+    Container* pContainer = (Container*)pPyContainer;
     pContainer->m_pCppEnrollImpl = pCPPEnrollContainer;
     return Py_BuildValue("N", pContainer);
 }

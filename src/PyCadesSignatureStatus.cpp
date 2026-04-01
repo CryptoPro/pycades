@@ -2,29 +2,24 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void SignatureStatus_dealloc(SignatureStatus *self)
-{
+static void SignatureStatus_dealloc(SignatureStatus* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *SignatureStatus_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    SignatureStatus *self;
-    self = (SignatureStatus *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* SignatureStatus_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    SignatureStatus* self;
+    self = (SignatureStatus*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesSignatureStatusObject>(new CPPCadesSignatureStatusObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *SignatureStatus_getIsValid(SignatureStatus *self)
-{
+static PyObject* SignatureStatus_getIsValid(SignatureStatus* self) {
     bool bIsValid = false;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->IsValid(bIsValid));
-    if (bIsValid)
-    {
+    if (bIsValid) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;

@@ -3,59 +3,50 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Attribute_dealloc(Attribute *self)
-{
+static void Attribute_dealloc(Attribute* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Attribute_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Attribute *self;
-    self = (Attribute *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Attribute_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Attribute* self;
+    self = (Attribute*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPAttributeObject>(new CPPCadesCPAttributeObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Attribute_getOID(Attribute *self)
-{
+static PyObject* Attribute_getOID(Attribute* self) {
     NS_SHARED_PTR::shared_ptr<CPPCadesCPOIDObject> pCPPCadesCPOID(new CPPCadesCPOIDObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_OID(pCPPCadesCPOID));
 
-    PyObject *pPyOID = PyObject_CallObject((PyObject *)&OIDType, NULL);
-    OID *pOID = (OID *)pPyOID;
+    PyObject* pPyOID = PyObject_CallObject((PyObject*)&OIDType, NULL);
+    OID* pOID = (OID*)pPyOID;
     pOID->m_pCppCadesImpl = pCPPCadesCPOID;
     return Py_BuildValue("N", pOID);
 }
 
-static int Attribute_setValue(Attribute *self, PyObject *value)
-{
-    char *szValue = "";
-    if (!PyArg_Parse(value, "s", &szValue))
-    {
+static int Attribute_setValue(Attribute* self, PyObject* value) {
+    char* szValue = "";
+    if (!PyArg_Parse(value, "s", &szValue)) {
         return -1;
     }
     CADESCOM_ATTRIBUTE Name;
     HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Name(&Name));
-    if (Name == CADESCOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME)
-    {
+    if (Name == CADESCOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME) {
         CryptoPro::CDateTime time(szValue);
         HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_DateTimeValue(time));
     }
-    else
-    {
+    else {
         CryptoPro::CBlob blobValue;
-        blobValue.assign((unsigned char *)szValue, strlen(szValue));
+        blobValue.assign((unsigned char*)szValue, strlen(szValue));
         HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_Value(blobValue));
     }
     return 0;
 }
 
-static PyObject *Attribute_getValue(Attribute *self)
-{
+static PyObject* Attribute_getValue(Attribute* self) {
     CryptoPro::CBlob blobValue;
     CADESCOM_ATTRIBUTE Name;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Value(blobValue));
@@ -63,22 +54,18 @@ static PyObject *Attribute_getValue(Attribute *self)
 
     DWORD dwLen = blobValue.cbData();
     std::vector<BYTE> vbValue(dwLen + 1, 0);
-    if (Name != CADESCOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME)
-    {
+    if (Name != CADESCOM_AUTHENTICATED_ATTRIBUTE_SIGNING_TIME) {
         memcpy(&vbValue[0], blobValue.pbData(), dwLen);
     }
-    else
-    {
+    else {
         FILETIME fTime;
         DWORD fTimeSize = sizeof(FILETIME);
-        if (!CryptStringToBinary(reinterpret_cast<TCHAR *>(blobValue.pbData()), dwLen, 
-            CRYPT_STRING_BASE64, &vbValue[0], &dwLen, NULL, NULL)) 
-        {
+        if (!CryptStringToBinary(reinterpret_cast<TCHAR*>(blobValue.pbData()), dwLen,
+            CRYPT_STRING_BASE64, &vbValue[0], &dwLen, NULL, NULL)) {
             HR_METHOD_ERRORCHECK_RETURN(CAPICOM_E_ATTRIBUTE_INVALID_VALUE);
         }
         if (!CryptDecodeObject(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
-            (LPCSTR)szOID_RSA_signingTime, &vbValue[0], dwLen, 0, &fTime, &fTimeSize)) 
-        {
+            (LPCSTR)szOID_RSA_signingTime, &vbValue[0], dwLen, 0, &fTime, &fTimeSize)) {
             HR_METHOD_ERRORCHECK_RETURN(CAPICOM_E_ATTRIBUTE_INVALID_VALUE);
         }
         CryptoPro::CDateTime Time(fTime);
@@ -88,11 +75,9 @@ static PyObject *Attribute_getValue(Attribute *self)
     return Py_BuildValue("s", &vbValue[0]);
 }
 
-static int Attribute_setName(Attribute *self, PyObject *value)
-{
+static int Attribute_setName(Attribute* self, PyObject* value) {
     long lName = 0;
-    if (!PyArg_Parse(value, "l", &lName))
-    {
+    if (!PyArg_Parse(value, "l", &lName)) {
         return -1;
     }
     CADESCOM_ATTRIBUTE Name = (CADESCOM_ATTRIBUTE)lName;
@@ -100,18 +85,15 @@ static int Attribute_setName(Attribute *self, PyObject *value)
     return 0;
 }
 
-static PyObject *Attribute_getName(Attribute *self)
-{
+static PyObject* Attribute_getName(Attribute* self) {
     CADESCOM_ATTRIBUTE Name;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Name(&Name));
     return Py_BuildValue("l", (long)Name);
 }
 
-static int Attribute_setValueEncoding(Attribute *self, PyObject *value)
-{
+static int Attribute_setValueEncoding(Attribute* self, PyObject* value) {
     long lType = 0;
-    if (!PyArg_Parse(value, "l", &lType))
-    {
+    if (!PyArg_Parse(value, "l", &lType)) {
         return -1;
     }
     CAPICOM_ENCODING_TYPE Type = (CAPICOM_ENCODING_TYPE)lType;
@@ -119,8 +101,7 @@ static int Attribute_setValueEncoding(Attribute *self, PyObject *value)
     return 0;
 }
 
-static PyObject *Attribute_getValueEncoding(Attribute *self)
-{
+static PyObject* Attribute_getValueEncoding(Attribute* self) {
     CAPICOM_ENCODING_TYPE Type;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_ValueEncoding(&Type));
     return Py_BuildValue("l", (long)Type);

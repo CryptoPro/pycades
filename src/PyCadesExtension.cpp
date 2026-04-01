@@ -5,46 +5,39 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Extension_dealloc(Extension *self)
-{
+static void Extension_dealloc(Extension* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Extension_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Extension *self;
-    self = (Extension *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Extension_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Extension* self;
+    self = (Extension*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPExtensionObject>(new CPPCadesCPExtensionObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Extension_getEncodedData(Extension *self)
-{
-    PyObject *pPyEncodedData = PyObject_CallObject((PyObject *)&EncodedDataType, NULL);
-    EncodedData *pEncodedData = (EncodedData *)pPyEncodedData;
+static PyObject* Extension_getEncodedData(Extension* self) {
+    PyObject* pPyEncodedData = PyObject_CallObject((PyObject*)&EncodedDataType, NULL);
+    EncodedData* pEncodedData = (EncodedData*)pPyEncodedData;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_EncodedData(pEncodedData->m_pCppCadesImpl));
     return Py_BuildValue("N", pEncodedData);
 }
 
-static PyObject *Extension_getIsCritical(Extension *self)
-{
+static PyObject* Extension_getIsCritical(Extension* self) {
     BOOL bIsCritical;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsCritical(&bIsCritical));
-    if (bIsCritical)
-    {
+    if (bIsCritical) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *Extension_getOID(Extension *self)
-{
-    PyObject *pPyOID = PyObject_CallObject((PyObject *)&OIDType, NULL);
-    OID *pOID = (OID *)pPyOID;
+static PyObject* Extension_getOID(Extension* self) {
+    PyObject* pPyOID = PyObject_CallObject((PyObject*)&OIDType, NULL);
+    OID* pOID = (OID*)pPyOID;
     pOID->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPOIDObject>(new CPPCadesCPOIDObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_OID(pOID->m_pCppCadesImpl));
     return Py_BuildValue("N", pOID);

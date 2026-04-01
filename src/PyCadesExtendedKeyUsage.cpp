@@ -3,51 +3,43 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void ExtendedKeyUsage_dealloc(ExtendedKeyUsage *self)
-{
+static void ExtendedKeyUsage_dealloc(ExtendedKeyUsage* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *ExtendedKeyUsage_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    ExtendedKeyUsage *self;
-    self = (ExtendedKeyUsage *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* ExtendedKeyUsage_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    ExtendedKeyUsage* self;
+    self = (ExtendedKeyUsage*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPExtendedKeyUsageObject>(new CPPCadesCPExtendedKeyUsageObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *ExtendedKeyUsage_getIsPresent(ExtendedKeyUsage *self)
-{
+static PyObject* ExtendedKeyUsage_getIsPresent(ExtendedKeyUsage* self) {
     BOOL bIsPresent;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsPresent(&bIsPresent));
-    if (bIsPresent)
-    {
+    if (bIsPresent) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *ExtendedKeyUsage_getIsCritical(ExtendedKeyUsage *self)
-{
+static PyObject* ExtendedKeyUsage_getIsCritical(ExtendedKeyUsage* self) {
     BOOL bIsCritical;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsCritical(&bIsCritical));
-    if (bIsCritical)
-    {
+    if (bIsCritical) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *ExtendedKeyUsage_getEKUs(ExtendedKeyUsage *self)
-{
+static PyObject* ExtendedKeyUsage_getEKUs(ExtendedKeyUsage* self) {
     NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUsObject> pCppCadesEKUs(new CPPCadesCPEKUsObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_EKUs(pCppCadesEKUs));
-    PyObject *pPyEKUs = PyObject_CallObject((PyObject *)&EKUsType, NULL);
-    EKUs *pEKUs = (EKUs *)pPyEKUs;
+    PyObject* pPyEKUs = PyObject_CallObject((PyObject*)&EKUsType, NULL);
+    EKUs* pEKUs = (EKUs*)pPyEKUs;
     pEKUs->m_pCppCadesImpl = pCppCadesEKUs;
     return Py_BuildValue("N", pEKUs);
 }

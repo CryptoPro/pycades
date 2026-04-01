@@ -4,75 +4,64 @@
 
 using namespace CryptoPro::PKI::Enroll;
 
-static void ContainerKey_dealloc(ContainerKey *self)
-{
+static void ContainerKey_dealloc(ContainerKey* self) {
     self->m_pCppEnrollImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *ContainerKey_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    ContainerKey *self;
-    self = (ContainerKey *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* ContainerKey_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    ContainerKey* self;
+    self = (ContainerKey*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppEnrollImpl = NS_SHARED_PTR::shared_ptr<CPPEnrollContainerKey>(new CPPEnrollContainerKey());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *ContainerKey_getIsExportable(ContainerKey *self)
-{
+static PyObject* ContainerKey_getIsExportable(ContainerKey* self) {
     BOOL bValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_IsExportable(bValue));
-    if (bValue)
-    {
+    if (bValue) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *ContainerKey_getHasCertificate(ContainerKey *self)
-{
+static PyObject* ContainerKey_getHasCertificate(ContainerKey* self) {
     BOOL bValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_HasCertificate(bValue));
-    if (bValue)
-    {
+    if (bValue) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *ContainerKey_getType(ContainerKey *self)
-{
+static PyObject* ContainerKey_getType(ContainerKey* self) {
     DWORD dwValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_Type(dwValue));
     return Py_BuildValue("l", dwValue);
 }
 
-static PyObject *ContainerKey_getCertificate(ContainerKey *self)
-{
+static PyObject* ContainerKey_getCertificate(ContainerKey* self) {
     NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> pCPPCadesCPCert;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_Certificate(pCPPCadesCPCert));
-    PyObject *pPyCertificate = PyObject_CallObject((PyObject *)&CertificateType, NULL);
-    Certificate *pCertificate = (Certificate *)pPyCertificate;
+    PyObject* pPyCertificate = PyObject_CallObject((PyObject*)&CertificateType, NULL);
+    Certificate* pCertificate = (Certificate*)pPyCertificate;
     pCertificate->m_pCppCadesImpl = pCPPCadesCPCert;
     return Py_BuildValue("N", pCertificate);
 }
 
 #if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15000)
-static PyObject *ContainerKey_getPublicKey(ContainerKey *self)
-{
+static PyObject* ContainerKey_getPublicKey(ContainerKey* self) {
     NS_SHARED_PTR::shared_ptr<CPPCadesCPPublicKeyObject> pCPPCadesPublicKey;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_PublicKey(pCPPCadesPublicKey));
-    PyObject *pPyPublicKey = PyObject_CallObject((PyObject *)&PublicKeyType, NULL);
-    PublicKey *pPublicKey = (PublicKey *)pPyPublicKey;
+    PyObject* pPyPublicKey = PyObject_CallObject((PyObject*)&PublicKeyType, NULL);
+    PublicKey* pPublicKey = (PublicKey*)pPyPublicKey;
     pPublicKey->m_pCppCadesImpl = pCPPCadesPublicKey;
     return Py_BuildValue("N", pPublicKey);
 }
 
-static PyObject *ContainerKey_getKP_FP(ContainerKey *self)
-{
+static PyObject* ContainerKey_getKP_FP(ContainerKey* self) {
     CAtlString sValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_KP_FP(sValue));
     return Py_BuildValue("s", sValue.GetString());
@@ -80,16 +69,14 @@ static PyObject *ContainerKey_getKP_FP(ContainerKey *self)
 #endif
 
 #if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15400)
-static PyObject *ContainerKey_getKP_ALGID(ContainerKey *self)
-{
+static PyObject* ContainerKey_getKP_ALGID(ContainerKey* self) {
     DWORD dwValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_KP_ALGID(dwValue));
     return Py_BuildValue("l", dwValue);
 }
 #endif
 
-static PyObject *ContainerKey_getExpirationTime(ContainerKey *self)
-{
+static PyObject* ContainerKey_getExpirationTime(ContainerKey* self) {
     CryptoPro::CDateTime date;
     CryptoPro::CStringProxy strProxyDate;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->get_ExpirationTime(date));

@@ -4,28 +4,23 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void SignedXML_dealloc(SignedXML *self)
-{
+static void SignedXML_dealloc(SignedXML* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *SignedXML_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    SignedXML *self;
-    self = (SignedXML *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* SignedXML_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    SignedXML* self;
+    self = (SignedXML*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesSignedXMLObject>(new CPPCadesSignedXMLObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static int SignedXML_setContent(SignedXML *self, PyObject *value)
-{
-    char *szContent = NULL;
-    if (!PyArg_Parse(value, "s", &szContent))
-    {
+static int SignedXML_setContent(SignedXML* self, PyObject* value) {
+    char* szContent = NULL;
+    if (!PyArg_Parse(value, "s", &szContent)) {
         return -1;
     }
     CStringBlob strBlobContent(szContent);
@@ -33,29 +28,25 @@ static int SignedXML_setContent(SignedXML *self, PyObject *value)
     return 0;
 }
 
-static PyObject *SignedXML_getContent(SignedXML *self)
-{
+static PyObject* SignedXML_getContent(SignedXML* self) {
     CStringBlob strBlobContent;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Content(strBlobContent));
     DWORD dwContentLen = strBlobContent.GetLength();
-    char* szContent = (char *)calloc(dwContentLen + 1, sizeof(char));
-    if (!szContent)
-    {
+    char* szContent = (char*)calloc(dwContentLen + 1, sizeof(char));
+    if (!szContent) {
         PyErr_NoMemory();
         return NULL;
     }
     memcpy(szContent, strBlobContent, dwContentLen);
-    PyObject *pPyResult = Py_BuildValue("s", szContent);
+    PyObject* pPyResult = Py_BuildValue("s", szContent);
     free(szContent);
 
     return pPyResult;
 }
 
-static int SignedXML_setSignatureType(SignedXML *self, PyObject *value)
-{
+static int SignedXML_setSignatureType(SignedXML* self, PyObject* value) {
     long lType;
-    if (!PyArg_Parse(value, "l", &lType))
-    {
+    if (!PyArg_Parse(value, "l", &lType)) {
         return -1;
     }
     CADESCOM_XML_SIGNATURE_TYPE Type = (CADESCOM_XML_SIGNATURE_TYPE)lType;
@@ -63,11 +54,9 @@ static int SignedXML_setSignatureType(SignedXML *self, PyObject *value)
     return 0;
 }
 
-static int SignedXML_setDigestMethod(SignedXML *self, PyObject *value)
-{
-    char *szDigestMethod = "";
-    if (!PyArg_Parse(value, "s", &szDigestMethod))
-    {
+static int SignedXML_setDigestMethod(SignedXML* self, PyObject* value) {
+    char* szDigestMethod = "";
+    if (!PyArg_Parse(value, "s", &szDigestMethod)) {
         return -1;
     }
     CStringBlob strBlobMethod(szDigestMethod);
@@ -75,11 +64,9 @@ static int SignedXML_setDigestMethod(SignedXML *self, PyObject *value)
     return 0;
 }
 
-static int SignedXML_setSignatureMethod(SignedXML *self, PyObject *value)
-{
-    char *szSignatureMethod;
-    if (!PyArg_Parse(value, "s", &szSignatureMethod))
-    {
+static int SignedXML_setSignatureMethod(SignedXML* self, PyObject* value) {
+    char* szSignatureMethod;
+    if (!PyArg_Parse(value, "s", &szSignatureMethod)) {
         return -1;
     }
     CStringBlob strBlobMethod(szSignatureMethod);
@@ -87,50 +74,44 @@ static int SignedXML_setSignatureMethod(SignedXML *self, PyObject *value)
     return 0;
 }
 
-static PyObject *SignedXML_getSigners(SignedXML *self)
-{
-    PyObject *pPySigners = PyObject_CallObject((PyObject *)&SignersType, NULL);
-    Signers *pSigners = (Signers *)pPySigners;
+static PyObject* SignedXML_getSigners(SignedXML* self) {
+    PyObject* pPySigners = PyObject_CallObject((PyObject*)&SignersType, NULL);
+    Signers* pSigners = (Signers*)pPySigners;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Signers(pSigners->m_pCppCadesImpl));
     return Py_BuildValue("N", pSigners);
 }
 
-static PyObject *SignedXML_Sign(SignedXML *self, PyObject *args)
-{
-    PyObject *pPySigner = NULL;
-    char *szXPath = "";
-    if (!PyArg_ParseTuple(args, "O!|s", &SignerType, &pPySigner, &szXPath))
-    {
+static PyObject* SignedXML_Sign(SignedXML* self, PyObject* args) {
+    PyObject* pPySigner = NULL;
+    char* szXPath = "";
+    if (!PyArg_ParseTuple(args, "O!|s", &SignerType, &pPySigner, &szXPath)) {
         return NULL;
     }
 
-    Signer *pSigner = (Signer *)pPySigner;
+    Signer* pSigner = (Signer*)pPySigner;
     CStringBlob strBlobXPath(szXPath);
     CStringBlob strBlobResult;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Sign(pSigner->m_pCppCadesImpl, strBlobXPath, strBlobResult));
 
     DWORD dwResultLen = strBlobResult.GetLength();
-    char *szResult = (char *)calloc(dwResultLen + 1, sizeof(char));
-    if (!szResult)
-    {
+    char* szResult = (char*)calloc(dwResultLen + 1, sizeof(char));
+    if (!szResult) {
         PyErr_NoMemory();
         return NULL;
     }
     memcpy(szResult, strBlobResult.GetBuffer(), dwResultLen);
 
-    PyObject *pPyResult = Py_BuildValue("s", szResult);
+    PyObject* pPyResult = Py_BuildValue("s", szResult);
     free(szResult);
 
     return pPyResult;
 }
 
-static PyObject *SignedXML_Verify(SignedXML *self, PyObject *args)
-{
-    const char *szSignedMessage = "";
-    const char *szXPath = "";
+static PyObject* SignedXML_Verify(SignedXML* self, PyObject* args) {
+    const char* szSignedMessage = "";
+    const char* szXPath = "";
 
-    if (!PyArg_ParseTuple(args, "s|s", &szSignedMessage, &szXPath))
-    {
+    if (!PyArg_ParseTuple(args, "s|s", &szSignedMessage, &szXPath)) {
         return NULL;
     }
 

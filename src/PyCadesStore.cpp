@@ -5,78 +5,66 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Store_dealloc(Store *self)
-{
+static void Store_dealloc(Store* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Store_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Store *self;
-    self = (Store *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Store_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Store* self;
+    self = (Store*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPStoreObject>(new CPPCadesCPStoreObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Store_Add(Store *self, PyObject *args)
-{
-    PyObject *pPyCert = NULL;
-    if (!PyArg_ParseTuple(args, "O!", &CertificateType, &pPyCert))
-    {
+static PyObject* Store_Add(Store* self, PyObject* args) {
+    PyObject* pPyCert = NULL;
+    if (!PyArg_ParseTuple(args, "O!", &CertificateType, &pPyCert)) {
         return NULL;
     }
 
-    Certificate *pCert = (Certificate *)pPyCert;
+    Certificate* pCert = (Certificate*)pPyCert;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Add(pCert->m_pCppCadesImpl));
     Py_RETURN_NONE;
 }
 
-static PyObject *Store_AddCRL(Store *self, PyObject *args)
-{
-    PyObject *pPyCRL = NULL;
-    if (!PyArg_ParseTuple(args, "O!", &CRLType, &pPyCRL))
-    {
+static PyObject* Store_AddCRL(Store* self, PyObject* args) {
+    PyObject* pPyCRL = NULL;
+    if (!PyArg_ParseTuple(args, "O!", &CRLType, &pPyCRL)) {
         return NULL;
     }
 
-    CRL *pCRL = (CRL *)pPyCRL;
+    CRL* pCRL = (CRL*)pPyCRL;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->AddCRL(pCRL->m_pCppCadesImpl));
     Py_RETURN_NONE;
 }
 
-static PyObject *Store_getName(Store *self)
-{
+static PyObject* Store_getName(Store* self) {
     CAtlString sName;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Name(sName));
     return Py_BuildValue("s", sName.GetString());
 }
 
-static PyObject *Store_getCertificates(Store *self)
-{
-    PyObject *pPyCertificates = PyObject_CallObject((PyObject *)&CertificatesType, NULL);
-    Certificates *pCertificates = (Certificates *)pPyCertificates;
+static PyObject* Store_getCertificates(Store* self) {
+    PyObject* pPyCertificates = PyObject_CallObject((PyObject*)&CertificatesType, NULL);
+    Certificates* pCertificates = (Certificates*)pPyCertificates;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Certificates(pCertificates->m_pCppCadesImpl));
     return Py_BuildValue("N", pCertificates);
 }
 
-static PyObject *Store_getLocation(Store *self)
-{
+static PyObject* Store_getLocation(Store* self) {
     CADESCOM_STORE_LOCATION Location;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Location(&Location));
     return Py_BuildValue("l", Location);
 }
 
-static PyObject *Store_Open(Store *self, PyObject *args)
-{
-    char *szName = "My";
+static PyObject* Store_Open(Store* self, PyObject* args) {
+    char* szName = "My";
     long lLocation = CADESCOM_CURRENT_USER_STORE;
     long lMode = CAPICOM_STORE_OPEN_READ_ONLY;
-    if (!PyArg_ParseTuple(args, "|lsl", &lLocation, &szName, &lMode))
-    {
+    if (!PyArg_ParseTuple(args, "|lsl", &lLocation, &szName, &lMode)) {
         return NULL;
     }
 
@@ -87,35 +75,30 @@ static PyObject *Store_Open(Store *self, PyObject *args)
     Py_RETURN_NONE;
 }
 
-static PyObject *Store_Close(Store *self)
-{
+static PyObject* Store_Close(Store* self) {
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Close());
     Py_RETURN_NONE;
 }
 
 #if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 14589)
-static PyObject *Store_Remove(Store *self, PyObject *args)
-{
-    PyObject *pPyCert = NULL;
-    if (!PyArg_ParseTuple(args, "O!", &CertificateType, &pPyCert))
-    {
+static PyObject* Store_Remove(Store* self, PyObject* args) {
+    PyObject* pPyCert = NULL;
+    if (!PyArg_ParseTuple(args, "O!", &CertificateType, &pPyCert)) {
         return NULL;
     }
 
-    Certificate *pCert = (Certificate *)pPyCert;
+    Certificate* pCert = (Certificate*)pPyCert;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Remove(pCert->m_pCppCadesImpl));
     Py_RETURN_NONE;
 }
 #endif
 
 #if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15400)
-static PyObject *Store_ImportPFX(Store *self, PyObject *args)
-{
-    char *szEncodedPFX = "";
-    char *szPassword = "";
+static PyObject* Store_ImportPFX(Store* self, PyObject* args) {
+    char* szEncodedPFX = "";
+    char* szPassword = "";
     long lFlags = 0;
-    if (!PyArg_ParseTuple(args, "s|sl", &szEncodedPFX, &szPassword, &lFlags))
-    {
+    if (!PyArg_ParseTuple(args, "s|sl", &szEncodedPFX, &szPassword, &lFlags)) {
         return NULL;
     }
 

@@ -2,69 +2,57 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void BasicConstraints_dealloc(BasicConstraints *self)
-{
+static void BasicConstraints_dealloc(BasicConstraints* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *BasicConstraints_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    BasicConstraints *self;
-    self = (BasicConstraints *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* BasicConstraints_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    BasicConstraints* self;
+    self = (BasicConstraints*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPBasicConstraintsObject>(new CPPCadesCPBasicConstraintsObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *BasicConstraints_getIsPresent(BasicConstraints *self)
-{
+static PyObject* BasicConstraints_getIsPresent(BasicConstraints* self) {
     BOOL bIsPresent = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsPresent(&bIsPresent));
-    if (bIsPresent)
-    {
+    if (bIsPresent) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *BasicConstraints_getIsCritical(BasicConstraints *self)
-{
+static PyObject* BasicConstraints_getIsCritical(BasicConstraints* self) {
     BOOL bIsCritical = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsCritical(&bIsCritical));
-    if (bIsCritical)
-    {
+    if (bIsCritical) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *BasicConstraints_getIsCertificateAuthority(BasicConstraints *self)
-{
+static PyObject* BasicConstraints_getIsCertificateAuthority(BasicConstraints* self) {
     BOOL bIsCA = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsCertificateAuthority(&bIsCA));
-    if (bIsCA)
-    {
+    if (bIsCA) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *BasicConstraints_getIsPathLenConstraintPresent(BasicConstraints *self)
-{
+static PyObject* BasicConstraints_getIsPathLenConstraintPresent(BasicConstraints* self) {
     BOOL bIsPathLenConstr = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsPathLenConstraintPresent(&bIsPathLenConstr));
-    if (bIsPathLenConstr)
-    {
+    if (bIsPathLenConstr) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *BasicConstraints_getPathLenConstraint(BasicConstraints *self)
-{
+static PyObject* BasicConstraints_getPathLenConstraint(BasicConstraints* self) {
     DWORD dwPathLenConst;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_PathLenConstraint(&dwPathLenConst));
     return Py_BuildValue("l", dwPathLenConst);

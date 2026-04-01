@@ -3,41 +3,35 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void EKUs_dealloc(EKUs *self)
-{
+static void EKUs_dealloc(EKUs* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *EKUs_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    EKUs *self;
-    self = (EKUs *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* EKUs_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    EKUs* self;
+    self = (EKUs*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUsObject>(new CPPCadesCPEKUsObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *EKUs_getCount(EKUs *self)
-{
+static PyObject* EKUs_getCount(EKUs* self) {
     unsigned int count = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Count(&count));
     return Py_BuildValue("l", count);
 }
 
-static PyObject *EKUs_getItem(EKUs *self, PyObject *args)
-{
+static PyObject* EKUs_getItem(EKUs* self, PyObject* args) {
     long index = 0;
-    if (!PyArg_ParseTuple(args, "l", &index))
-    {
+    if (!PyArg_ParseTuple(args, "l", &index)) {
         return NULL;
     }
     NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUObject> pCppCadesEKU = NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUObject>(new CPPCadesCPEKUObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Item(index, pCppCadesEKU));
-    PyObject *pPyEKU = PyObject_CallObject((PyObject *)&EKUType, NULL);
-    EKU *pEKU = (EKU *)pPyEKU;
+    PyObject* pPyEKU = PyObject_CallObject((PyObject*)&EKUType, NULL);
+    EKU* pEKU = (EKU*)pPyEKU;
     pEKU->m_pCppCadesImpl = pCppCadesEKU;
     return Py_BuildValue("N", pEKU);
 }
