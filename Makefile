@@ -15,4 +15,4 @@ clean-build:
 .PHONY: build-library
 build-library: clean ## Build shared library
 	cmake -S . -B build
-	cmake --build build -j$(nproc)
+	cmake --build build -j$$(nproc)
