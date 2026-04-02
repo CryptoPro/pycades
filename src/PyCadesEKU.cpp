@@ -2,35 +2,29 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void EKU_dealloc(EKU *self)
-{
+static void EKU_dealloc(EKU* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *EKU_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    EKU *self;
-    self = (EKU *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* EKU_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    EKU* self;
+    self = (EKU*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUObject>(new CPPCadesCPEKUObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *EKU_getName(EKU *self)
-{
+static PyObject* EKU_getName(EKU* self) {
     CAPICOM_EKU Name;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Name(&Name));
     return Py_BuildValue("l", Name);
 }
 
-static int EKU_setName(EKU *self, PyObject *value)
-{
+static int EKU_setName(EKU* self, PyObject* value) {
     long lName = 0;
-    if (!PyArg_Parse(value, "l", &lName))
-    {
+    if (!PyArg_Parse(value, "l", &lName)) {
         return -1;
     }
     CAPICOM_EKU Name = (CAPICOM_EKU)lName;
@@ -38,18 +32,15 @@ static int EKU_setName(EKU *self, PyObject *value)
     return 0;
 }
 
-static PyObject *EKU_getOID(EKU *self)
-{
+static PyObject* EKU_getOID(EKU* self) {
     CAtlStringA OID;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_OID(OID));
     return Py_BuildValue("s", OID.GetString());
 }
 
-static int EKU_setOID(EKU *self, PyObject *args)
-{
-    char *szOID = "";
-    if (!PyArg_Parse(args, "s", &szOID))
-    {
+static int EKU_setOID(EKU* self, PyObject* args) {
+    char* szOID = "";
+    if (!PyArg_Parse(args, "s", &szOID)) {
         return -1;
     }
     CAtlStringA sOID = CAtlString(szOID);

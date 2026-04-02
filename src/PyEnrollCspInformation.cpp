@@ -3,28 +3,23 @@
 
 using namespace CryptoPro::PKI::Enroll;
 
-static void CspInformation_dealloc(CspInformation *self)
-{
+static void CspInformation_dealloc(CspInformation* self) {
     self->m_pCppEnrollImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *CspInformation_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    CspInformation *self;
-    self = (CspInformation *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* CspInformation_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    CspInformation* self;
+    self = (CspInformation*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppEnrollImpl = NS_SHARED_PTR::shared_ptr<CPPEnrollCspInformation>(new CPPEnrollCspInformation());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *CspInformation_InitializeFromName(CspInformation *self, PyObject *args)
-{
-    char *szName = "";
-    if (!PyArg_ParseTuple(args, "s", &szName))
-    {
+static PyObject* CspInformation_InitializeFromName(CspInformation* self, PyObject* args) {
+    char* szName = "";
+    if (!PyArg_ParseTuple(args, "s", &szName)) {
         return NULL;
     }
     CAtlString sName = CAtlString(szName);
@@ -32,12 +27,11 @@ static PyObject *CspInformation_InitializeFromName(CspInformation *self, PyObjec
     Py_RETURN_NONE;
 }
 
-static PyObject *CspInformation_EnumContainers(CspInformation *self)
-{
+static PyObject* CspInformation_EnumContainers(CspInformation* self) {
     NS_SHARED_PTR::shared_ptr<CPPEnrollContainers> pVal;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppEnrollImpl->EnumContainers(pVal));
-    PyObject *pPyContainers = PyObject_CallObject((PyObject *)&ContainersType, NULL);
-    Containers *pContainers = (Containers *)pPyContainers;
+    PyObject* pPyContainers = PyObject_CallObject((PyObject*)&ContainersType, NULL);
+    Containers* pContainers = (Containers*)pPyContainers;
     pContainers->m_pCppEnrollImpl = pVal;
     return Py_BuildValue("N", pContainers);
 }

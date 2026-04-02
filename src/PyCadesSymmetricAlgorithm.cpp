@@ -4,67 +4,56 @@
 using namespace CryptoPro::PKI::CAdES;
 using namespace CryptoPro;
 
-static void SymmetricAlgorithm_dealloc(SymmetricAlgorithm *self)
-{
+static void SymmetricAlgorithm_dealloc(SymmetricAlgorithm* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *SymmetricAlgorithm_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    SymmetricAlgorithm *self;
-    self = (SymmetricAlgorithm *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* SymmetricAlgorithm_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    SymmetricAlgorithm* self;
+    self = (SymmetricAlgorithm*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesSymmetricAlgorithmObject>(new CPPCadesSymmetricAlgorithmObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *SymmetricAlgorithm_getDiversData(SymmetricAlgorithm *self)
-{
+static PyObject* SymmetricAlgorithm_getDiversData(SymmetricAlgorithm* self) {
     CBlob blobValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_DiversData(blobValue));
-    CAtlString sValue = CAtlString((const char *)blobValue.pbData(), blobValue.cbData());
+    CAtlString sValue = CAtlString((const char*)blobValue.pbData(), blobValue.cbData());
     return Py_BuildValue("s", sValue.GetString());
 }
 
-static int SymmetricAlgorithm_setDiversData(SymmetricAlgorithm *self, PyObject *value)
-{
-    char *szDiversData = "";
-    if (!PyArg_Parse(value, "s", &szDiversData))
-    {
+static int SymmetricAlgorithm_setDiversData(SymmetricAlgorithm* self, PyObject* value) {
+    char* szDiversData = "";
+    if (!PyArg_Parse(value, "s", &szDiversData)) {
         return -1;
     }
-    HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_DiversData(szDiversData, strlen((const char *)szDiversData)));
+    HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_DiversData(szDiversData, strlen((const char*)szDiversData)));
     return 0;
 }
 
-static PyObject *SymmetricAlgorithm_getIV(SymmetricAlgorithm *self)
-{
+static PyObject* SymmetricAlgorithm_getIV(SymmetricAlgorithm* self) {
     CBlob blobValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IV(blobValue));
-    CAtlString sValue = CAtlString((const char *)blobValue.pbData(), blobValue.cbData());
+    CAtlString sValue = CAtlString((const char*)blobValue.pbData(), blobValue.cbData());
     return Py_BuildValue("s", sValue.GetString());
 }
 
-static int SymmetricAlgorithm_setIV(SymmetricAlgorithm *self, PyObject *value)
-{
-    char *szIV = "";
-    if (!PyArg_Parse(value, "s", &szIV))
-    {
+static int SymmetricAlgorithm_setIV(SymmetricAlgorithm* self, PyObject* value) {
+    char* szIV = "";
+    if (!PyArg_Parse(value, "s", &szIV)) {
         return -1;
     }
-    HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_IV(szIV, strlen((const char *)szIV)));
+    HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_IV(szIV, strlen((const char*)szIV)));
     return 0;
 }
 
-static PyObject *SymmetricAlgorithm_Encrypt(SymmetricAlgorithm *self, PyObject *args)
-{
+static PyObject* SymmetricAlgorithm_Encrypt(SymmetricAlgorithm* self, PyObject* args) {
     int isFinal = 1;
-    char *szData = "";
-    if (!PyArg_ParseTuple(args, "s|i", &szData, &isFinal))
-    {
+    char* szData = "";
+    if (!PyArg_ParseTuple(args, "s|i", &szData, &isFinal)) {
         return NULL;
     }
 
@@ -74,12 +63,10 @@ static PyObject *SymmetricAlgorithm_Encrypt(SymmetricAlgorithm *self, PyObject *
     return Py_BuildValue("s", retval.c_str());
 }
 
-static PyObject *SymmetricAlgorithm_Decrypt(SymmetricAlgorithm *self, PyObject *args)
-{
+static PyObject* SymmetricAlgorithm_Decrypt(SymmetricAlgorithm* self, PyObject* args) {
     int isFinal = 1;
-    char *szData = "";
-    if (!PyArg_ParseTuple(args, "s|i", &szData, &isFinal))
-    {
+    char* szData = "";
+    if (!PyArg_ParseTuple(args, "s|i", &szData, &isFinal)) {
         return NULL;
     }
 
@@ -87,25 +74,22 @@ static PyObject *SymmetricAlgorithm_Decrypt(SymmetricAlgorithm *self, PyObject *
     CBlob blobValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Decrypt(sData, sData.GetLength(), isFinal, blobValue));
 
-    CAtlString sValue = CAtlString((const char *)blobValue.pbData(), blobValue.cbData());
+    CAtlString sValue = CAtlString((const char*)blobValue.pbData(), blobValue.cbData());
     return Py_BuildValue("s", sValue.GetString());
 }
 
-static PyObject *SymmetricAlgorithm_DiversifyKey(SymmetricAlgorithm *self)
-{
+static PyObject* SymmetricAlgorithm_DiversifyKey(SymmetricAlgorithm* self) {
     NS_SHARED_PTR::shared_ptr<CPPCadesSymmetricAlgorithmObject> pCPPCadesSymAlg;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->DiversifyKey(pCPPCadesSymAlg));
-    PyObject *pPySymAlg = PyObject_CallObject((PyObject *)&SymmetricAlgorithmType, NULL);
-    SymmetricAlgorithm *pSymAlg = (SymmetricAlgorithm *)pPySymAlg;
+    PyObject* pPySymAlg = PyObject_CallObject((PyObject*)&SymmetricAlgorithmType, NULL);
+    SymmetricAlgorithm* pSymAlg = (SymmetricAlgorithm*)pPySymAlg;
     pSymAlg->m_pCppCadesImpl = pCPPCadesSymAlg;
     return Py_BuildValue("N", pSymAlg);
 }
 
-static PyObject *SymmetricAlgorithm_GenerateKey(SymmetricAlgorithm *self, PyObject *args)
-{
+static PyObject* SymmetricAlgorithm_GenerateKey(SymmetricAlgorithm* self, PyObject* args) {
     long lAlgo = CADESCOM_ENCRYPTION_ALGORITHM_GOST_28147_89;
-    if (!PyArg_ParseTuple(args, "|l", &lAlgo))
-    {
+    if (!PyArg_ParseTuple(args, "|l", &lAlgo)) {
         return NULL;
     }
     CADESCOM_ENCRYPTION_ALGORITHM Algorithm = (CADESCOM_ENCRYPTION_ALGORITHM)lAlgo;
@@ -113,56 +97,48 @@ static PyObject *SymmetricAlgorithm_GenerateKey(SymmetricAlgorithm *self, PyObje
     Py_RETURN_NONE;
 }
 
-static PyObject *SymmetricAlgorithm_ExportKey(SymmetricAlgorithm *self, PyObject *args)
-{
-    PyObject *pPyCert = NULL;
-    if (!PyArg_ParseTuple(args, "O!", &CertificateType, &pPyCert))
-    {
+static PyObject* SymmetricAlgorithm_ExportKey(SymmetricAlgorithm* self, PyObject* args) {
+    PyObject* pPyCert = NULL;
+    if (!PyArg_ParseTuple(args, "O!", &CertificateType, &pPyCert)) {
         return NULL;
     }
     CBlob blobValue;
-    Certificate *pCert = (Certificate *)pPyCert;
+    Certificate* pCert = (Certificate*)pPyCert;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->ExportKey(pCert->m_pCppCadesImpl, blobValue));
 
-    CAtlString sValue = CAtlString((const char *)blobValue.pbData(), blobValue.cbData());
+    CAtlString sValue = CAtlString((const char*)blobValue.pbData(), blobValue.cbData());
     return Py_BuildValue("s", sValue.GetString());
 }
 
-static PyObject *SymmetricAlgorithm_ImportKey(SymmetricAlgorithm *self, PyObject *args)
-{
-    PyObject *pPyCert = NULL;
-    char *szData = "";
-    char *szPassword = "";
-    if (!PyArg_ParseTuple(args, "sO|s", &szData, &pPyCert, &szPassword))
-    {
+static PyObject* SymmetricAlgorithm_ImportKey(SymmetricAlgorithm* self, PyObject* args) {
+    PyObject* pPyCert = NULL;
+    char* szData = "";
+    char* szPassword = "";
+    if (!PyArg_ParseTuple(args, "sO|s", &szData, &pPyCert, &szPassword)) {
         return NULL;
     }
 
     CAtlString sData = CAtlString(szData);
     CAtlString sPassword = CAtlString(szPassword);
-    Certificate *pCert = (Certificate *)pPyCert;
+    Certificate* pCert = (Certificate*)pPyCert;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->ImportKey(
         sData, sData.GetLength(), pCert->m_pCppCadesImpl, sPassword, sPassword.GetLength()));
     Py_RETURN_NONE;
 }
 
 #if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 14892)
-static int SymmetricAlgorithm_setLegacyPluginSymmetricExport(SymmetricAlgorithm *self, PyObject *value)
-{
+static int SymmetricAlgorithm_setLegacyPluginSymmetricExport(SymmetricAlgorithm* self, PyObject* value) {
     int bLegacyPluginSymmetricExport = 0;
-    if (!PyArg_Parse(value, "i", &bLegacyPluginSymmetricExport))
-    {
+    if (!PyArg_Parse(value, "i", &bLegacyPluginSymmetricExport)) {
         return -1;
     }
     HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_LegacyPluginSymmetricExport(bLegacyPluginSymmetricExport));
     return 0;
 }
 
-static PyObject *SymmetricAlgorithm_SetMode(SymmetricAlgorithm *self, PyObject *args)
-{
+static PyObject* SymmetricAlgorithm_SetMode(SymmetricAlgorithm* self, PyObject* args) {
     long lMode = 0;
-    if (!PyArg_ParseTuple(args, "l", &lMode))
-    {
+    if (!PyArg_ParseTuple(args, "l", &lMode)) {
         return NULL;
     }
 
@@ -171,11 +147,9 @@ static PyObject *SymmetricAlgorithm_SetMode(SymmetricAlgorithm *self, PyObject *
     Py_RETURN_NONE;
 }
 
-static PyObject *SymmetricAlgorithm_SetPadding(SymmetricAlgorithm *self, PyObject *args)
-{
+static PyObject* SymmetricAlgorithm_SetPadding(SymmetricAlgorithm* self, PyObject* args) {
     long lPadding = 0;
-    if (!PyArg_ParseTuple(args, "l", &lPadding))
-    {
+    if (!PyArg_ParseTuple(args, "l", &lPadding)) {
         return NULL;
     }
 

@@ -2,28 +2,23 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void EncodedData_dealloc(EncodedData *self)
-{
+static void EncodedData_dealloc(EncodedData* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *EncodedData_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    EncodedData *self;
-    self = (EncodedData *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* EncodedData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    EncodedData* self;
+    self = (EncodedData*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPEncodedDataObject>(new CPPCadesCPEncodedDataObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *EncodedData_Format(EncodedData *self, PyObject *args)
-{
+static PyObject* EncodedData_Format(EncodedData* self, PyObject* args) {
     int bMultiLine = 0;
-    if (!PyArg_ParseTuple(args, "|i", &bMultiLine))
-    {
+    if (!PyArg_ParseTuple(args, "|i", &bMultiLine)) {
         return NULL;
     }
     CAtlStringW sValue;
@@ -31,20 +26,18 @@ static PyObject *EncodedData_Format(EncodedData *self, PyObject *args)
     return Py_BuildValue("s", sValue.GetString());
 }
 
-static PyObject *EncodedData_getValue(EncodedData *self, PyObject *args)
-{
+static PyObject* EncodedData_getValue(EncodedData* self, PyObject* args) {
     long lType = 0;
-    if (!PyArg_ParseTuple(args, "|l", &lType))
-    {
+    if (!PyArg_ParseTuple(args, "|l", &lType)) {
         return NULL;
     }
     CAPICOM_ENCODING_TYPE Type = (CAPICOM_ENCODING_TYPE)lType;
     CryptoPro::CBlob data;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Value(Type, data));
-    CAtlString sValue = CAtlString((const char *)data.pbData(), data.cbData());
-    return Type == CAPICOM_ENCODE_BINARY ? 
-            PyBytes_FromStringAndSize((const char *)data.pbData(), data.cbData()) : 
-            Py_BuildValue("s", sValue.GetString());
+    CAtlString sValue = CAtlString((const char*)data.pbData(), data.cbData());
+    return Type == CAPICOM_ENCODE_BINARY ?
+        PyBytes_FromStringAndSize((const char*)data.pbData(), data.cbData()) :
+        Py_BuildValue("s", sValue.GetString());
 }
 
 static PyGetSetDef EncodedData_getset[] = {

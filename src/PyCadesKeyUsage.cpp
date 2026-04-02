@@ -2,139 +2,114 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void KeyUsage_dealloc(KeyUsage *self)
-{
+static void KeyUsage_dealloc(KeyUsage* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *KeyUsage_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    KeyUsage *self;
-    self = (KeyUsage *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* KeyUsage_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    KeyUsage* self;
+    self = (KeyUsage*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPKeyUsageObject>(new CPPCadesCPKeyUsageObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *KeyUsage_getIsPresent(KeyUsage *self)
-{
+static PyObject* KeyUsage_getIsPresent(KeyUsage* self) {
     BOOL val = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsPresent(&val));
-    if (val)
-    {
+    if (val) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *KeyUsage_getIsCritical(KeyUsage *self)
-{
+static PyObject* KeyUsage_getIsCritical(KeyUsage* self) {
     BOOL val = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsCritical(&val));
-    if (val)
-    {
+    if (val) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *KeyUsage_getIsDigitalSignatureEnabled(KeyUsage *self)
-{
+static PyObject* KeyUsage_getIsDigitalSignatureEnabled(KeyUsage* self) {
     BOOL val = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsDigitalSignatureEnabled(&val));
-    if (val)
-    {
+    if (val) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *KeyUsage_getIsNonRepudiationEnabled(KeyUsage *self)
-{
+static PyObject* KeyUsage_getIsNonRepudiationEnabled(KeyUsage* self) {
     BOOL val = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsNonRepudiationEnabled(&val));
-    if (val)
-    {
+    if (val) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *KeyUsage_getIsKeyEnciphermentEnabled(KeyUsage *self)
-{
+static PyObject* KeyUsage_getIsKeyEnciphermentEnabled(KeyUsage* self) {
     BOOL val = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsKeyEnciphermentEnabled(&val));
-    if (val)
-    {
+    if (val) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *KeyUsage_getIsDataEnciphermentEnabled(KeyUsage *self)
-{
+static PyObject* KeyUsage_getIsDataEnciphermentEnabled(KeyUsage* self) {
     BOOL val = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsDataEnciphermentEnabled(&val));
-    if (val)
-    {
+    if (val) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *KeyUsage_getIsKeyAgreementEnabled(KeyUsage *self)
-{
+static PyObject* KeyUsage_getIsKeyAgreementEnabled(KeyUsage* self) {
     BOOL val = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsKeyAgreementEnabled(&val));
-    if (val)
-    {
+    if (val) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *KeyUsage_getIsKeyCertSignEnabled(KeyUsage *self)
-{
+static PyObject* KeyUsage_getIsKeyCertSignEnabled(KeyUsage* self) {
     BOOL val = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsKeyCertSignEnabled(&val));
-    if (val)
-    {
+    if (val) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *KeyUsage_getIsCRLSignEnabled(KeyUsage *self)
-{
+static PyObject* KeyUsage_getIsCRLSignEnabled(KeyUsage* self) {
     BOOL val = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsCRLSignEnabled(&val));
-    if (val)
-    {
+    if (val) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *KeyUsage_getIsEncipherOnlyEnabled(KeyUsage *self)
-{
+static PyObject* KeyUsage_getIsEncipherOnlyEnabled(KeyUsage* self) {
     BOOL val = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsEncipherOnlyEnabled(&val));
-    if (val)
-    {
+    if (val) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static PyObject *KeyUsage_getIsDecipherOnlyEnabled(KeyUsage *self)
-{
+static PyObject* KeyUsage_getIsDecipherOnlyEnabled(KeyUsage* self) {
     BOOL val = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsDecipherOnlyEnabled(&val));
-    if (val)
-    {
+    if (val) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;

@@ -6,7 +6,7 @@
 
 typedef struct {
     PyObject_HEAD
-    NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::Enroll::CPPEnrollCspInformation> m_pCppEnrollImpl;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::Enroll::CPPEnrollCspInformation> m_pCppEnrollImpl;
 } CspInformation;
 
 extern PyTypeObject CspInformationType;

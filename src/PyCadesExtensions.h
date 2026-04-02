@@ -7,7 +7,7 @@
 
 typedef struct {
     PyObject_HEAD
-    NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPExtensionsObject> m_pCppCadesImpl;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPExtensionsObject> m_pCppCadesImpl;
 } Extensions;
 
 extern PyTypeObject ExtensionsType;

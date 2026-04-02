@@ -2,80 +2,67 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void PrivateKey_dealloc(PrivateKey *self)
-{
+static void PrivateKey_dealloc(PrivateKey* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *PrivateKey_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    PrivateKey *self;
-    self = (PrivateKey *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* PrivateKey_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    PrivateKey* self;
+    self = (PrivateKey*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPPrivateKeyObject>(new CPPCadesCPPrivateKeyObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *PrivateKey_getContainerName(PrivateKey *self)
-{
+static PyObject* PrivateKey_getContainerName(PrivateKey* self) {
     CAtlString sContName;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_ContainerName(sContName));
     return Py_BuildValue("s", sContName.GetString());
 }
 
-static PyObject *PrivateKey_getUniqueContainerName(PrivateKey *self)
-{
+static PyObject* PrivateKey_getUniqueContainerName(PrivateKey* self) {
     CAtlString sUniqueContName;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_UniqueContainerName(sUniqueContName));
     return Py_BuildValue("s", sUniqueContName.GetString());
 }
 
-static PyObject *PrivateKey_getProviderName(PrivateKey *self)
-{
+static PyObject* PrivateKey_getProviderName(PrivateKey* self) {
     CAtlString sProvName;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_ProviderName(sProvName));
     return Py_BuildValue("s", sProvName.GetString());
 }
 
-static PyObject *PrivateKey_getProviderType(PrivateKey *self)
-{
+static PyObject* PrivateKey_getProviderType(PrivateKey* self) {
     CAPICOM_PROV_TYPE Type;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_ProviderType(&Type));
     return Py_BuildValue("l", (long)Type);
 }
 
-static PyObject *PrivateKey_getKeySpec(PrivateKey *self)
-{
+static PyObject* PrivateKey_getKeySpec(PrivateKey* self) {
     CAPICOM_KEY_SPEC spec;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_KeySpec(&spec));
     return Py_BuildValue("l", (long)spec);
 }
 
-static PyObject *PrivateKey_ChangePin(PrivateKey *self, PyObject *args)
-{
+static PyObject* PrivateKey_ChangePin(PrivateKey* self, PyObject* args) {
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->ChangePin());
     Py_RETURN_NONE;
 }
 
-static int PrivateKey_setCachePin(PrivateKey *self, PyObject *value)
-{
+static int PrivateKey_setCachePin(PrivateKey* self, PyObject* value) {
     int bCachePin = 0;
-    if (!PyArg_Parse(value, "i", &bCachePin))
-    {
+    if (!PyArg_Parse(value, "i", &bCachePin)) {
         return -1;
     }
     HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->set_CachePin(bCachePin));
     return 0;
 }
 
-static int PrivateKey_setKeyPin(PrivateKey *self, PyObject *value)
-{
-    char *szKeyPin = "";
-    if (!PyArg_Parse(value, "s", &szKeyPin))
-    {
+static int PrivateKey_setKeyPin(PrivateKey* self, PyObject* value) {
+    char* szKeyPin = "";
+    if (!PyArg_Parse(value, "s", &szKeyPin)) {
         return -1;
     }
     CAtlString sKeyPin = CAtlString(szKeyPin);
@@ -83,12 +70,10 @@ static int PrivateKey_setKeyPin(PrivateKey *self, PyObject *value)
     return 0;
 }
 
-static PyObject *PrivateKey_getIsDefaultPin(PrivateKey *self)
-{
+static PyObject* PrivateKey_getIsDefaultPin(PrivateKey* self) {
     BOOL bIsDefaultPin;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_IsDefaultPin(bIsDefaultPin));
-    if (bIsDefaultPin)
-    {
+    if (bIsDefaultPin) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;

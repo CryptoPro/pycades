@@ -6,42 +6,36 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Signer_dealloc(Signer *self)
-{
+static void Signer_dealloc(Signer* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Signer_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Signer *self;
-    self = (Signer *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Signer_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Signer* self;
+    self = (Signer*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPSignerObject>(new CPPCadesCPSignerObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Signer_getCertificate(Signer *self)
-{
+static PyObject* Signer_getCertificate(Signer* self) {
     NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> pCPPCadesCPCert;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Certificate(pCPPCadesCPCert));
-    PyObject *pPyCert = PyObject_CallObject((PyObject *)&CertificateType, NULL);
-    Certificate *pCert = (Certificate *)pPyCert;
+    PyObject* pPyCert = PyObject_CallObject((PyObject*)&CertificateType, NULL);
+    Certificate* pCert = (Certificate*)pPyCert;
     pCert->m_pCppCadesImpl = pCPPCadesCPCert;
     return Py_BuildValue("N", pCert);
 }
 
-static int Signer_setCertificate(Signer *self, PyObject *arg)
-{
-    PyObject *pPyCert = NULL;
-    if (!PyArg_Parse(arg, "O!", &CertificateType, &pPyCert))
-    {
+static int Signer_setCertificate(Signer* self, PyObject* arg) {
+    PyObject* pPyCert = NULL;
+    if (!PyArg_Parse(arg, "O!", &CertificateType, &pPyCert)) {
         return -1;
     }
 
-    Certificate *pCert = (Certificate *)arg;
+    Certificate* pCert = (Certificate*)arg;
     CCertContext certContext;
     HR_SETTER_ERRORCHECK_RETURN(pCert->m_pCppCadesImpl->get_CertContext(certContext));
     NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> pCPPCadesCPCert(new CPPCadesCPCertificateObject());
@@ -50,50 +44,42 @@ static int Signer_setCertificate(Signer *self, PyObject *arg)
     return 0;
 }
 
-static PyObject *Signer_getCheckCertificate(Signer *self)
-{
+static PyObject* Signer_getCheckCertificate(Signer* self) {
     BOOL bValue = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_CheckCertificate(bValue));
-    if (bValue)
-    {
+    if (bValue) {
         Py_RETURN_TRUE;
     }
     Py_RETURN_FALSE;
 }
 
-static int Signer_setCheckCertificate(Signer *self, PyObject *value)
-{
+static int Signer_setCheckCertificate(Signer* self, PyObject* value) {
     int bValue = 0;
-    if (!PyArg_Parse(value, "i", &bValue))
-    {
+    if (!PyArg_Parse(value, "i", &bValue)) {
         return -1;
     }
     HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_CheckCertificate(bValue));
     return 0;
 }
 
-static PyObject *Signer_getSignatureStatus(Signer *self)
-{
+static PyObject* Signer_getSignatureStatus(Signer* self) {
     NS_SHARED_PTR::shared_ptr<CPPCadesSignatureStatusObject> pCPPCadesSignatureStatus;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_SignatureStatus(pCPPCadesSignatureStatus));
-    PyObject *pPyStatus = PyObject_CallObject((PyObject *)&SignatureStatusType, NULL);
-    SignatureStatus *pStatus = (SignatureStatus *)pPyStatus;
+    PyObject* pPyStatus = PyObject_CallObject((PyObject*)&SignatureStatusType, NULL);
+    SignatureStatus* pStatus = (SignatureStatus*)pPyStatus;
     pStatus->m_pCppCadesImpl = pCPPCadesSignatureStatus;
     return Py_BuildValue("N", pStatus);
 }
 
-static PyObject *Signer_getOptions(Signer *self)
-{
+static PyObject* Signer_getOptions(Signer* self) {
     CAPICOM_CERTIFICATE_INCLUDE_OPTION option;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Options(&option));
     return Py_BuildValue("l", option);
 }
 
-static int Signer_setOptions(Signer *self, PyObject *value)
-{
+static int Signer_setOptions(Signer* self, PyObject* value) {
     long lOpt = 0;
-    if (!PyArg_Parse(value, "l", &lOpt))
-    {
+    if (!PyArg_Parse(value, "l", &lOpt)) {
         return -1;
     }
     CAPICOM_CERTIFICATE_INCLUDE_OPTION Opt = (CAPICOM_CERTIFICATE_INCLUDE_OPTION)lOpt;
@@ -101,58 +87,50 @@ static int Signer_setOptions(Signer *self, PyObject *value)
     return 0;
 }
 
-static PyObject *Signer_getTSAAddress(Signer *self)
-{
+static PyObject* Signer_getTSAAddress(Signer* self) {
     CAtlString sTSAAddress;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_TSAAddress(sTSAAddress));
     return Py_BuildValue("s", sTSAAddress.GetString());
 }
 
-static int Signer_setTSAAddress(Signer *self, PyObject *value)
-{
-    char *szTSAAddress = "";
-    if (!PyArg_Parse(value, "s", &szTSAAddress))
-    {
+static int Signer_setTSAAddress(Signer* self, PyObject* value) {
+    char* szTSAAddress = "";
+    if (!PyArg_Parse(value, "s", &szTSAAddress)) {
         return -1;
     }
     HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_TSAAddress(CAtlString(szTSAAddress)));
     return 0;
 }
 
-static PyObject *Signer_getUnauthenticatedAttributes(Signer *self)
-{
-    PyObject *pPyAttributes = PyObject_CallObject((PyObject *)&AttributesType, NULL);
-    Attributes *pAttributes = (Attributes *)pPyAttributes;
+static PyObject* Signer_getUnauthenticatedAttributes(Signer* self) {
+    PyObject* pPyAttributes = PyObject_CallObject((PyObject*)&AttributesType, NULL);
+    Attributes* pAttributes = (Attributes*)pPyAttributes;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_UnauthenticatedAttributes(pAttributes->m_pCppCadesImpl));
     return Py_BuildValue("N", pAttributes);
 }
 
-static PyObject *Signer_getAuthenticatedAttributes(Signer *self)
-{
-    PyObject *pPyAttributes = PyObject_CallObject((PyObject *)&AttributesType, NULL);
-    Attributes *pAttributes = (Attributes *)pPyAttributes;
+static PyObject* Signer_getAuthenticatedAttributes(Signer* self) {
+    PyObject* pPyAttributes = PyObject_CallObject((PyObject*)&AttributesType, NULL);
+    Attributes* pAttributes = (Attributes*)pPyAttributes;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_AuthenticatedAttributes(pAttributes->m_pCppCadesImpl));
     return Py_BuildValue("N", pAttributes);
 }
 
-static PyObject *Signer_getCRLs(Signer *self)
-{
-    PyObject *pPyBlobs = PyObject_CallObject((PyObject *)&BlobsType, NULL);
-    Blobs *pBlobs = (Blobs *)pPyBlobs;
+static PyObject* Signer_getCRLs(Signer* self) {
+    PyObject* pPyBlobs = PyObject_CallObject((PyObject*)&BlobsType, NULL);
+    Blobs* pBlobs = (Blobs*)pPyBlobs;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_CRLs(pBlobs->m_pCppCadesImpl));
     return Py_BuildValue("N", pBlobs);
 }
 
-static PyObject *Signer_getOCSPResponses(Signer *self)
-{
-    PyObject *pPyBlobs = PyObject_CallObject((PyObject *)&BlobsType, NULL);
-    Blobs *pBlobs = (Blobs *)pPyBlobs;
+static PyObject* Signer_getOCSPResponses(Signer* self) {
+    PyObject* pPyBlobs = PyObject_CallObject((PyObject*)&BlobsType, NULL);
+    Blobs* pBlobs = (Blobs*)pPyBlobs;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_OCSPResponses(pBlobs->m_pCppCadesImpl));
     return Py_BuildValue("N", pBlobs);
 }
 
-static PyObject *Signer_getSigningTime(Signer *self)
-{
+static PyObject* Signer_getSigningTime(Signer* self) {
     CryptoPro::CDateTime Time;
     CryptoPro::CStringProxy strProxySigningTime;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_SigningTime(Time));
@@ -160,8 +138,7 @@ static PyObject *Signer_getSigningTime(Signer *self)
     return Py_BuildValue("s", strProxySigningTime.c_str());
 }
 
-static PyObject *Signer_getSignatureTimeStampTime(Signer *self)
-{
+static PyObject* Signer_getSignatureTimeStampTime(Signer* self) {
     CryptoPro::CDateTime Time;
     CryptoPro::CStringProxy strProxySigningTime;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_SignatureTimeStampTime(Time));
@@ -169,11 +146,9 @@ static PyObject *Signer_getSignatureTimeStampTime(Signer *self)
     return Py_BuildValue("s", strProxySigningTime.c_str());
 }
 
-static int Signer_setKeyPin(Signer *self, PyObject *value)
-{
-    char *szKeyPin = "";
-    if (!PyArg_Parse(value, "s", &szKeyPin))
-    {
+static int Signer_setKeyPin(Signer* self, PyObject* value) {
+    char* szKeyPin = "";
+    if (!PyArg_Parse(value, "s", &szKeyPin)) {
         return -1;
     }
     CAtlStringA sKeyPin(CA2CA(CAtlStringA(szKeyPin), CP_UTF8));

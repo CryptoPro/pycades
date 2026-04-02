@@ -2,28 +2,23 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void HashedData_dealloc(HashedData *self)
-{
+static void HashedData_dealloc(HashedData* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *HashedData_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    HashedData *self;
-    self = (HashedData *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* HashedData_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    HashedData* self;
+    self = (HashedData*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPHashedDataObject>(new CPPCadesCPHashedDataObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *HashedData_Hash(HashedData *self, PyObject *args)
-{
-    char *szValue = "";
-    if (!PyArg_ParseTuple(args, "s", &szValue))
-    {
+static PyObject* HashedData_Hash(HashedData* self, PyObject* args) {
+    char* szValue = "";
+    if (!PyArg_ParseTuple(args, "s", &szValue)) {
         return NULL;
     }
     CAtlString sValue = CAtlString(szValue);
@@ -31,11 +26,9 @@ static PyObject *HashedData_Hash(HashedData *self, PyObject *args)
     Py_RETURN_NONE;
 }
 
-static PyObject *HashedData_setHashValue(HashedData *self, PyObject *args)
-{
-    char *szValue = "";
-    if (!PyArg_ParseTuple(args, "s", &szValue))
-    {
+static PyObject* HashedData_setHashValue(HashedData* self, PyObject* args) {
+    char* szValue = "";
+    if (!PyArg_ParseTuple(args, "s", &szValue)) {
         return NULL;
     }
     CAtlString sValue(szValue);
@@ -43,25 +36,21 @@ static PyObject *HashedData_setHashValue(HashedData *self, PyObject *args)
     Py_RETURN_NONE;
 }
 
-static PyObject *HashedData_getValue(HashedData *self)
-{
+static PyObject* HashedData_getValue(HashedData* self) {
     CAtlString sValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Value(sValue));
     return Py_BuildValue("s", sValue.GetString());
 }
 
-static PyObject *HashedData_getKey(HashedData *self)
-{
+static PyObject* HashedData_getKey(HashedData* self) {
     CAtlString sKey;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Key(sKey));
     return Py_BuildValue("s", sKey.GetString());
 }
 
-static int HashedData_setKey(HashedData *self, PyObject *value)
-{
-    char *szKey = "";
-    if (!PyArg_Parse(value, "s", &szKey))
-    {
+static int HashedData_setKey(HashedData* self, PyObject* value) {
+    char* szKey = "";
+    if (!PyArg_Parse(value, "s", &szKey)) {
         return -1;
     }
     CAtlString sKey = CAtlString(szKey);
@@ -69,18 +58,15 @@ static int HashedData_setKey(HashedData *self, PyObject *value)
     return 0;
 }
 
-static PyObject *HashedData_getAlgorithm(HashedData *self)
-{
+static PyObject* HashedData_getAlgorithm(HashedData* self) {
     CAPICOM_HASH_ALGORITHM Algorithm;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Algorithm(&Algorithm));
     return Py_BuildValue("l", Algorithm);
 }
 
-static int HashedData_setAlgorithm(HashedData *self, PyObject *value)
-{
+static int HashedData_setAlgorithm(HashedData* self, PyObject* value) {
     long lAlgorithm = 0;
-    if (!PyArg_Parse(value, "l", &lAlgorithm))
-    {
+    if (!PyArg_Parse(value, "l", &lAlgorithm)) {
         return -1;
     }
     CAPICOM_HASH_ALGORITHM Algorithm = (CAPICOM_HASH_ALGORITHM)lAlgorithm;
@@ -88,18 +74,15 @@ static int HashedData_setAlgorithm(HashedData *self, PyObject *value)
     return 0;
 }
 
-static PyObject *HashedData_getDataEncoding(HashedData *self)
-{
+static PyObject* HashedData_getDataEncoding(HashedData* self) {
     CADESCOM_CONTENT_ENCODING_TYPE Type;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_DataEncoding(&Type));
     return Py_BuildValue("l", Type);
 }
 
-static int HashedData_setDataEncoding(HashedData *self, PyObject *value)
-{
+static int HashedData_setDataEncoding(HashedData* self, PyObject* value) {
     long lType = 0;
-    if (!PyArg_Parse(value, "l", &lType))
-    {
+    if (!PyArg_Parse(value, "l", &lType)) {
         return -1;
     }
     CADESCOM_CONTENT_ENCODING_TYPE Type = (CADESCOM_CONTENT_ENCODING_TYPE)lType;

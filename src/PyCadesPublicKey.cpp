@@ -4,51 +4,44 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void PublicKey_dealloc(PublicKey *self)
-{
+static void PublicKey_dealloc(PublicKey* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *PublicKey_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    PublicKey *self;
-    self = (PublicKey *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* PublicKey_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    PublicKey* self;
+    self = (PublicKey*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPPublicKeyObject>(new CPPCadesCPPublicKeyObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *PublicKey_getAlgorithm(PublicKey *self)
-{
-    PyObject *pPyOID = PyObject_CallObject((PyObject *)&OIDType, NULL);
-    OID *pOID = (OID *)pPyOID;
+static PyObject* PublicKey_getAlgorithm(PublicKey* self) {
+    PyObject* pPyOID = PyObject_CallObject((PyObject*)&OIDType, NULL);
+    OID* pOID = (OID*)pPyOID;
     pOID->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPOIDObject>(new CPPCadesCPOIDObject());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Algorithm(pOID->m_pCppCadesImpl));
     return Py_BuildValue("N", pOID);
 }
 
-static PyObject *PublicKey_getLength(PublicKey *self)
-{
+static PyObject* PublicKey_getLength(PublicKey* self) {
     DWORD dwLen = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Length(&dwLen));
     return Py_BuildValue("l", dwLen);
 }
 
-static PyObject *PublicKey_getEncodedKey(PublicKey *self)
-{
-    PyObject *pPyEncodedData = PyObject_CallObject((PyObject *)&EncodedDataType, NULL);
-    EncodedData *pEncodedData = (EncodedData *)pPyEncodedData;
+static PyObject* PublicKey_getEncodedKey(PublicKey* self) {
+    PyObject* pPyEncodedData = PyObject_CallObject((PyObject*)&EncodedDataType, NULL);
+    EncodedData* pEncodedData = (EncodedData*)pPyEncodedData;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_EncodedKey(pEncodedData->m_pCppCadesImpl));
     return Py_BuildValue("N", pEncodedData);
 }
 
-static PyObject *PublicKey_getEncodedParameters(PublicKey *self)
-{
-    PyObject *pPyEncodedData = PyObject_CallObject((PyObject *)&EncodedDataType, NULL);
-    EncodedData *pEncodedData = (EncodedData *)pPyEncodedData;
+static PyObject* PublicKey_getEncodedParameters(PublicKey* self) {
+    PyObject* pPyEncodedData = PyObject_CallObject((PyObject*)&EncodedDataType, NULL);
+    EncodedData* pEncodedData = (EncodedData*)pPyEncodedData;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_EncodedParameters(pEncodedData->m_pCppCadesImpl));
     return Py_BuildValue("N", pEncodedData);
 }

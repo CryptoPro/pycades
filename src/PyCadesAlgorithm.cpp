@@ -2,35 +2,29 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Algorithm_dealloc(Algorithm *self)
-{
+static void Algorithm_dealloc(Algorithm* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Algorithm_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Algorithm *self;
-    self = (Algorithm *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Algorithm_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Algorithm* self;
+    self = (Algorithm*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPAlgorithmObject>(new CPPCadesCPAlgorithmObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Algorithm_getName(Algorithm *self)
-{
+static PyObject* Algorithm_getName(Algorithm* self) {
     CADESCOM_ENCRYPTION_ALGORITHM Name;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Name(&Name));
     return Py_BuildValue("l", Name);
 }
 
-static int Algorithm_setName(Algorithm *self, PyObject *value)
-{
+static int Algorithm_setName(Algorithm* self, PyObject* value) {
     long lName = 0;
-    if (!PyArg_Parse(value, "l", &lName))
-    {
+    if (!PyArg_Parse(value, "l", &lName)) {
         return -1;
     }
     CADESCOM_ENCRYPTION_ALGORITHM Name = (CADESCOM_ENCRYPTION_ALGORITHM)lName;
@@ -38,18 +32,15 @@ static int Algorithm_setName(Algorithm *self, PyObject *value)
     return 0;
 }
 
-static PyObject *Algorithm_getKeyLength(Algorithm *self)
-{
+static PyObject* Algorithm_getKeyLength(Algorithm* self) {
     CAPICOM_ENCRYPTION_KEY_LENGTH Len;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_KeyLength(&Len));
     return Py_BuildValue("l", Len);
 }
 
-static int Algorithm_setKeyLength(Algorithm *self, PyObject *value)
-{
+static int Algorithm_setKeyLength(Algorithm* self, PyObject* value) {
     long lLen = 0;
-    if (!PyArg_Parse(value, "l", &lLen))
-    {
+    if (!PyArg_Parse(value, "l", &lLen)) {
         return -1;
     }
     CAPICOM_ENCRYPTION_KEY_LENGTH Len = (CAPICOM_ENCRYPTION_KEY_LENGTH)lLen;

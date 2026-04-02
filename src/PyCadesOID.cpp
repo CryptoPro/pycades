@@ -2,53 +2,44 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void OID_dealloc(OID *self)
-{
+static void OID_dealloc(OID* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *OID_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    OID *self;
-    self = (OID *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* OID_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    OID* self;
+    self = (OID*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPOIDObject>(new CPPCadesCPOIDObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *OID_getValue(OID *self)
-{
+static PyObject* OID_getValue(OID* self) {
     NS_SHARED_PTR::shared_ptr<CAtlStringA> pValue;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Value(pValue));
     return Py_BuildValue("s", (*pValue).GetString());
 }
 
-static int OID_setValue(OID *self, PyObject *value)
-{
-    char *szValue = "";
-    if (!PyArg_Parse(value, "s", &szValue))
-    {
+static int OID_setValue(OID* self, PyObject* value) {
+    char* szValue = "";
+    if (!PyArg_Parse(value, "s", &szValue)) {
         return -1;
     }
     HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_Value(CAtlStringA(szValue)));
     return 0;
 }
 
-static PyObject *OID_getName(OID *self)
-{
+static PyObject* OID_getName(OID* self) {
     CAPICOM_OID Name;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Name(&Name));
     return Py_BuildValue("l", Name);
 }
 
-static int OID_setName(OID *self, PyObject *value)
-{
+static int OID_setName(OID* self, PyObject* value) {
     long lName = 0;
-    if (!PyArg_Parse(value, "l", &lName))
-    {
+    if (!PyArg_Parse(value, "l", &lName)) {
         return -1;
     }
     CAPICOM_OID Name = (CAPICOM_OID)lName;
@@ -56,18 +47,15 @@ static int OID_setName(OID *self, PyObject *value)
     return 0;
 }
 
-static PyObject *OID_getFriendlyName(OID *self)
-{
+static PyObject* OID_getFriendlyName(OID* self) {
     CAtlString sFriendlyName;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_FriendlyName(sFriendlyName));
     return Py_BuildValue("s", sFriendlyName.GetString());
 }
 
-static int OID_setFriendlyName(OID *self, PyObject *value)
-{
-    char *szFriendlyName = "";
-    if (!PyArg_Parse(value, "s", &szFriendlyName))
-    {
+static int OID_setFriendlyName(OID* self, PyObject* value) {
+    char* szFriendlyName = "";
+    if (!PyArg_Parse(value, "s", &szFriendlyName)) {
         return -1;
     }
     HR_SETTER_ERRORCHECK_RETURN(self->m_pCppCadesImpl->put_FriendlyName(CAtlString(szFriendlyName)));

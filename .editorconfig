@@ -1,0 +1,41 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# Python files (PEP 8 standard)
+[*.py]
+indent_style = space
+indent_size = 4
+
+# C++ Source and Header files
+[*.{cpp,h,hpp}]
+indent_style = space
+indent_size = 4
+# Functions: void func() {
+cpp_new_line_before_open_brace_function = same_line
+# Control blocks: if (cond) {
+cpp_new_line_before_open_brace_block = same_line
+# Types: class MyClass {
+cpp_new_line_before_open_brace_type = same_line
+# Namespaces: namespace MyNamespace {
+cpp_new_line_before_open_brace_namespace = same_line
+
+# Build system files (CMake)
+[{CMakeLists.txt,*.cmake}]
+indent_style = space
+indent_size = 4
+
+# Shell scripts and Docker configuration
+[*.{sh,dockerfile}]
+indent_style = space
+indent_size = 4
+
+# Markdown documentation
+[*.md]
+trim_trailing_whitespace = false

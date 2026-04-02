@@ -3,57 +3,49 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void About_dealloc(About *self)
-{
+static void About_dealloc(About* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *About_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    About *self;
-    self = (About *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* About_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    About* self;
+    self = (About*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesAboutObject>(new CPPCadesAboutObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *About_getMajorVersion(About *self)
-{
+static PyObject* About_getMajorVersion(About* self) {
     unsigned int version = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_MajorVersion(&version));
     return Py_BuildValue("i", version);
 }
 
-static PyObject *About_getMinorVersion(About *self)
-{
+static PyObject* About_getMinorVersion(About* self) {
     unsigned int version = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_MinorVersion(&version));
     return Py_BuildValue("i", version);
 }
 
-static PyObject *About_getBuildVersion(About *self)
-{
+static PyObject* About_getBuildVersion(About* self) {
     unsigned int version = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_BuildVersion(&version));
     return Py_BuildValue("i", version);
 }
 
-static PyObject *About_getVersion(About *self)
-{
+static PyObject* About_getVersion(About* self) {
     CAtlString CAtlVersion;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Version(CAtlVersion));
     return Py_BuildValue("s", CAtlVersion.GetString());
 }
 
-static PyObject *About_PluginVersion(About *self)
-{
+static PyObject* About_PluginVersion(About* self) {
     NS_SHARED_PTR::shared_ptr<CPPVersionObject> version;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_PluginVersion(version));
-    PyObject *pPluginVersionObject = PyObject_CallObject((PyObject *)&VersionType, NULL);
-    Version *pPluginVersion = (Version *)pPluginVersionObject;
+    PyObject* pPluginVersionObject = PyObject_CallObject((PyObject*)&VersionType, NULL);
+    Version* pPluginVersion = (Version*)pPluginVersionObject;
     pPluginVersion->m_pCppCadesImpl = version;
     return Py_BuildValue("N", pPluginVersion);
 }
@@ -67,12 +59,10 @@ static PyGetSetDef About_getset[] = {
     {NULL} /* Sentinel */
 };
 
-static PyObject *About_CSPVersion(About *self, PyObject *args)
-{
-    char *szProvName = "";
+static PyObject* About_CSPVersion(About* self, PyObject* args) {
+    char* szProvName = "";
     long dwProvType = 75;
-    if (!PyArg_ParseTuple(args, "|sl", &szProvName, &dwProvType))
-    {
+    if (!PyArg_ParseTuple(args, "|sl", &szProvName, &dwProvType)) {
         return NULL;
     }
     CAtlString provName = CAtlString(CA2CT(CAtlStringA(szProvName), CP_UTF8));
@@ -80,17 +70,15 @@ static PyObject *About_CSPVersion(About *self, PyObject *args)
     NS_SHARED_PTR::shared_ptr<CPPVersionObject> version;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_CSPVersion(provName, dwProvType, version));
 
-    PyObject *pCSPVersionObject = PyObject_CallObject((PyObject *)&VersionType, NULL);
-    Version *pCSPVersion = (Version *)pCSPVersionObject;
+    PyObject* pCSPVersionObject = PyObject_CallObject((PyObject*)&VersionType, NULL);
+    Version* pCSPVersion = (Version*)pCSPVersionObject;
     pCSPVersion->m_pCppCadesImpl = version;
     return Py_BuildValue("N", pCSPVersion);
 }
 
-static PyObject *About_CSPName(About *self, PyObject *args)
-{
+static PyObject* About_CSPName(About* self, PyObject* args) {
     long dwProvType = 75;
-    if (!PyArg_ParseTuple(args, "|l", &dwProvType))
-    {
+    if (!PyArg_ParseTuple(args, "|l", &dwProvType)) {
         return NULL;
     }
 

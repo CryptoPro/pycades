@@ -3,42 +3,36 @@
 using namespace CryptoPro;
 using namespace CryptoPro::PKI::CAdES;
 
-static void Blobs_dealloc(Blobs *self)
-{
+static void Blobs_dealloc(Blobs* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Blobs_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Blobs *self;
-    self = (Blobs *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Blobs_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Blobs* self;
+    self = (Blobs*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPBlobsObject>(new CPPCadesCPBlobsObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Blobs_getCount(Blobs *self)
-{
+static PyObject* Blobs_getCount(Blobs* self) {
     unsigned int count;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Count(&count));
     return Py_BuildValue("l", count);
 }
 
-static PyObject *Blobs_Item(Blobs *self, PyObject *args)
-{
+static PyObject* Blobs_Item(Blobs* self, PyObject* args) {
     long lIndex = 0;
-    if (!PyArg_ParseTuple(args, "l", &lIndex))
-    {
+    if (!PyArg_ParseTuple(args, "l", &lIndex)) {
         return NULL;
     }
     NS_SHARED_PTR::shared_ptr<CBlob> pEncValueBlob = NS_SHARED_PTR::shared_ptr<CBlob>(new CBlob());
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Item(lIndex, pEncValueBlob));
 
     CAtlString sValue;
-    sValue = CAtlString((const TCHAR *)pEncValueBlob->pbData(), pEncValueBlob->cbData() / sizeof(TCHAR));
+    sValue = CAtlString((const TCHAR*)pEncValueBlob->pbData(), pEncValueBlob->cbData() / sizeof(TCHAR));
 
     return Py_BuildValue("s", sValue.GetString());
 }

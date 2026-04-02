@@ -40,6 +40,7 @@
   "features": {
     "ghcr.io/va-h/devcontainers-features/uv:1": {}
   },
-  "mounts": ["source=${SSH_AUTH_SOCK},target=/ssh-agent,type=bind"]
+  "mounts": [
+    "source=${SSH_AUTH_SOCK},target=/ssh-agent,type=bind"
+  ]
 }
-

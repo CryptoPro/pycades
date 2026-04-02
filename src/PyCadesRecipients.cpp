@@ -3,68 +3,57 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-static void Recipients_dealloc(Recipients *self)
-{
+static void Recipients_dealloc(Recipients* self) {
     self->m_pCppCadesImpl.reset();
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static PyObject *Recipients_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    Recipients *self;
-    self = (Recipients *)type->tp_alloc(type, 0);
-    if (self != NULL)
-    {
+static PyObject* Recipients_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    Recipients* self;
+    self = (Recipients*)type->tp_alloc(type, 0);
+    if (self != NULL) {
         self->m_pCppCadesImpl = NS_SHARED_PTR::shared_ptr<CPPCadesCPRecipientsObject>(new CPPCadesCPRecipientsObject());
     }
-    return (PyObject *)self;
+    return (PyObject*)self;
 }
 
-static PyObject *Recipients_Item(Recipients *self, PyObject *args)
-{
+static PyObject* Recipients_Item(Recipients* self, PyObject* args) {
     long Index = 0;
-    if (!PyArg_ParseTuple(args, "l", &Index))
-    {
+    if (!PyArg_ParseTuple(args, "l", &Index)) {
         return NULL;
     }
     NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> pCppCadesCert;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Item(Index, pCppCadesCert));
-    PyObject *pPyCert = PyObject_CallObject((PyObject *)&CertificateType, NULL);
-    Certificate *pCert = (Certificate *)pPyCert;
+    PyObject* pPyCert = PyObject_CallObject((PyObject*)&CertificateType, NULL);
+    Certificate* pCert = (Certificate*)pPyCert;
     pCert->m_pCppCadesImpl = pCppCadesCert;
     return Py_BuildValue("N", pCert);
 }
 
-static PyObject *Recipients_getCount(Recipients *self)
-{
+static PyObject* Recipients_getCount(Recipients* self) {
     unsigned int Count = 0;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->get_Count(&Count));
     return Py_BuildValue("l", Count);
 }
 
-static PyObject *Recipients_Add(Recipients *self, PyObject *args)
-{
-    PyObject *pPyCert;
-    if (!PyArg_ParseTuple(args, "O!", &CertificateType, &pPyCert))
-    {
+static PyObject* Recipients_Add(Recipients* self, PyObject* args) {
+    PyObject* pPyCert;
+    if (!PyArg_ParseTuple(args, "O!", &CertificateType, &pPyCert)) {
         return NULL;
     }
-    Certificate *pCert = (Certificate *)pPyCert;
+    Certificate* pCert = (Certificate*)pPyCert;
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Add(pCert->m_pCppCadesImpl));
     Py_RETURN_NONE;
 }
 
-static PyObject *Recipients_Clear(Recipients *self, PyObject *args)
-{
+static PyObject* Recipients_Clear(Recipients* self, PyObject* args) {
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Clear());
     Py_RETURN_NONE;
 }
 
-static PyObject *Recipients_Remove(Recipients *self, PyObject *args)
-{
+static PyObject* Recipients_Remove(Recipients* self, PyObject* args) {
     long Index = 0;
-    if (!PyArg_ParseTuple(args, "l", &Index))
-    {
+    if (!PyArg_ParseTuple(args, "l", &Index)) {
         return NULL;
     }
     HR_METHOD_ERRORCHECK_RETURN(self->m_pCppCadesImpl->Remove(Index));

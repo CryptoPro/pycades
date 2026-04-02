@@ -40,14 +40,13 @@
 #include "PyCadesExtensions.h"
 #endif
 
-static PyObject * pycades_ModuleVersion(PyObject *self, PyObject *args)
-{
+static PyObject* pycades_ModuleVersion(PyObject* self, PyObject* args) {
     return Py_BuildValue("s", PYCADES_VERSION);
 }
 
 static PyMethodDef pycadesMethods[] = {
     {"ModuleVersion", pycades_ModuleVersion, METH_NOARGS, "pycades module version"},
-    {NULL, NULL, 0, NULL}};
+    {NULL, NULL, 0, NULL} };
 
 PyMODINIT_FUNC PyInit_pycades(void) {
     static struct PyModuleDef moduledef = {
@@ -62,243 +61,243 @@ PyMODINIT_FUNC PyInit_pycades(void) {
         NULL
     };
 
-    PyObject *module = PyModule_Create(&moduledef);
-    if (!module){
+    PyObject* module = PyModule_Create(&moduledef);
+    if (!module) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create pycades object");
         return NULL;
     }
 
-    if (PyType_Ready (&AboutType) < 0){
+    if (PyType_Ready(&AboutType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create About object");
         return NULL;
     }
     Py_INCREF(&AboutType);
-    PyModule_AddObject(module, "About", (PyObject *)&AboutType);
+    PyModule_AddObject(module, "About", (PyObject*)&AboutType);
 
-    if (PyType_Ready (&AlgorithmType) < 0){
+    if (PyType_Ready(&AlgorithmType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Algorithm object");
         return NULL;
     }
     Py_INCREF(&AlgorithmType);
 
-    if (PyType_Ready (&AttributeType) < 0){
+    if (PyType_Ready(&AttributeType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Attribute object");
         return NULL;
     }
     Py_INCREF(&AttributeType);
-    PyModule_AddObject(module, "Attribute", (PyObject *)&AttributeType);
+    PyModule_AddObject(module, "Attribute", (PyObject*)&AttributeType);
 
-    if (PyType_Ready (&AttributesType) < 0){
+    if (PyType_Ready(&AttributesType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Attributes object");
         return NULL;
     }
     Py_INCREF(&AttributesType);
 
-    if (PyType_Ready (&BasicConstraintsType) < 0){
+    if (PyType_Ready(&BasicConstraintsType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create BasicConstraints object");
         return NULL;
     }
     Py_INCREF(&BasicConstraintsType);
 
-    if (PyType_Ready (&BlobsType) < 0){
+    if (PyType_Ready(&BlobsType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Blobs object");
         return NULL;
     }
     Py_INCREF(&BlobsType);
 
-    if (PyType_Ready (&CertificateType) < 0){
+    if (PyType_Ready(&CertificateType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Certificate object");
         return NULL;
     }
     Py_INCREF(&CertificateType);
-    PyModule_AddObject(module, "Certificate", (PyObject *)&CertificateType);
+    PyModule_AddObject(module, "Certificate", (PyObject*)&CertificateType);
 
-    if (PyType_Ready (&CertificatesType) < 0){
+    if (PyType_Ready(&CertificatesType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Certificates object");
         return NULL;
     }
     Py_INCREF(&CertificatesType);
 
-    if (PyType_Ready (&CertificateStatusType) < 0){
+    if (PyType_Ready(&CertificateStatusType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create CertificateStatus object");
         return NULL;
     }
     Py_INCREF(&CertificateStatusType);
 
-    if (PyType_Ready (&CRLType) < 0){
+    if (PyType_Ready(&CRLType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create CRL object");
         return NULL;
     }
     Py_INCREF(&CRLType);
-    PyModule_AddObject(module, "CRL", (PyObject *)&CRLType);
+    PyModule_AddObject(module, "CRL", (PyObject*)&CRLType);
 
-    if (PyType_Ready (&EncodedDataType) < 0){
+    if (PyType_Ready(&EncodedDataType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create EncodedData object");
         return NULL;
     }
     Py_INCREF(&EncodedDataType);
 
-    if (PyType_Ready (&EnvelopedDataType) < 0){
+    if (PyType_Ready(&EnvelopedDataType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create EnvelopedData object");
         return NULL;
     }
     Py_INCREF(&EnvelopedDataType);
-    PyModule_AddObject(module, "EnvelopedData", (PyObject *)&EnvelopedDataType);
+    PyModule_AddObject(module, "EnvelopedData", (PyObject*)&EnvelopedDataType);
 
-    if (PyType_Ready (&ExtendedKeyUsageType) < 0){
+    if (PyType_Ready(&ExtendedKeyUsageType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create ExtendedKeyUsage object");
         return NULL;
     }
     Py_INCREF(&ExtendedKeyUsageType);
 
-    if (PyType_Ready (&EKUType) < 0){
+    if (PyType_Ready(&EKUType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create EKU object");
         return NULL;
     }
     Py_INCREF(&EKUType);
 
-    if (PyType_Ready (&EKUsType) < 0){
+    if (PyType_Ready(&EKUsType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create EKUs object");
         return NULL;
     }
     Py_INCREF(&EKUsType);
 
-    if (PyType_Ready (&HashedDataType) < 0){
+    if (PyType_Ready(&HashedDataType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create HashedData object");
         return NULL;
     }
     Py_INCREF(&HashedDataType);
-    PyModule_AddObject(module, "HashedData", (PyObject *)&HashedDataType);
+    PyModule_AddObject(module, "HashedData", (PyObject*)&HashedDataType);
 
-    if (PyType_Ready (&KeyUsageType) < 0){
+    if (PyType_Ready(&KeyUsageType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create KeyUsage object");
         return NULL;
     }
     Py_INCREF(&KeyUsageType);
 
-    if (PyType_Ready (&OIDType) < 0){
+    if (PyType_Ready(&OIDType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create OID object");
         return NULL;
     }
     Py_INCREF(&OIDType);
 
-    if (PyType_Ready (&PrivateKeyType) < 0){
+    if (PyType_Ready(&PrivateKeyType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create PrivateKey object");
         return NULL;
     }
     Py_INCREF(&PrivateKeyType);
 
-    if (PyType_Ready (&PublicKeyType) < 0){
+    if (PyType_Ready(&PublicKeyType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create PublicKey object");
         return NULL;
     }
     Py_INCREF(&PublicKeyType);
 
-    if (PyType_Ready (&RawSignatureType) < 0){
+    if (PyType_Ready(&RawSignatureType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create RawSignature object");
         return NULL;
     }
     Py_INCREF(&RawSignatureType);
-    PyModule_AddObject(module, "RawSignature", (PyObject *)&RawSignatureType);
+    PyModule_AddObject(module, "RawSignature", (PyObject*)&RawSignatureType);
 
-    if (PyType_Ready (&RecipientsType) < 0){
+    if (PyType_Ready(&RecipientsType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Recipients object");
         return NULL;
     }
     Py_INCREF(&RecipientsType);
 
-    if (PyType_Ready (&SignatureStatusType) < 0){
+    if (PyType_Ready(&SignatureStatusType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create SignatureStatus object");
         return NULL;
     }
     Py_INCREF(&SignatureStatusType);
 
-    if (PyType_Ready (&SignedDataType) < 0){
+    if (PyType_Ready(&SignedDataType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create SignedData object");
         return NULL;
     }
     Py_INCREF(&SignedDataType);
-    PyModule_AddObject(module, "SignedData", (PyObject *)&SignedDataType);
+    PyModule_AddObject(module, "SignedData", (PyObject*)&SignedDataType);
 
-    if (PyType_Ready (&SignedXMLType) < 0){
+    if (PyType_Ready(&SignedXMLType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create SignedXML object");
         return NULL;
     }
     Py_INCREF(&SignedXMLType);
-    PyModule_AddObject(module, "SignedXML", (PyObject *)&SignedXMLType);
+    PyModule_AddObject(module, "SignedXML", (PyObject*)&SignedXMLType);
 
-    if (PyType_Ready (&SignerType) < 0){
+    if (PyType_Ready(&SignerType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Signer object");
         return NULL;
     }
     Py_INCREF(&SignerType);
-    PyModule_AddObject(module, "Signer", (PyObject *)&SignerType);
+    PyModule_AddObject(module, "Signer", (PyObject*)&SignerType);
 
-    if (PyType_Ready (&SignersType) < 0){
+    if (PyType_Ready(&SignersType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Signers object");
         return NULL;
     }
     Py_INCREF(&SignersType);
 
-    if (PyType_Ready (&StoreType) < 0){
+    if (PyType_Ready(&StoreType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Store object");
         return NULL;
     }
     Py_INCREF(&StoreType);
-    PyModule_AddObject(module, "Store", (PyObject *)&StoreType);
+    PyModule_AddObject(module, "Store", (PyObject*)&StoreType);
 
-    if (PyType_Ready (&SymmetricAlgorithmType) < 0){
+    if (PyType_Ready(&SymmetricAlgorithmType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create SymmetricAlgorithm object");
         return NULL;
     }
     Py_INCREF(&SymmetricAlgorithmType);
-    PyModule_AddObject(module, "SymmetricAlgorithm", (PyObject *)&SymmetricAlgorithmType);
+    PyModule_AddObject(module, "SymmetricAlgorithm", (PyObject*)&SymmetricAlgorithmType);
 
-    if (PyType_Ready (&VersionType) < 0){
+    if (PyType_Ready(&VersionType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Version object");
         return NULL;
     }
     Py_INCREF(&VersionType);
 
-    if (PyType_Ready (&ContainerType) < 0){
+    if (PyType_Ready(&ContainerType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Container object");
         return NULL;
     }
     Py_INCREF(&ContainerType);
 
-    if (PyType_Ready (&ContainersType) < 0){
+    if (PyType_Ready(&ContainersType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Containers object");
         return NULL;
     }
     Py_INCREF(&ContainersType);
 
-    if (PyType_Ready (&ContainerKeyType) < 0){
+    if (PyType_Ready(&ContainerKeyType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create ContainerKey object");
         return NULL;
     }
     Py_INCREF(&ContainerKeyType);
 
-    if (PyType_Ready (&ContainerKeysType) < 0){
+    if (PyType_Ready(&ContainerKeysType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create ContainerKeys object");
         return NULL;
     }
     Py_INCREF(&ContainerKeysType);
 
-    if (PyType_Ready(&CspInformationType) < 0){
+    if (PyType_Ready(&CspInformationType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create CspInformation object");
         return NULL;
     }
     Py_INCREF(&CspInformationType);
-    PyModule_AddObject(module, "CspInformation", (PyObject *)&CspInformationType);
+    PyModule_AddObject(module, "CspInformation", (PyObject*)&CspInformationType);
 
 #if IS_CADES_VERSION_GREATER_EQUAL(2, 0, 15000)
-    if (PyType_Ready (&ExtensionType) < 0){
+    if (PyType_Ready(&ExtensionType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Extension object");
         return NULL;
     }
     Py_INCREF(&ExtensionType);
 
-    if (PyType_Ready (&ExtensionsType) < 0){
+    if (PyType_Ready(&ExtensionsType) < 0) {
         PyErr_SetString(PyExc_RuntimeError, "Cannot create Extensions object");
         return NULL;
     }
