@@ -9,7 +9,7 @@
 Для построения образа и проверки работы расширения необходимо: 
 1. В директории с Dockerfile поместить папку с пакетами из [архива с КриптоПро CSP](https://cryptopro.ru/products/csp/downloads):
     ```bash
-    cp -r ~/linux-amd64_deb/ .
+    cp -r ~/csp/ .
     ```
 1. Собрать образ:
     ```bash

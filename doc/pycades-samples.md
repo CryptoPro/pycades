@@ -2,9 +2,10 @@
 ===
 Для работы примеров необходим сертификат с привязкой к закрытому ключу.
 
-Тестовый сертификат можно установить с помощью команды (для amd64):
+Тестовый сертификат можно установить с помощью команды:
 ```bash
-/opt/cprocsp/bin/amd64/cryptcp -createcert -dn "CN=test" -provtype 80 -cont '\\.\HDIMAGE\test' -ca https://cryptopro.ru/certsrv
+export PATH="/opt/cprocsp/bin/amd64:/opt/cprocsp/bin/aarch64:$PATH" && \
+cryptcp -createcert -dn "CN=test" -provtype 80 -cont '\\.\HDIMAGE\test' -ca https://cryptopro.ru/certsrv
 ```
 
 В данном разделе

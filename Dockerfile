@@ -1,4 +1,4 @@
-# cp -r ~/linux-amd64_deb/ .
+# cp -r ~/csp/ .
 # docker build -t pycades-build .
 
 FROM ubuntu:latest
@@ -17,7 +17,7 @@ RUN apt-get update && \
 
 RUN update-ca-certificates
 
-COPY linux-amd64_deb csp
+COPY csp csp
 
 RUN ./csp/install.sh
 

@@ -180,3 +180,4 @@ cython_debug/
 .devcontainer/.env
 /*.000
 linux-*/
+csp/
