@@ -15,17 +15,9 @@
     ```bash
     docker build -t pycades-build .
     ```
-1. Запустить контейнер с собранным образом:
-    ```
-    docker run -it -w /pycades/samples/ pycades-build
-    ```
-1. Сгенерировать тестовый сертификат с привязкой к закрытому ключу:
-    ```
-    /opt/cprocsp/bin/amd64/cryptcp -createcert -dn "CN=test" -provtype 80 -cont '\\.\HDIMAGE\test' -ca https://cryptopro.ru/certsrv
-    ```
 1. Выполнить пример:
     ```
-    python3 sign_verify.py
+    docker run pycades-build python3 samples/sign_verify.py
     ```
 
 
@@ -51,7 +43,5 @@
     ```
 1. Выполнить сборку:
     ```
-    BUILD_DIR=build && \
-    cmake -S . -B ${BUILD_DIR} && \
-    cmake --build ${BUILD_DIR} -j$(nproc)
+    make || make rebuild-library
     ```
