@@ -13,6 +13,9 @@ clean-build:
 	rm -fr samples/*.so
 
 .PHONY: build-library
-build-library: clean ## Build shared library
+build-library: ## Build shared library
 	cmake -S . -B build
 	cmake --build build -j$$(nproc)
+
+.PHONY: rebuild-library
+rebuild-library: clean build-library ## Clean and rebuild the library from scratch

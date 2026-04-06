@@ -10,7 +10,7 @@
                     "BUILD_DIR": "build"
                 }
             },
-            "command": "cmake -S . -B ${BUILD_DIR} && cmake --build ${BUILD_DIR} -j$(nproc) || make",
+            "command": "make || make rebuild-library",
             "group": {
                 "kind": "build",
                 "isDefault": true
