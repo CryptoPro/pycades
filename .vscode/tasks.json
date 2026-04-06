@@ -7,10 +7,10 @@
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "BUILD_DIR": "build" 
+                    "BUILD_DIR": "build"
                 }
             },
-            "command": "cmake -S . -B ${BUILD_DIR} && cmake --build ${BUILD_DIR} -j$(nproc)",
+            "command": "cmake -S . -B ${BUILD_DIR} && cmake --build ${BUILD_DIR} -j$(nproc) || make",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -19,6 +19,50 @@
                 "$gcc"
             ],
             "detail": "CMake build task"
+        },
+        {
+            "label": "test-setup-root",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}",
+            },
+            "command": "chmod +x ./tests/scripts/setup-root.sh && ./tests/scripts/setup-root.sh",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": "Setup test root certificate"
+        },
+        {
+            "label": "test-setup-leaf",
+            "type": "shell",
+            "command": "chmod +x ./tests/scripts/setup-leaf.sh && ./tests/scripts/setup-leaf.sh",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": "Setup test leaf certificate"
+        },
+        {
+            "label": "test-setup-crl",
+            "type": "shell",
+            "command": "chmod +x ./tests/scripts/setup-crl.sh && ./tests/scripts/setup-crl.sh",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": "Setup test crl"
+        },
+        {
+            "label": "launch-setup",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "cmake-build",
+                "test-setup-root",
+                "test-setup-leaf",
+                "test-setup-crl"
+            ],
+            "problemMatcher": []
         }
     ]
 }

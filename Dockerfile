@@ -28,17 +28,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ./csp/cprocsp-pki-cades* && \
     rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/CryptoPro/pycades.git
-
-# for development purposes
-# COPY . /pycades/
+COPY . /pycades/
 
 WORKDIR /pycades
 
-RUN BUILD_DIR=build && \
-    cmake -S . -B ${BUILD_DIR} && \
-    cmake --build ${BUILD_DIR} -j$(nproc)
+RUN make
 
-# docker run -it -w /pycades/samples/ pycades-build
-# /opt/cprocsp/bin/amd64/cryptcp -createcert -dn "CN=test" -provtype 80 -cont '\\.\HDIMAGE\test' -ca https://cryptopro.ru/certsrv
-# python3 sign_verify.py
+RUN SCRIPTS_DIR=./tests/scripts && \
+    chmod +x ${SCRIPTS_DIR}/*.sh && \
+    ${SCRIPTS_DIR}/setup-root.sh && \
+    ${SCRIPTS_DIR}/setup-leaf.sh && \
+    ${SCRIPTS_DIR}/setup-crl.sh
+
+# docker run pycades-build python3 samples/sign_verify.py
