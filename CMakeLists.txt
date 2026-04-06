@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 if(DEFINED ENV{REMOTE_CONTAINERS})
-    message(status "Dev Container detected: Forcing Debug build")
+    message(STATUS "Dev Container detected: Forcing Debug build")
     set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "" FORCE)
 endif()
 
