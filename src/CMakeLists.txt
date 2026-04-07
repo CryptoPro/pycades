@@ -13,6 +13,18 @@ set(pycades_LIB_SRCS
 if(DEFINED PY_BUILD_CMAKE_IMPORT_NAME AND NOT "${PY_BUILD_CMAKE_IMPORT_NAME}" STREQUAL "")
     set (TARGET_NAME "_pycades")
 
+    message("-- Applying ${CMAKE_CURRENT_SOURCE_DIR}/../patches/001-rename-lib.patch")
+
+    execute_process(
+        COMMAND ${Patch_EXECUTABLE} -p1 -i ${CMAKE_CURRENT_SOURCE_DIR}/../patches/001-rename-lib.patch
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        RESULT_VARIABLE PATCH_RESULT
+    )
+
+    if(NOT PATCH_RESULT EQUAL 0)
+        message(FATAL_ERROR "Failed to apply patch")
+    endif()
+
     Python_add_library(pycades MODULE ${pycades_LIB_SRCS} WITH_SOABI)
 
     set_target_properties(pycades PROPERTIES
