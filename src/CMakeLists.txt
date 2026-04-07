@@ -9,7 +9,46 @@ set(pycades_LIB_SRCS
         PyCadesVersion.cpp PyEnrollContainer.cpp PyEnrollContainers.cpp PyEnrollContainerKey.cpp
         PyEnrollContainerKeys.cpp PyEnrollCspInformation.cpp
 )
-add_library(pycades SHARED ${pycades_LIB_SRCS})
+
+if(DEFINED PY_BUILD_CMAKE_IMPORT_NAME AND NOT "${PY_BUILD_CMAKE_IMPORT_NAME}" STREQUAL "")
+    set (TARGET_NAME "_pycades")
+
+    Python_add_library(pycades MODULE ${pycades_LIB_SRCS} WITH_SOABI)
+
+    set_target_properties(pycades PROPERTIES
+        PREFIX ""
+        OUTPUT_NAME ${TARGET_NAME}
+    )
+
+    install(TARGETS _pycades
+        EXCLUDE_FROM_ALL
+        COMPONENT python_modules
+        DESTINATION ${PY_BUILD_CMAKE_IMPORT_NAME})
+
+    install(FILES ${SRC_DIR}/src/pycades.pyi
+        DESTINATION ${PY_BUILD_CMAKE_IMPORT_NAME}
+        RENAME _pycades.pyi
+        COMPONENT python_modules)
+
+else()
+    set (TARGET_NAME "pycades")
+
+    add_library(pycades SHARED ${pycades_LIB_SRCS})
+
+    set_target_properties(pycades PROPERTIES
+        PREFIX ""
+        OUTPUT_NAME ${TARGET_NAME}
+    )
+
+    add_custom_command(TARGET pycades
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${TARGET_NAME}> "${CMAKE_SOURCE_DIR}/samples/"
+        COMMENT "Copying pycades module to samples directory"
+    )
+
+endif()
+
+
 
 target_compile_definitions(pycades PRIVATE
     UNIX
@@ -46,10 +85,6 @@ target_include_directories(pycades PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/cplib
 )
 
-set_target_properties(pycades PROPERTIES
-    PREFIX ""
-    OUTPUT_NAME "pycades"
-)
 
 find_library(FOUND_LIB_CPPCADES
     NAMES cppcades
@@ -64,8 +99,4 @@ target_link_libraries(pycades PRIVATE
     ${FOUND_LIB_CPLIB}
 )
 
-add_custom_command(TARGET pycades
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pycades> "${CMAKE_SOURCE_DIR}/samples/"
-    COMMENT "Copying pycades module to samples directory"
-)
+
