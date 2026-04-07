@@ -9,13 +9,22 @@ clean: clean-build ## Clean project
 
 .PHONY: clean-build
 clean-build:
-	rm -fr build
+	rm -fr build/
+    rm -fr dist/
+	rm -fr .eggs/
+    rm -rf .py-build-cmake_cache
+	find . -name '*.egg-info' -not -path '.venv/*' -exec rm -fr {} +
+	find . -name '*.egg' -not -path '.venv/*' -exec rm -f {} +
 	rm -fr samples/*.so
 
 .PHONY: build-library
 build-library: ## Build shared library
 	cmake -S . -B build
 	cmake --build build -j$$(nproc)
+
+.PHONY: build-package
+build-package: clean ## Build python package
+	uv build
 
 .PHONY: rebuild-library
 rebuild-library: clean build-library ## Clean and rebuild the library from scratch
