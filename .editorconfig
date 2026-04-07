@@ -39,3 +39,7 @@ indent_size = 4
 # Markdown documentation
 [*.md]
 trim_trailing_whitespace = false
+
+# Makefile
+[{Makefile,**.mk}]
+indent_style = tab
