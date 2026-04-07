@@ -1,13 +1,19 @@
 diff --git a/src/PyCades.cpp b/src/PyCades.cpp
-index 117bc8e..561a93b 100755
+index 117bc8e..58feaea 100755
 --- a/src/PyCades.cpp
 +++ b/src/PyCades.cpp
-@@ -48,7 +48,7 @@ static PyMethodDef pycadesMethods[] = {
+@@ -48,11 +48,11 @@ static PyMethodDef pycadesMethods[] = {
      {"ModuleVersion", pycades_ModuleVersion, METH_NOARGS, "pycades module version"},
      {NULL, NULL, 0, NULL} };
- 
+
 -PyMODINIT_FUNC PyInit_pycades(void) {
 +PyMODINIT_FUNC PyInit__pycades(void) {
      static struct PyModuleDef moduledef = {
          PyModuleDef_HEAD_INIT,
-         "pycades",
+-        "pycades",
+-        "pycades",
++        "_pycades",
++        NULL,
+         -1,
+         pycadesMethods,
+         NULL,
