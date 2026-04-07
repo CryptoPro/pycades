@@ -1,7 +1,9 @@
 # cp -r ~/csp/ .
 # docker build -t pycades-build .
 
-FROM ubuntu:latest
+ARG PYTHON_VER=3.12
+
+FROM python:${PYTHON_VER}
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -11,8 +13,7 @@ RUN apt-get update && \
         cmake \
         build-essential \
         libboost-all-dev \
-        ca-certificates \
-        python3-dev && \
+        ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
 RUN update-ca-certificates
