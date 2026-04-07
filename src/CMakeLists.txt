@@ -17,7 +17,7 @@ if(DEFINED PY_BUILD_CMAKE_IMPORT_NAME AND NOT "${PY_BUILD_CMAKE_IMPORT_NAME}" ST
 
     execute_process(
         COMMAND ${Patch_EXECUTABLE} -p1 -i ${CMAKE_CURRENT_SOURCE_DIR}/../patches/001-rename-lib.patch
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/..   # Подняться на уровень выше
         RESULT_VARIABLE PATCH_RESULT
     )
 
@@ -25,19 +25,19 @@ if(DEFINED PY_BUILD_CMAKE_IMPORT_NAME AND NOT "${PY_BUILD_CMAKE_IMPORT_NAME}" ST
         message(FATAL_ERROR "Failed to apply patch")
     endif()
 
-    Python_add_library(pycades MODULE ${pycades_LIB_SRCS} WITH_SOABI)
+    Python3_add_library(pycades MODULE ${pycades_LIB_SRCS} WITH_SOABI)
 
     set_target_properties(pycades PROPERTIES
         PREFIX ""
         OUTPUT_NAME ${TARGET_NAME}
     )
 
-    install(TARGETS _pycades
+    install(TARGETS pycades
         EXCLUDE_FROM_ALL
         COMPONENT python_modules
         DESTINATION ${PY_BUILD_CMAKE_IMPORT_NAME})
 
-    install(FILES ${SRC_DIR}/src/pycades.pyi
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/pycades.pyi
         DESTINATION ${PY_BUILD_CMAKE_IMPORT_NAME}
         RENAME _pycades.pyi
         COMPONENT python_modules)
