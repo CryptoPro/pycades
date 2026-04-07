@@ -38,7 +38,7 @@ directory = "src"
 include = ["CMakeLists.txt", "patches/*", "src/*", "samples/*", "doc/*"]
 
 [tool.py-build-cmake.cmake]
-minimum_version = "3.15"
+minimum_version = "3.18"
 source_path = "."
 build_args = ["-j"]
 install_components = ["python_modules"]
