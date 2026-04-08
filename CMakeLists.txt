@@ -16,7 +16,7 @@ if(DEFINED ENV{REMOTE_CONTAINERS})
 endif()
 
 find_package(Python3 REQUIRED COMPONENTS Development.Module)
-find_package(Boost REQUIRED)
+find_package(Boost CONFIG REQUIRED)
 
 execute_process(
     COMMAND bash -c "if type dpkg > /dev/null 2>&1; then dpkg -l|grep cprocsp-pki-cades|awk ' { print $3 } '; else rpm -qa|grep cprocsp-pki-cades; fi|cut -d. -f1|cut -d- -f1"
