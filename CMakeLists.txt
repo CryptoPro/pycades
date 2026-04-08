@@ -35,4 +35,4 @@ execute_process(
 )
 message("-- cprocsp-pki-cades: ${CPRO_CADES_VERSION_MAJOR}.${CPRO_CADES_VERSION_MINOR}.${CPRO_CADES_VERSION_BUILD}")
 
-add_subdirectory(src)
+add_subdirectory(src/pycades)
