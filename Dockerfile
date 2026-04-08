@@ -33,7 +33,7 @@ COPY . /pycades/
 
 WORKDIR /pycades
 
-RUN make || make rebuild-library
+RUN make clean && make
 
 RUN SCRIPTS_DIR=./tests/scripts && \
     chmod +x ${SCRIPTS_DIR}/*.sh && \
