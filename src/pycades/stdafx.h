@@ -13,7 +13,6 @@
 #define IGNORE_LEGACY_FORMAT_MESSAGE_MSG
 
 #include <Python.h>
-#include "boost/shared_ptr.hpp"
 #include <iostream>
 #include "CSP_WinDef.h"
 #include "CSP_WinError.h"
@@ -25,6 +24,7 @@
 
 #ifndef NS_SHARED_PTR
 #define NS_SHARED_PTR boost
+#include "boost/shared_ptr.hpp"
 #endif
 
 #include "CSP_WinCrypt.h"
