@@ -33,13 +33,11 @@ COPY . /pycades/
 
 WORKDIR /pycades
 
-RUN make clean && make
-
-RUN SCRIPTS_DIR=./tests/scripts && \
+RUN (SCRIPTS_DIR=./tests/scripts && \
     chmod +x ${SCRIPTS_DIR}/*.sh && \
     ${SCRIPTS_DIR}/setup-root.sh && \
     ${SCRIPTS_DIR}/setup-leaf.sh && \
-    ${SCRIPTS_DIR}/setup-crl.sh
+    ${SCRIPTS_DIR}/setup-crl.sh) > /dev/null 2>&1
 
 # check install via pip
 
@@ -47,6 +45,6 @@ ENV PIP_ROOT_USER_ACTION=ignore
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
-RUN pip install .
+RUN pip install -v .
 
 # docker run pycades-build python3 samples/sign_verify.py
