@@ -181,3 +181,4 @@ cython_debug/
 /*.000
 linux-*/
 csp/
+uv.lock
