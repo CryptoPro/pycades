@@ -28,13 +28,6 @@ Pycades представляет собой расширение для Python3.
 | [CAdESCOM.Store](https://docs.cryptopro.ru/cades/reference/cadescom/cadescom_class/store)                           | pycades.Store              |
 | [CAdESCOM.SymmetricAlgorithm](https://docs.cryptopro.ru/cades/reference/cadescom/cadescom_class/symmetricalgorithm) | pycades.SymmetricAlgorithm |
 
-Для получения версии модуля добавлен метод ModuleVersion().
-```python
->>> import pycades
->>> pycades.ModuleVersion()
-'0.1.19509'
-```
-
 В этом разделе
 ---
 [Сборка расширения для языка Python](/doc/pycades-build.md)<br/>
