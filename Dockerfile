@@ -41,4 +41,12 @@ RUN SCRIPTS_DIR=./tests/scripts && \
     ${SCRIPTS_DIR}/setup-leaf.sh && \
     ${SCRIPTS_DIR}/setup-crl.sh
 
+# check install via pip
+
+ENV PIP_ROOT_USER_ACTION=ignore
+
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+
+RUN pip install .
+
 # docker run pycades-build python3 samples/sign_verify.py

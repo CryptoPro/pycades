@@ -48,11 +48,11 @@ static PyMethodDef pycadesMethods[] = {
     {"ModuleVersion", pycades_ModuleVersion, METH_NOARGS, "pycades module version"},
     {NULL, NULL, 0, NULL} };
 
-PyMODINIT_FUNC PyInit_pycades(void) {
+PyMODINIT_FUNC PyInit__pycades(void) {
     static struct PyModuleDef moduledef = {
         PyModuleDef_HEAD_INIT,
-        "pycades",
-        "pycades",
+        "_pycades",
+        NULL,
         -1,
         pycadesMethods,
         NULL,

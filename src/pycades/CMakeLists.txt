@@ -1,4 +1,4 @@
-set(pycades_LIB_SRCS
+set(_pycades_LIB_SRCS
         PyCades.cpp PyCadesAbout.cpp PyCadesAlgorithm.cpp PyCadesAttribute.cpp PyCadesAttributes.cpp
         PyCadesBasicConstraints.cpp PyCadesBlobs.cpp PyCadesCertificate.cpp PyCadesCertificates.cpp
         PyCadesCertificateStatus.cpp PyCadesCRL.cpp PyCadesEncodedData.cpp PyCadesEnvelopedData.cpp
@@ -9,9 +9,9 @@ set(pycades_LIB_SRCS
         PyCadesVersion.cpp PyEnrollContainer.cpp PyEnrollContainers.cpp PyEnrollContainerKey.cpp
         PyEnrollContainerKeys.cpp PyEnrollCspInformation.cpp
 )
-add_library(pycades SHARED ${pycades_LIB_SRCS})
+add_library(_pycades SHARED ${_pycades_LIB_SRCS})
 
-target_compile_definitions(pycades PRIVATE
+target_compile_definitions(_pycades PRIVATE
     UNIX
     SIZEOF_VOID_P=${CMAKE_SIZEOF_VOID_P}
     PYCADES_VERSION="${PYCADES_VERSION}"
@@ -21,20 +21,20 @@ target_compile_definitions(pycades PRIVATE
 )
 
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
-    target_compile_definitions(pycades PRIVATE
+    target_compile_definitions(_pycades PRIVATE
         LINUX
         PROC_TYPE_ARM64=7
         PROCESSOR_TYPE=PROC_TYPE_ARM64
     )
 endif()
 
-target_compile_options(pycades PRIVATE
+target_compile_options(_pycades PRIVATE
     -Wno-write-strings
     -Wno-deprecated-declarations
     -Wno-narrowing
 )
 
-target_include_directories(pycades PRIVATE
+target_include_directories(_pycades PRIVATE
     ${Boost_INCLUDE_DIRS}
     ${Python3_INCLUDE_DIRS}
     /opt/cprocsp/include
@@ -46,9 +46,8 @@ target_include_directories(pycades PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/cplib
 )
 
-set_target_properties(pycades PROPERTIES
+set_target_properties(_pycades PROPERTIES
     PREFIX ""
-    OUTPUT_NAME "pycades"
 )
 
 find_library(FOUND_LIB_CPPCADES
@@ -59,13 +58,11 @@ find_library(FOUND_LIB_CPLIB
     NAMES cplib
     HINTS /opt/cprocsp/lib/amd64 /opt/cprocsp/lib/ia32 /opt/cprocsp/lib/aarch64)
 
-target_link_libraries(pycades PRIVATE
+target_link_libraries(_pycades PRIVATE
     ${FOUND_LIB_CPPCADES}
     ${FOUND_LIB_CPLIB}
 )
 
-add_custom_command(TARGET pycades
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pycades> "${CMAKE_SOURCE_DIR}/samples/"
-    COMMENT "Copying pycades module to samples directory"
-)
+if(PY_BUILD_CMAKE_PACKAGE_NAME)
+    install(TARGETS _pycades DESTINATION pycades)
+endif()
