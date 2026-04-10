@@ -40,12 +40,7 @@
 #include "PyCadesExtensions.h"
 #endif
 
-static PyObject* pycades_ModuleVersion(PyObject* self, PyObject* args) {
-    return Py_BuildValue("s", PYCADES_VERSION);
-}
-
 static PyMethodDef pycadesMethods[] = {
-    {"ModuleVersion", pycades_ModuleVersion, METH_NOARGS, "pycades module version"},
     {NULL, NULL, 0, NULL} };
 
 PyMODINIT_FUNC PyInit__pycades(void) {
