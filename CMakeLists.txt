@@ -1,7 +1,17 @@
 cmake_minimum_required(VERSION 3.18)
 
-set(PYCADES_VERSION "0.1.70300")
-project(PythonModule
+if(PY_BUILD_CMAKE_PACKAGE_VERSION)
+    set(PYCADES_VERSION ${PY_BUILD_CMAKE_PACKAGE_VERSION})
+else()
+    file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/pyproject.toml" VERSION_LINE REGEX "^version = \".*\"")
+    string(REGEX REPLACE "version = \"(.*)\"" "\\1" PYCADES_VERSION "${VERSION_LINE}")
+endif()
+
+if(NOT PYCADES_VERSION)
+    set(PYCADES_VERSION "0.0.0-unknown")
+endif()
+
+project(pycades 
     LANGUAGES CXX
     VERSION ${PYCADES_VERSION}
 )
@@ -33,6 +43,7 @@ execute_process(
     OUTPUT_VARIABLE CPRO_CADES_VERSION_BUILD
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
-message("-- cprocsp-pki-cades: ${CPRO_CADES_VERSION_MAJOR}.${CPRO_CADES_VERSION_MINOR}.${CPRO_CADES_VERSION_BUILD}")
+message(STATUS "cprocsp-pki-cades: ${CPRO_CADES_VERSION_MAJOR}.${CPRO_CADES_VERSION_MINOR}.${CPRO_CADES_VERSION_BUILD}")
+message(STATUS "pycades: ${PYCADES_VERSION}")
 
 add_subdirectory(src/pycades)

@@ -1,6 +1,6 @@
 [project]
 name = "pycades"
-dynamic = [ "version" ]
+version = "0.1.70300"
 description = "Python3 extension for CAdES"
 readme = "README.md"
 authors = [
