@@ -43,10 +43,18 @@
 static PyMethodDef pycadesMethods[] = {
     {NULL, NULL, 0, NULL} };
 
+#ifdef PY_BUILD_CMAKE_PACKAGE_NAME
 PyMODINIT_FUNC PyInit__pycades(void) {
+#else
+PyMODINIT_FUNC PyInit_pycades(void) {
+#endif
     static struct PyModuleDef moduledef = {
         PyModuleDef_HEAD_INIT,
+#ifdef PY_BUILD_CMAKE_PACKAGE_NAME
         "_pycades",
+#else
+        "pycades",
+#endif
         NULL,
         -1,
         pycadesMethods,

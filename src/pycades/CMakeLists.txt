@@ -46,10 +46,6 @@ target_include_directories(_pycades PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/cplib
 )
 
-set_target_properties(_pycades PROPERTIES
-    PREFIX ""
-)
-
 find_library(FOUND_LIB_CPPCADES
     NAMES cppcades
     HINTS /opt/cprocsp/lib/amd64 /opt/cprocsp/lib/ia32 /opt/cprocsp/lib/aarch64)
@@ -64,5 +60,19 @@ target_link_libraries(_pycades PRIVATE
 )
 
 if(PY_BUILD_CMAKE_PACKAGE_NAME)
-    install(TARGETS _pycades DESTINATION pycades)
+    set_target_properties(_pycades PROPERTIES
+        PREFIX ""
+        OUTPUT_NAME _pycades
+    )
+    install(TARGETS _pycades
+        DESTINATION pycades
+    )
+    target_compile_definitions(_pycades
+        PRIVATE PY_BUILD_CMAKE_PACKAGE_NAME
+    )
+else()
+    set_target_properties(_pycades PROPERTIES
+        PREFIX ""
+        OUTPUT_NAME pycades
+    )
 endif()

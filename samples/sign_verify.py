@@ -1,7 +1,12 @@
 import pycades
-from importlib.metadata import version
+from importlib.metadata import version, PackageNotFoundError
 
-print("pycades v" + version("pycades"))
+try:
+    pkg_version = version("pycades")
+except PackageNotFoundError:
+    pkg_version = "0.0.0-dev"
+print(f"pycades v{pkg_version}")
+
 store = pycades.Store()
 store.Open(pycades.CADESCOM_CONTAINER_STORE, pycades.CAPICOM_MY_STORE,
            pycades.CAPICOM_STORE_OPEN_MAXIMUM_ALLOWED)
