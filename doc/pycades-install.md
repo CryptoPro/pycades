@@ -1,24 +1,9 @@
-Установка расширения для языка Python
+Установка расширения pycades
 ===
 
----
-Для запуска расширения необходимо указать путь до собранной библиотеки, например:
-```python
-import sys
-sys.path.append(r'/path_to_pycades_so')
-import pycades
-```
-
----
-Для удобства этот путь можно экспортировать в системную переменную PYTHONPATH.
+Установить расширение можно командой pip install, например
 ```bash
-echo 'export PYTHONPATH=/path_to_pycades_so' >> ~/.bashrc
-source ~/.bashrc
-```
-
-В этом случае расширение будет доступно по умолчанию.
-```python
->>> import pycades
->>> pycades.ModuleVersion()
-'0.1.19595'
+uv venv && \
+source .venv/bin/activate && \
+uv pip install -v .
 ```
