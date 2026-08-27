@@ -1,0 +1,11 @@
+**/.*
+.*
+
+.venv/
+.py-build-cmake_cache/
+__pycache__/
+*.pyc
+
+build/
+uv.lock
+dist/
