@@ -20,14 +20,7 @@ RUN update-ca-certificates
 
 COPY csp csp
 
-RUN ./csp/install.sh
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        ./csp/cprocsp-rdr-gui-gtk* \
-        ./csp/lsb-cprocsp-devel* \
-        ./csp/cprocsp-legacy* \
-        ./csp/cprocsp-pki-cades* && \
-    rm -rf /var/lib/apt/lists/*
+RUN ./csp/install.sh kc1 lsb-cprocsp-devel cprocsp-legacy cprocsp-pki-cades && rm -rf /var/lib/apt/lists/*
 
 COPY . /pycades/
 
