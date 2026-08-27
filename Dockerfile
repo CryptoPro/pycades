@@ -38,6 +38,6 @@ ENV PIP_ROOT_USER_ACTION=ignore
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
-RUN pip install -v .
+RUN pip install .
 
 # docker run pycades-build python3 samples/sign_verify.py
