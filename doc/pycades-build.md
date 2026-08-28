@@ -43,5 +43,5 @@
     ```
 1. Выполнить сборку:
     ```
-    make || make rebuild-library
+    make || make rebuild
     ```
