@@ -13,7 +13,7 @@
     ```
 1. Собрать образ:
     ```bash
-    docker build -t pycades-build .
+    make docker-build
     ```
 1. Выполнить пример:
     ```
@@ -43,5 +43,5 @@
     ```
 1. Выполнить сборку:
     ```
-    make || make rebuild
+    make
     ```
